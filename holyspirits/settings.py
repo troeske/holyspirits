@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth',  # required for allauth:
     'allauth.account', # required for allauth:
     'allauth.socialaccount', # required for allauth socialaccount login:
+    'home', # required for home:
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,10 @@ ROOT_URLCONF = 'holyspirits.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
