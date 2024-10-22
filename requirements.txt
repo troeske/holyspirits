@@ -1,0 +1,7 @@
+asgiref==3.8.1
+Django==5.1.2
+django-allauth==65.0.2
+setuptools==75.2.0
+sqlparse==0.5.1
+tzdata==2024.2
+wheel==0.44.0
