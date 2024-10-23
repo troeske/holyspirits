@@ -140,6 +140,9 @@ class ProductTasteCategory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     taste_category = models.ForeignKey(TasteCategory, on_delete=models.CASCADE, related_name='taste_category')
 
+    class Meta:
+        verbose_name_plural = 'Product Taste Categories'
+        
     def __str__(self):
         return f"{self.product.name} | {self.taste_category.name}"
 
