@@ -34,6 +34,10 @@ body {
     min-width: 260px;
 }
 
+/* .navbar-toggler-icon {
+    color: white;
+}
+ */
 .btn-black {
     background: black;
     color: white;
