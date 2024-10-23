@@ -92,7 +92,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_image')
     image = CloudinaryField('image', default='placeholder')
     alt_text = models.CharField(max_length=254, default='picture')
 
