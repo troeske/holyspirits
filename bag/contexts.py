@@ -1,11 +1,24 @@
 from decimal import Decimal
+from django.shortcuts import get_object_or_404
 from django.conf import settings
+from products.models import Product
 
 def bag_contents(request):
     
     bag_items = []
     total = 0
     product_count = 0
+    bag = request.session.get('bag', {})
+    
+    for item_gtin, quantity in bag.items():
+        product = get_object_or_404(Product, gtin=item_gtin)
+        total += quantity * product.price
+        product_count += quantity
+        bag_items.append({
+            'item_gtin': item_gtin,
+            'quantity': quantity,
+            'product': product,
+        })
     
     if total < settings.FREE_SHIPPING_THRESHOLD:
         shipping = total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE / 100)

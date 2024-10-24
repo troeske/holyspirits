@@ -5,6 +5,11 @@
   /*   object-fit: cover; */
 }
 
+.ts-bag-img {
+    height: 100px;
+    width:auto;
+}
+
 .ts-product-card-img {
     height: 200px;
     width:auto;
