@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container h-100 py-5">
+        <div class="row">
+           {% for product in products %}
+                <div class="col-6">
+                    <div class="mb-4">
+                        {% if product.product_image.all %}
+                            {% for image in product.product_image.all %}
+                                <img src="{{ image.image.url }}" class="img-fluid" alt="{{ image.alt_text }}">
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-6 text-white">
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p>{{ product.price }}</p>
+                    <p>Category: {{ product.product_category }} </p>
+                    <p>Type: {{ product.type }} </p>
+                    <p>Region: {{ product.region }} </p>
+                    <p>Brand: {{ product.brand }} </p>
+                    <p>ABV: {{ product.abv }} </p>
+                    <p>Age: {{ product.age }} </p>
+                    <p>Volume: {{ product.size }} </p>
+                    <p>Rating {{ product.rating }} (Stars)</p>
+                </div>
+           {% endfor %}
+        </div>
+    </div>
+{% endblock %}

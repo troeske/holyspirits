@@ -1,3 +1,11 @@
+/***************** customized  ******************/
+.ts-product-card-img {
+    height: 200px;
+    width:auto;
+  /*   object-fit: cover; */
+}
+
+
 /***************** walkthrough ******************/
 html {
     height: 100%;

@@ -22,7 +22,7 @@
         <!-- Font Awesome CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
-           <!-- Custom CSS --> 
+        <!-- Custom CSS --> 
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
@@ -35,7 +35,6 @@
 
     {% block extra_js %}    
     {% endblock %}
-
 
     <title>HolySpirits {% block extra_title %} {% endblock %}</title>  
 
@@ -111,22 +110,19 @@
                 {% include 'includes/main_nav.html' %}
             </nav>
         </div>
-        <!-- <div id="delivery-banner" class="row text-center">
-            <div class="col bg-transparent text-white">
-                <h4 class="logo-font my-1">Free delivery on orders over ${{ free_shipping_threshold }}!</h4>                
-            </div>            
-        </div> -->
     </header>
 
     {% if messages %}
         <div class="message-container"></div>
     {% endif %}
     
-    {% block page_header %}
-    {% endblock %}
+    <main class="mt-5 pt-5"> <!-- Add margin-top and padding-top to avoid overlap with fixed header -->
+        {% block page_header %}
+        {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+        {% block content %}
+        {% endblock %}
+    </main>
 
     {% block footer %}
     {% endblock %}

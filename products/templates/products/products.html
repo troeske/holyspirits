@@ -10,32 +10,67 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container h-100 py-5">
+    <div class="overlay"></div>
+    <div class="container-fluid">
         <div class="row">
-           {% for product in products %}
-                <div class="col-6">
-                    <div class="mb-4">
-                        {% if product.product_image.all %}
-                            {% for image in product.product_image.all %}
-                                <img src="{{ image.image.url }}" class="img-fluid" alt="{{ image.alt_text }}">
-                            {% endfor %}
+            <div class="col text-center">
+                <h2 class="logo-font text-white">Products</h2>
+                <hr class="w-50 mb-1">
+            </div>
+        </div>    
+
+        <div class="row">
+            <div class="product-container col-10 offset-1">
+                <div class="row mt-1 mb-2"></div>
+                <div class="row">   
+                    {% for product in products %}
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            <div class="card h-100 border-0 pt-3 align-items-center">
+                                {% if product.list_image %}
+                                <a href="{% url 'product_details' product.gtin %}">
+                                    <img class="card-img-top ts-product-card-img" src="{{ product.list_image.url }}" alt="{{ product.name }}">
+                                </a>
+                                {% endif %}
+                                <div class="card-body pb-0">
+                                    <p class="card-text mb-0">{{ product.name }}</p>
+                                </div>
+                                <div class="card-footer bg-white pt-0 border-0 text-left">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="lead mb-0 text-left font-weight-bold">${{ product.price }}</p>
+                                            {% if product.rating %}
+                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }}</small>
+                                            {% else %}
+                                                <small class="text-muted">No Rating</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:1 %}
+                        <div class="col-12 d-sm-none mb-5">
+                            <hr>
+                        </div>
+                        {% endif %}                        
+                        {% if forloop.counter|divisibleby:2 %}
+                            <div class="col-12 d-none d-sm-block d-md-block d-lg-none mb-5">
+                                <hr>
+                            </div>
                         {% endif %}
-                    </div>
+                        {% if forloop.counter|divisibleby:3 %}
+                            <div class="col-12 d-none d-lg-block d-xl-none mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                        {% if forloop.counter|divisibleby:4 %}
+                            <div class="col-12 d-none d-xl-block mb-5">
+                                <hr>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="col-6 text-white">
-                    <h2>{{ product.name }}</h2>
-                    <p>{{ product.description }}</p>
-                    <p>{{ product.price }}</p>
-                    <p>Category: {{ product.product_category }} </p>
-                    <p>Type: {{ product.type }} </p>
-                    <p>Region: {{ product.region }} </p>
-                    <p>Brand: {{ product.brand }} </p>
-                    <p>ABV: {{ product.abv }} </p>
-                    <p>Age: {{ product.age }} </p>
-                    <p>Volume: {{ product.size }} </p>
-                    <p>Rating {{ product.rating }} (Stars)</p>
-                </div>
-           {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
