@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'home', # required for home:
     'products', # required for products:
+    'bag', # required for the shopping bag:
 ]
 
 MIDDLEWARE = [
