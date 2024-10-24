@@ -12,7 +12,7 @@ def bag_contents(request):
     
     for item_gtin, quantity in bag.items():
         product = get_object_or_404(Product, gtin=item_gtin)
-        total += quantity * product.price * product.currency.conervsion_rate
+        total += quantity * product.price
         product_count += quantity
         bag_items.append({
             'item_gtin': item_gtin,
@@ -37,6 +37,7 @@ def bag_contents(request):
         'free_shipping_delta': free_shipping_delta,
         'grand_total': grand_total,
         'free_shipping_threshold': settings.FREE_SHIPPING_THRESHOLD,
+        'currency': settings.CURRENCY,
     }
     
     return context

@@ -65,24 +65,14 @@ class Bottler(models.Model):
     logo = CloudinaryField('image', default='placeholder')
     
     def __str__(self):
-        return self.name
-    
-class Currency(models.Model):
-    short_name = models.CharField(max_length=100, default='EUR')
-    long_name = models.CharField(max_length=100, default='Euro')
-    symbol = models.CharField(max_length=5, default='€')
-    conervsion_rate = models.DecimalField(max_digits=6, decimal_places=4, default=1.0) # 1.0 is the default conversion rate to EURO
-        
-    def __str__(self):
-        return self.short_name
-    
-    
+        return self.name    
+
+
 class Product(models.Model):
     gtin = models.CharField(max_length=14, primary_key=True)  # Define gtin as CharField with max_length 14 and primary key
     name = models.CharField(max_length=250, default='whiskey')
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    currency = models.ForeignKey(Currency, null=True, blank=True, on_delete=models.SET_NULL, related_name='currency')
     product_category = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_category')
     type = models.ForeignKey(ProductType, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_type')
     region = models.CharField(max_length=250, default='', blank=True)
