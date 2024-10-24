@@ -44,7 +44,7 @@
                                         <p class="my-0 small text-muted">GTIN: {{ item.product.gtin|upper }}</p>
                                     </td>
                                     <td class="py-3">
-                                        <p class="my-0">${{ item.product.price }}</p>
+                                        <p class="my-0">{{ item.currency.symbol }}{{ item.product.price }}</p>
                                     </td>
                                     <td class="py-3 w-25">
                                         <p class="my-0">{{ item.quantity }}</p>
