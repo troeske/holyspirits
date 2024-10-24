@@ -72,7 +72,7 @@ class Product(models.Model):
     name = models.CharField(max_length=250, default='whiskey')
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    product_category = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_categorie')
+    product_category = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_category')
     type = models.ForeignKey(ProductType, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_type')
     region = models.CharField(max_length=250, default='', blank=True)
     brand = models.ForeignKey(ProductBrand, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_brand')
