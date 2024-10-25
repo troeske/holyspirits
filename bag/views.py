@@ -33,7 +33,7 @@ def adjust_bag(request, item_gtin):
     if quantity > 0:
         bag[item_gtin] = quantity
     else:
-        bag.pop[item_gtin]
+        bag.pop(item_gtin)
 
     request.session['bag'] = bag
     
@@ -56,7 +56,7 @@ def remove_from_bag(request, item_gtin):
         return HttpResponse(status=200)
     
     except Exception as e:
-        error_message = f"the following error occurred in remove from bag: {e}."
+        error_message = f"the following error occurred in remove_from_bag: {e}."
         print(error_message)
         print(type(e))
         return HttpResponse(status=500)
