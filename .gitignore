@@ -8,3 +8,8 @@ node_modules/
 .github/
 cloudinary_python.txt
 *.sqlite3
+
+# Ignore virtual environment directories
+venv/
+env/
+holy_vernv/
