@@ -12,4 +12,4 @@ cloudinary_python.txt
 # Ignore virtual environment directories
 venv/
 env/
-holy_vernv/
+holy_venv/
