@@ -53,10 +53,17 @@ INSTALLED_APPS = [
     'allauth.socialaccount', # required for allauth socialaccount login:
     'cloudinary',
     'cloudinary_storage',
-    'home', # required for home:
-    'products', # required for products:
-    'bag', # required for the shopping bag:
-    'checkout', # required for checkout:
+    
+    # Custom apps:
+    'home', 
+    'products', 
+    'bag',
+    'checkout', 
+    
+    # other apps:
+    'crispy_forms',
+    'crispy_bootstrap5',
+    
 ]
 
 MIDDLEWARE = [
@@ -71,6 +78,8 @@ MIDDLEWARE = [
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Cloudinary settings
 CLOUDINARY_STORAGE = {
@@ -95,7 +104,12 @@ TEMPLATES = [
                 'django.template.context_processors.request', # required by allauth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media', # required for media files - not sure if I need it as I use cloudinary
                 'bag.contexts.bag_contents', # required for the shopping bag:
+            ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
             ],
         },
     },
