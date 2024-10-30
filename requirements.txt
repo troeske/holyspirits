@@ -6,6 +6,7 @@ crispy-bootstrap5==2024.10
 Django==5.1.2
 django-allauth==65.0.2
 django-cloudinary-storage==0.3.0
+django-countries==7.6.1
 django-crispy-forms==2.3
 idna==3.10
 pillow==11.0.0
