@@ -79,7 +79,7 @@
                                     <li><a href="" class="dropdown-item">Product Management</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 {% endif %}
-                                <li><a href="" class="dropdown-item">My Profile</a></li>
+                                <li><a href="{% url 'profile' %}" class="dropdown-item">My Profile</a></li>
                                 <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
                             {% else %}
                                 <li><a href="{% url 'account_signup' %}" class="dropdown-item">Register</a></li>
