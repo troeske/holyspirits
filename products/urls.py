@@ -5,5 +5,6 @@ urlpatterns = [
     path('', views.all_products, name='products'),
     path('add/', views.add_product, name='add_product'),
     path('edit/<gtin>', views.edit_product, name='edit_product'), 
+    path('delete/<gtin>', views.delete_product, name='delete_product'), 
     path('<gtin>/', views.product_details, name='product_details'), 
 ]
