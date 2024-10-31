@@ -59,7 +59,12 @@
                             <div class="card h-100 border-0 pt-3 align-items-center">
                                 {% if product.list_image %}
                                 <a href="{% url 'product_details' product.gtin %}">
-                                    <img class="card-img-top ts-product-card-img" src="{{ product.list_image.url }}" alt="{{ product.name }}">
+                                    {% if not product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                        <img class="card-img-top ts-product-card-img" src="{{ product.list_image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img class="card-img-top ts-product-card-img" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                        alt="{{ product.name }}">
+                                    {% endif %}
                                 </a>
                                 {% endif %}
                                 <div class="card-body pb-0">

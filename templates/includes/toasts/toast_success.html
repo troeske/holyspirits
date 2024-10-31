@@ -14,13 +14,18 @@
                 <hr class="mt-1 mb-3">
             </div>
         </div>
-        {% if grand_total and not on_profile_page %}
+        {% if grand_total and not on_profile_page and not on_add_product_page %}
             <p class="logo-font bg-white text-black py-1">Your Bag ({{ product_count }})</p>
             <div class="bag-notification-wrapper">
                 {% for item in bag_items %}
                     <div class="row">
                         <div class="col-3 my-1">
-                            <img class="w-100" src="{{ item.product.list_image.url }}">
+                            {% if not item.product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                <img class="w-100" src="{{ item.product.list_image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                                <img class="w-100" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                alt="{{ item.product.name }}">
+                            {% endif %}
                         </div>
                         <div class="col-9">
                             <p class="my-0"><strong>{{ item.product.name }}</strong></p>
