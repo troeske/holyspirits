@@ -3,7 +3,8 @@ from .models import Product, ProductCategory
 
 
 class ProductForm(forms.ModelForm):
-
+    remove_image = forms.BooleanField(required=False, label='Remove Image')
+    
     class Meta:
         model = Product
         fields = '__all__'

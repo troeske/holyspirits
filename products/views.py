@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import *
 from django.db.models.functions import Lower
@@ -76,9 +77,14 @@ def product_details(request, gtin):
     return render(request, "products/product_details.html", context)
 
 
+@login_required
 def add_product(request):
     """ Add a product to the store """
     
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+                                
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -100,13 +106,23 @@ def add_product(request):
     
     return render(request, template, context)
 
+
+@login_required
 def edit_product(request, gtin):
     """ Edit a product in the store """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
     
     product = get_object_or_404(Product, pk=gtin)
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
+            if form.cleaned_data['remove_image']:
+                """ product.list_image.delete() """
+                product.list_image = 'placeholder'  # Set to default value
+                
             form.save()
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_details', args=[product.gtin]))
@@ -126,8 +142,14 @@ def edit_product(request, gtin):
     
     return render(request, template, context)
 
+
+@login_required
 def delete_product(request, gtin):
-    """ Edit a product in the store """
+    """ Delete a product in the store """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
     
     product = get_object_or_404(Product, pk=gtin)
     product.delete()
