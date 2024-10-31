@@ -120,7 +120,6 @@ def edit_product(request, gtin):
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             if form.cleaned_data['remove_image']:
-                """ product.list_image.delete() """
                 product.list_image = 'placeholder'  # Set to default value
                 
             form.save()

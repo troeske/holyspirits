@@ -32,15 +32,18 @@
                     {% endfor %}
                     {% if form.instance.list_image %}
                         <div class="form-group">
-                            <label for="id_list_image">Current Image:</label>
-                            <img src="{{ form.instance.list_image.url }}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+                            <label for="current-image">Current Image:</label>
+                            <img id="current-image" src="{{ form.instance.list_image.url }}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+                            <span id="filename"></span>
                         </div>
                         <div class="form-group">
                             {{ form.remove_image|as_crispy_field }}
                         </div>
                     {% endif %}
                     <div class="form-group mt-2">
-                        <input type="file" name="list_image" id="id_list_image" class="form-control">
+                        <span class="btn btn-black rounded-0 btn-file">
+                            Select Image <input id="id-list-image" type="file" name="list_image">
+                        </span>
                     </div>
                     <div class="text-end mt-3">
                         <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
@@ -50,4 +53,15 @@
             </div>            
         </div>
     </div>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $('#id-list-image').change(function() {
+            var file = $('#id-list-image')[0].files[0];
+            $('#filename').text(`Image will be set to: ${file.name}`).addClass('text-danger');
+            $('#current-image').hide();
+        });
+    </script>
 {% endblock %}
