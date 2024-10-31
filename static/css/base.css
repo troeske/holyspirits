@@ -32,7 +32,7 @@ html {
 }
 
 body {
-    background: url('/media/whiskey-background.jpg') no-repeat center center fixed;
+    background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730381098/whiskey-background_enuhyc.jpg') no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px); /* minus header */
     color: #555;
