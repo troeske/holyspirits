@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 CURRENCY = os.environ.get("CURRENCY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = os.getenv('DEBUG', 'False')
 
 ALLOWED_HOSTS = ['holyspirits-0b35d544f553.herokuapp.com', 'localhost', '127.0.0.1']
 
@@ -196,7 +196,7 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 
-if 'DEVELOPMENT' in os.environ:
+if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'Ol.Janx.Spirits@holyspirits.com'
 else:
