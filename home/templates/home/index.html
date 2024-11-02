@@ -12,7 +12,7 @@
 {% block content %}
     <div class="container h-100 py-5">
         <div class="row h-100">
-            <div class="col-7 col-md-6 my-auto">
+            <div class="col-5 col-md-6 my-auto">
                 <h1 class="display-4 logo-font text-black">
                     The new whiskey releases are here
                 </h1>
@@ -21,6 +21,11 @@
                         <a href="{% url 'products' %}" class="shop-now-button btn btn-lg rounded-0 text-uppercase py-3">Shop Now</a>
                     </h4>
                 </div>
+            </div>
+            <div class="col-7 col-md-6">
+                {% if featured_product %}
+                    <img src="{{ featured_product.list_image.url }}" class="img-fluid" alt="{{ featured_product.name }}">
+                {% endif %}
             </div>
         </div>
     </div>

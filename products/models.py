@@ -85,6 +85,7 @@ class Product(models.Model):
     size = models.ForeignKey(ProductSize, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_size')
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     list_image = CloudinaryField('image', default='placeholder')
+    featured = models.BooleanField(default=False)
     
     class Meta:
         ordering = ["name", "type", "product_category"]
