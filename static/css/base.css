@@ -26,6 +26,21 @@
     height: 300px;
 }
 
+.ts-taste-icons {
+    height: 50px;
+    width: 50px;
+    background-color: rgba(255, 255, 255, .5);
+    overflow: hidden;
+    color: white;
+    font-size: 26px;
+    text-decoration: none;
+}
+
+.ts-taste-icons a,
+.ts-taste-icons i {
+    color: white !important;
+    text-decoration: none !important;
+}
 /***************** walkthrough ******************/
 html {
     height: 100%;
