@@ -27,6 +27,3 @@ admin.site.register(ProductImage)
 admin.site.register(ProductTastingNote)
 admin.site.register(TasteCategory)
 admin.site.register(ProductTasteCategory)
-
-
-
