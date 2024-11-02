@@ -69,9 +69,11 @@ def product_details(request, gtin):
     """ A view that displays a single product's details. """
     
     product = get_object_or_404(Product, pk=gtin)
+    product_taste_categories = ProductTasteCategory.objects.filter(product=product)
 
     context = {
         'product': product,
+        'product_taste_categories': product_taste_categories,
     }
     
     return render(request, "products/product_details.html", context)
