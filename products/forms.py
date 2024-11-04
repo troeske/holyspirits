@@ -1,5 +1,21 @@
 from django import forms
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, ProductBrand, CaskType
+
+
+class ProductBrandForm(forms.ModelForm):
+    remove_logo = forms.BooleanField(required=False, label='Remove Logo')
+    
+    class Meta:
+        model = ProductBrand
+        fields = '__all__'
+    
+    
+
+class CaskTypeForm(forms.ModelForm):
+    class Meta:
+        model = CaskType
+        fields = ['name', 'description']
+
 
 
 class ProductForm(forms.ModelForm):

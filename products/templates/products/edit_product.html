@@ -29,15 +29,34 @@
                         {% if field.name != 'list_image' and field.name != 'remove_image' %}
                             {{ field|as_crispy_field }}
                         {% endif %}
+
+                        {% if field.name == 'brand' %}
+                            {% if request.user.is_superuser %}
+                                <!-- Button to open modal for adding a new brand -->
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="openModal('brand', 'add')">+</button>
+                                
+                                {% if form.brand.value %}
+                                <!-- Button to open modal for editing the selected brand -->
+                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openModal('brand', 'edit', '{{ form.brand.value }}')">✎</button>
+                            {% endif %}
+                            
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                     {% if form.instance.list_image %}
                         <div class="form-group">
                             <label for="current-image">Current Image:</label>
-                            <img id="current-image" src="{{ form.instance.list_image.url }}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+                            {% if not form.instance.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                <img id="current-image" class="ts-img-thumbnail" src="{{ form.instance.list_image.url }}" alt="Product Image">  
+                                <div class="form-group">
+                                    {{ form.remove_image|as_crispy_field }}
+                                </div>      
+                            {% else %}
+                                <img id="current-image" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                alt="{{ product.name }}">
+                            {% endif %}
+                            
                             <span id="filename"></span>
-                        </div>
-                        <div class="form-group">
-                            {{ form.remove_image|as_crispy_field }}
                         </div>
                     {% endif %}
                     <div class="form-group mt-2">
@@ -50,9 +69,61 @@
                         <button class="btn btn-black rounded-0" type="submit">Save Product</button>
                     </div>
                 </form>
+                
             </div>            
         </div>
     </div>
+
+    <!-- Modal Template for Adding/Editing a Product Brand -->
+    <div class="modal fade" id="relatedModelModal" tabindex="-1" aria-labelledby="relatedModelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="relatedModelModalLabel">Add/Edit </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="relatedModelForm" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Render fields except 'logo' and 'remove_logo' with crispy_forms -->
+                        {% for field in brand_form %}
+                            {% if field.name != 'logo' and field.name != 'remove_logo' %}
+                                {{ field|as_crispy_field }}
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- Custom logo upload and preview section -->
+                        <div class="form-group mt-2">
+                            {% if brand_form.instance.logo %}
+                                <div class="form-group mb-2">
+                                    <label>Current Logo:</label>
+                                    {% if not brand_form.instance.logo.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="{{ brand_form.instance.logo.url }}" alt="Current Logo">    
+                                        <div class="form-group">
+                                            {{ brand_form.remove_logo|as_crispy_field }}
+                                        </div>    
+                                    {% else %}
+                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                        alt="{{ product.name }}">
+                                    {% endif %}
+                                    <span id="logo-filename"></span>
+                                </div>
+                            {% endif %}
+                            <div class="form-group mt-2">
+                                <span class="btn btn-black rounded-0 btn-file">
+                                    Select Logo <input id="id-brand-logo" type="file" name="logo">
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block postloadjs %}
@@ -64,4 +135,92 @@
             $('#current-image').hide();
         });
     </script>
+    <script type="text/javascript">
+        $('#id-brand-logo').change(function() {
+            var file = $('#id-brand-logo')[0].files[0];
+            $('#logo-filename').text(`Logo will be set to: ${file.name}`).addClass('text-danger');
+            $('#modal-logo-thumbnail').hide();
+        });
+    </script>
+    
+    <script>
+        function openModal(modelType, action, instanceId = null) {
+            const modalTitle = document.getElementById("relatedModelModalLabel");
+            const modalForm = document.getElementById("relatedModelForm");
+        
+            // Show the modal immediately
+            const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
+            modalInstance.show();
+        
+            if (action === "add") {
+                modalTitle.textContent = `Add New ${modelType}`;
+                modalForm.action = `/products/add-related-${modelType}/`;
+                modalForm.reset();
+                modalLogo.style.display = "none";  // Hide the logo thumbnail for new entries
+            } else if (action === "edit" && instanceId) {
+                modalTitle.textContent = `Edit ${modelType}`;
+                modalForm.action = `/products/edit-related-brand/${instanceId}/`;
+        
+                // Fetch current data for the instance
+                fetch(`/products/edit-related-brand/${instanceId}/`, {
+                    method: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"  // Indicate AJAX request
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate form fields with received data
+                        Object.keys(data.instance).forEach(field => {
+                            if (field === "logo") return;  // Skip the logo field
+                
+                            const formField = modalForm.querySelector(`[name=${field}]`);
+                            if (formField) {
+                                formField.value = data.instance[field];
+                            }
+                        });
+                    } else {
+                        console.error("Failed to load data for editing.");
+                    }
+                })                
+                .catch(error => console.error("Error fetching data:", error));
+            }
+        }
+        
+    
+        // AJAX form submission
+        document.getElementById("relatedModelForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent normal form submission
+            
+            const form = event.target;
+            const url = form.action;  // Use the form's action URL
+            const formData = new FormData(form);
+    
+            // Send the form data via AJAX using fetch()
+            fetch(url, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",  // Indicate an AJAX request
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")  // CSRF token for security
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and refresh the page or update UI as needed
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('relatedModelModal'));
+                    modal.hide();
+                    location.reload();  // Refresh the page (or update only the necessary part of the page)
+                } else {
+                    // Display errors if form validation failed
+                    alert("Failed to save: " + JSON.stringify(data.errors));
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+    
+    
 {% endblock %}

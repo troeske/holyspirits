@@ -1,13 +1,60 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.db.models import Q
 from .models import *
 from django.db.models.functions import Lower
-from .forms import ProductForm
+from .forms import ProductForm, ProductBrandForm, CaskTypeForm
+
 
 
 # Create your views here.
+
+def add_related_brand(request):
+    """ recommended by ChatGPT to allow adding related models in a modal via AJAX """
+
+    if request.method == 'POST':
+        form = ProductBrandForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+    else:
+        form = ProductBrandForm()
+
+    return JsonResponse({'success': False, 'errors': form.errors})
+
+
+def edit_related_brand(request, pk):
+    """View to add/edit related models in a modal via AJAX."""
+    
+    instance = get_object_or_404(ProductBrand, pk=pk)
+
+    if request.method == 'POST':
+        form = ProductBrandForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            # If "Remove Logo" is checked, delete the logo
+            if form.cleaned_data['remove_logo']:
+                instance.logo = 'placeholder'  # Set to default value
+                
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+
+    elif request.method == 'GET':
+        data = {field.name: getattr(instance, field.name) for field in instance._meta.fields}
+        
+        # Add the URL for the logo if it exists
+        if instance.logo:
+            data['logo'] = instance.logo.url
+        
+        return JsonResponse({'success': True, 'instance': data})
+    
+    return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+
+
+
 def all_products(request):
     """ A view that displays all products including sorting and search queries. """
     
@@ -118,6 +165,8 @@ def edit_product(request, gtin):
         return redirect(reverse('home'))
     
     product = get_object_or_404(Product, pk=gtin)
+    brand = get_object_or_404(ProductBrand, pk=product.brand.id)
+    
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -131,12 +180,14 @@ def edit_product(request, gtin):
             messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
+        brand_form = ProductBrandForm(instance=brand)  # Initialize form for brand
         messages.info(request, f'You are editing {product.name}')
     
     template = 'products/edit_product.html'
     
     context = {
         'form': form,
+        'brand_form': brand_form,  # Pass the brand form to the template
         'product': product,
         'on_edit_product_page': True
     }

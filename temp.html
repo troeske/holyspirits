@@ -1,0 +1,27 @@
+<form method="POST" action="{% url 'edit_product' product.gtin %}" class="form mb-2 text-white" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.name != 'list_image' and field.name != 'remove_image' %}
+            {{ field|as_crispy_field }}
+        {% endif %}
+    {% endfor %}
+    {% if form.instance.list_image %}
+        <div class="form-group">
+            <label for="current-image">Current Image:</label>
+            <img id="current-image" src="{{ form.instance.list_image.url }}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
+            <span id="filename"></span>
+        </div>
+        <div class="form-group">
+            {{ form.remove_image|as_crispy_field }}
+        </div>
+    {% endif %}
+    <div class="form-group mt-2">
+        <span class="btn btn-black rounded-0 btn-file">
+            Select Image <input id="id-list-image" type="file" name="list_image">
+        </span>
+    </div>
+    <div class="text-end mt-3">
+        <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
+        <button class="btn btn-black rounded-0" type="submit">Save Product</button>
+    </div>
+</form>

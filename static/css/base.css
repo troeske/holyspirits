@@ -66,6 +66,11 @@
     color: white !important;
     text-decoration: none !important;
 }
+
+.ts-img-thumbnail {
+    max-width: 100px;
+}
+
 /***************** walkthrough ******************/
 html {
     height: 100%;
