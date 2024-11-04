@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from products.models import Product
+from products.models import Product, ProductTasteCategory
 
 
 # Create your views here.
@@ -9,10 +9,12 @@ def index(request):
       
     featured_product = Product.objects.filter(featured=True)
     if featured_product.count() > 0:
-        featured_product = featured_product.first()
-    
+        featured_product = featured_product.first() 
+        product_taste_categories = ProductTasteCategory.objects.filter(product=featured_product)
+
     context = {
-        'featured_product': featured_product,
+       'featured_product': featured_product,
+        'product_taste_categories': product_taste_categories,
     }
 
     return render(request, "home/index.html", context)

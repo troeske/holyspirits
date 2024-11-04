@@ -12,7 +12,7 @@
 {% block content %}
     <div class="container h-100 py-5">
         <div class="row h-100">
-            <div class="col-5 col-md-6 my-auto">
+            <div class="col-12 col-md-3 my-auto">
                 <h1 class="display-4 logo-font text-black">
                     The new whiskey releases are here
                 </h1>
@@ -22,9 +22,39 @@
                     </h4>
                 </div>
             </div>
-            <div class="col-7 col-md-6">
+            <div class="col-12 col-md-5 my-auto text-center">
                 {% if featured_product %}
-                    <img src="{{ featured_product.list_image.url }}" class="img-fluid" alt="{{ featured_product.name }}">
+                <a href="{% url 'product_details' featured_product.gtin %}">
+                    {% if not featured_product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                        <img src="{{ featured_product.list_image.url }}" class="img-fluid" alt="{{ featured_product.name }}">
+                    {% else %}
+                        <img class="card-img-top ts-product-card-img" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                        alt="{{ featured_product.name }}">
+                    {% endif %}
+                </a>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-4 text-start">
+                {% if featured_product %}
+                    <a class="ts-std-heading text-decoration-none" href="{% url 'product_details' featured_product.gtin %}">{{ featured_product.name }}</a>
+                    <p class="ts-std-text">{{ currency }}{{ featured_product.price }}</p>
+                    <br>
+                    {% if product_taste_categories %}
+                        <p class="ts-std-heading">Taste Categories</p>    
+                        <div class="d-flex flex-wrap justify-content-start align-items-start">
+                            {% for category in product_taste_categories %}
+                                <div class="mx-2 text-center">
+                                    {% csrf_token %}
+                                    <div class="rounded-circle ts-taste-icons text-center d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; overflow: hidden;">
+                                        <a class="text-decoration-none" href="">
+                                            {{ category.taste_category.fa_icon|safe }}
+                                        </a>
+                                    </div>
+                                    <p class="ts-std-text">{{ category.taste_category.name }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

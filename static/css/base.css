@@ -1,4 +1,29 @@
-/***************** customized  ******************/
+/********** custom properties *********/
+:root {
+    --ts-std-text-font: "Roboto";
+    --ts-std-heading-font: "Montserrat";
+    --ts-std-text-size: "12px";
+    --ts-std-h1-size: "20px";
+    --ts-std-text-color: #ffffff;
+    --ts-std-h2-size: "16px";
+    --ts-std-text-bg-color: "rgba(255, 255, 255, .2)";
+}
+
+
+/************* HOME **************/
+.ts-std-heading {
+    color: var(--ts-std-text-color);
+    font-size:  var(--ts-std-heading-size);
+    font-weight: bold;
+    font-family: var(--ts-std-heading-font), sans-serif;
+}
+
+.ts-std-text {
+    color: var(--ts-std-text-color);
+    font-size: var(--ts-std-text-size);
+    font-family: var(--ts-std-text-font), sans-serif;
+}
+
 .ts-product-card-img {
     height: 200px;
     width:auto;
