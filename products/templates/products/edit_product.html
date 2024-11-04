@@ -150,14 +150,26 @@
         
             // Show the modal immediately
             const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
-            modalInstance.show();
-        
+            
+            console.log(action)
+
             if (action === "add") {
                 modalTitle.textContent = `Add New ${modelType}`;
                 modalForm.action = `/products/add-related-${modelType}/`;
+                console.log(modalForm.action)
+
+                 // Clear the form fields
                 modalForm.reset();
-                modalLogo.style.display = "none";  // Hide the logo thumbnail for new entries
+                Array.from(modalForm.elements).forEach(element => {
+                    if (element.type !== "hidden") {
+                        element.value = "";
+                    }
+                });
+
+                modalInstance.show();
+
             } else if (action === "edit" && instanceId) {
+                modalInstance.show();
                 modalTitle.textContent = `Edit ${modelType}`;
                 modalForm.action = `/products/edit-related-brand/${instanceId}/`;
         
@@ -196,7 +208,9 @@
             const form = event.target;
             const url = form.action;  // Use the form's action URL
             const formData = new FormData(form);
-    
+            
+            console.log("URL: ", url)
+
             // Send the form data via AJAX using fetch()
             fetch(url, {
                 method: "POST",

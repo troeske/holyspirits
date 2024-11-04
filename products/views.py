@@ -13,7 +13,9 @@ from .forms import ProductForm, ProductBrandForm, CaskTypeForm
 
 def add_related_brand(request):
     """ recommended by ChatGPT to allow adding related models in a modal via AJAX """
-
+    
+    print("im view add")
+    
     if request.method == 'POST':
         form = ProductBrandForm(request.POST, request.FILES)
         if form.is_valid():
