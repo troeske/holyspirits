@@ -9,8 +9,27 @@
     --ts-std-text-bg-color: "rgba(255, 255, 255, .2)";
 }
 
+/************** GENERAL **************/
+html {
+    height: 100%;
+}
 
-/************* HOME **************/
+body {
+    background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730796220/What-is-a-dunnage-warehouse-and-what-role-does-it-play-in-making-scotch-whisky_tsyfvn.webp') no-repeat center center fixed;
+    background-size: cover;
+    height: calc(100vh - 164px); /* minus header */
+    color: #555;
+    font-family: 'Lato';
+}
+
+.ts-footer {
+    font-family: var(--ts-std-text-font), sans-serif;
+    background-color: black;
+    padding-top: 10px;
+    padding-bottom: 0;
+    color: white;
+}
+
 .ts-std-heading {
     color: var(--ts-std-text-color);
     font-size:  var(--ts-std-heading-size);
@@ -23,6 +42,38 @@
     font-size: var(--ts-std-text-size);
     font-family: var(--ts-std-text-font), sans-serif;
 }
+
+.ts-text-font {
+    font-family: var(--ts-std-text-font), sans-serif;
+}
+
+.ts-header-font {
+    font-family: var(--ts-std-heading-font), sans-serif;
+}
+
+.ts-header {
+    margin-top: 50px;
+}
+
+/*  floating nav element *****************************  */
+#floating-nav-container {
+    position: fixed;
+    width: 300px;
+    height: 16px;
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 99;
+    background-color: black;
+    opacity: 0.8;
+    border-radius: 5%;
+    padding-left: 2.5px;
+    padding-bottom: 1px;
+  }
+  
+  
+/************* HOME **************/
 
 .ts-product-card-img {
     height: 200px;
@@ -72,18 +123,6 @@
 }
 
 /***************** walkthrough ******************/
-html {
-    height: 100%;
-}
-
-body {
-    background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730381098/whiskey-background_enuhyc.jpg') no-repeat center center fixed;
-    background-size: cover;
-    height: calc(100vh - 164px); /* minus header */
-    color: #555;
-    font-family: 'Lato';
-}
-
 /* from Bulma */
 .icon {
     align-items: center;
@@ -151,8 +190,9 @@ body {
     height: 42px;
     width: 42px;
     position: fixed;
-    bottom: 10px;
+    bottom: 50px;
     right: 10px;
+    background-color: rgba(255, 255, 255, .2);
 }
 
 .btt-link {
@@ -311,7 +351,7 @@ body {
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
   .container {
-    max-width: 80%;
+    max-width: 95%;
   }
 }
 
