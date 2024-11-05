@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_header %}
-    <div class="container header-container">
+    <div class="ts-header">
         <div class="row">
             <div class="col"></div>
         </div>
@@ -15,61 +15,86 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <hr>
-                <h2 class="logo-font mb-4 text-white">Product Management</h2>
-                <h5 class="text-white">Edit a Product</h5>
+                <p class="ts-std-heading">Edit Product:</p>
                 <hr>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12 col-md-6">
+        <div class="row px-2">
+            <div class="col-12 col-md-8 mb-5 ts-prod-details-container-bg py-2">
                 <form method="POST" action="{% url 'edit_product' product.gtin %}" class="form mb-2 text-white" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in form %}
                         {% if field.name != 'list_image' and field.name != 'remove_image' %}
-                            {{ field|as_crispy_field }}
-                        {% endif %}
-
-                        {% if field.name == 'brand' %}
-                            {% if request.user.is_superuser %}
-                                <!-- Button to open modal for adding a new brand -->
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="openModal('brand', 'add')">+</button>
-                                
-                                {% if form.brand.value %}
-                                <!-- Button to open modal for editing the selected brand -->
-                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openModal('brand', 'edit', '{{ form.brand.value }}')">✎</button>
-                            {% endif %}
-                            
+                            <div class="form-group row mb-1 align-items-center">
+                                <label class="col-12 col-md-3 col-form-label text-md-end my-0" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                <div class="col-12 col-md-9">
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                    
+                            {% if field.name == 'brand' %}
+                                {% if request.user.is_superuser %}
+                                    <div class="row mb-3">
+                                        <div class="d-none d-md-block col-md-3"></div>
+                                        <div class="col-12 col-md-9">
+                                            <!-- Button to open modal for adding a new brand -->
+                                            <button type="button" class="btn ts-edit-buttons" onclick="openModal('brand', 'add')">+</button>
+                                            
+                                            {% if form.brand.value %}
+                                                <!-- Button to open modal for editing the selected brand -->
+                                                <button type="button" class="btn ts-edit-buttons" onclick="openModal('brand', 'edit', '{{ form.brand.value }}')">✎</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
+                
                     {% if form.instance.list_image %}
-                        <div class="form-group">
-                            <label for="current-image">Current Image:</label>
-                            {% if not form.instance.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
-                                <img id="current-image" class="ts-img-thumbnail" src="{{ form.instance.list_image.url }}" alt="Product Image">  
-                                <div class="form-group">
-                                    {{ form.remove_image|as_crispy_field }}
-                                </div>      
-                            {% else %}
-                                <img id="current-image" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
-                                alt="{{ product.name }}">
-                            {% endif %}
-                            
-                            <span id="filename"></span>
+                        <div class="form-group row mb-2">
+                            <label class="col-12 col-md-3 col-form-label text-md-end" for="current-image">Current Image:</label>
+                            <div class="col-12 col-md-8 pb-0 mb-0">
+                                {% if not form.instance.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                    <img id="current-image" class="ts-img-thumbnail" src="{{ form.instance.list_image.url }}" alt="Product Image">  
+                                    <div class="form-group">
+                                        {{ form.remove_image|as_crispy_field }}
+                                    </div>      
+                                {% else %}
+                                    <img id="current-image" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                    alt="{{ product.name }}">
+                                {% endif %}
+                                <span id="filename"></span>
+                            </div>
                         </div>
                     {% endif %}
-                    <div class="form-group mt-2">
-                        <span class="btn btn-black rounded-0 btn-file">
-                            Select Image <input id="id-list-image" type="file" name="list_image">
-                        </span>
+                
+                    <div class="form-group row mb-3">
+                        <div class="d-none d-md-block col-md-3"></div>
+                        <div class="col-12 col-md-8">
+                            <span class="btn btn-black rounded-0 btn-file">
+                                Select Image <input id="id-list-image" type="file" name="list_image">
+                            </span>
+                        </div>
                     </div>
-                    <div class="text-end mt-3">
-                        <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
-                        <button class="btn btn-black rounded-0" type="submit">Save Product</button>
+                
+                    <div class="form-group row">
+                        <div class="d-none d-md-block col-md-3"></div>
+                        <div class="col-12 col-md-8 text-start mt-3">
+                            <a class="btn btn-outline-black rounded" href="{% url 'products' %}">Cancel</a>
+                            <button class="btn ts-button-save rounded" type="submit">Save Product</button>
+                        </div>
                     </div>
                 </form>
-                
             </div>            
         </div>
     </div>
@@ -110,7 +135,7 @@
                                     <span id="logo-filename"></span>
                                 </div>
                             {% endif %}
-                            <div class="form-group mt-2">
+                            <div class="form-group my-2">
                                 <span class="btn btn-black rounded-0 btn-file">
                                     Select Logo <input id="id-brand-logo" type="file" name="logo">
                                 </span>
@@ -144,6 +169,7 @@
     </script>
     
     <script>
+        /******* suggested by chatGPT ******/
         function openModal(modelType, action, instanceId = null) {
             const modalTitle = document.getElementById("relatedModelModalLabel");
             const modalForm = document.getElementById("relatedModelForm");

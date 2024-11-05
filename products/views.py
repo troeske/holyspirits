@@ -189,7 +189,6 @@ def edit_product(request, gtin):
     else:
         form = ProductForm(instance=product)
         brand_form = ProductBrandForm(instance=brand)  # Initialize form for brand
-        messages.info(request, f'You are editing {product.name}')
     
     template = 'products/edit_product.html'
     

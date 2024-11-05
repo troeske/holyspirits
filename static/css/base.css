@@ -58,29 +58,6 @@ body {
     margin-top: 50px;
 }
 
-.ts-search {
-    background-color:#7A2D0F;
-    color: white;
-    border: none;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.ts-search-button {
-    background-color: #7A2D0F;
-    color: white;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border: none;
-
-}
-
-.ts-search::placeholder {
-    color: white;  /* Set the placeholder text color to white */
-}
-
 .ts-spacer-bottom-lg {
     margin-bottom: 75px;
 }
@@ -105,6 +82,28 @@ body {
     padding-bottom: 1px;
   }
   
+  .ts-search {
+    background-color:#7A2D0F;
+    color: white;
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.ts-search-button {
+    background-color: #7A2D0F;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none;
+
+}
+
+.ts-search::placeholder {
+    color: white;  
+}
   
 /************* HOME **************/
 
@@ -141,8 +140,8 @@ body {
 
 /********* PRODUCT DETAIL PAGE ***********/
 .ts-prod-detail-img {
-    width:auto;
-    height: 225px;
+    width:40%;
+    height: auto;
 }
 
 .ts-taste-icons {
@@ -194,6 +193,22 @@ body {
     border: none;
 }
 
+
+.ts-edit-buttons {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    border-color: white;
+    width: 34px;
+    height: 34px;
+}
+
+.ts-button-save {
+    border-color: white;
+    background-color: black;
+    color: white;
+}
 /***************** walkthrough ******************/
 /* from Bulma */
 .icon {
@@ -424,7 +439,7 @@ body {
 
 @media (min-width: 768px) {
     .ts-prod-detail-img {
-        width:100%;
+        width:55%;
         height: auto;
     }
 
