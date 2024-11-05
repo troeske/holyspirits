@@ -75,8 +75,14 @@ def all_products(request):
                 return redirect(reverse('products'))
             
             # normally filter uses AND; with Q we can use OR!!!
-            query = Q(name__icontains=query) | Q(description__icontains=query)    
-            products = products.filter(query)
+            search_conditions = (
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(producttastecategory__taste_category__name__icontains=query) |
+                Q(producttastecategory__taste_category__description__icontains=query)
+            )
+            
+            products = products.filter(search_conditions).distinct()
         
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
@@ -107,7 +113,7 @@ def all_products(request):
     
     context = {
         'products': products,
-        'serch_term': query,
+        'search_term': query,
         'current_categories': categories,
         'current_sorting': current_sorting,
     }

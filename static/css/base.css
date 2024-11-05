@@ -65,7 +65,7 @@ body {
     color: white;  /* Set the placeholder text color to white */
 }
 
-/*  floating nav element *****************************  */
+/*  floating nav elements *****************************  */
 #floating-nav-container {
     position: fixed;
     width: 260px;
@@ -96,10 +96,11 @@ body {
     width:auto;
 }
 
+/************* PRODUCTS PAGE **************/
+
 .ts-product-card-img {
     height: 200px;
     width:auto;
-  /*   object-fit: cover; */
 }
 
 .ts-proc-detail-img-list {
@@ -107,6 +108,21 @@ body {
     height: 100px;
 }
 
+.ts-btt-button {
+    height: 42px;
+    width: 42px;
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    z-index: 99;
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.ts-btt-link {
+    cursor: pointer;
+}
+
+/********* PRODUCT DETAIL PAGE ***********/
 .ts-proc-detail-img {
     width:auto;
     height: 300px;
@@ -196,18 +212,6 @@ body {
     border: 1px solid black !important;
 }
 
-.btt-button {
-    height: 42px;
-    width: 42px;
-    position: fixed;
-    bottom: 50px;
-    right: 10px;
-    background-color: rgba(255, 255, 255, .2);
-}
-
-.btt-link {
-    cursor: pointer;
-}
 
 /* ------------------------------- bootstrap toasts */
 
