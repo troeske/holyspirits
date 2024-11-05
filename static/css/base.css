@@ -2,10 +2,10 @@
 :root {
     --ts-std-text-font: "Roboto";
     --ts-std-heading-font: "Montserrat";
-    --ts-std-text-size: "12px";
-    --ts-std-h1-size: "20px";
+    --ts-std-text-size: 14px;
+    --ts-std-h1-size: 20px;
     --ts-std-text-color: #ffffff;
-    --ts-std-h2-size: "16px";
+    --ts-std-h2-size: 16px;
     --ts-std-text-bg-color: "rgba(255, 255, 255, .2)";
 }
 
@@ -24,6 +24,7 @@ body {
 
 .ts-footer {
     font-family: var(--ts-std-text-font), sans-serif;
+    font-size: 14px;
     background-color: black;
     padding-top: 10px;
     padding-bottom: 0;
@@ -32,15 +33,17 @@ body {
 
 .ts-std-heading {
     color: var(--ts-std-text-color);
-    font-size:  var(--ts-std-heading-size);
+    font-size:  var(--ts-std-h1-size);
     font-weight: bold;
     font-family: var(--ts-std-heading-font), sans-serif;
+    margin-bottom: 10px;
 }
 
 .ts-std-text {
     color: var(--ts-std-text-color);
     font-size: var(--ts-std-text-size);
     font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 10px;
 }
 
 .ts-text-font {
@@ -56,26 +59,46 @@ body {
 }
 
 .ts-search {
-    background-color: black;
+    background-color:#5E2008;
     color: white;
     border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.ts-search-button {
+    background-color: #5E2008;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none;
+
 }
 
 .ts-search::placeholder {
     color: white;  /* Set the placeholder text color to white */
 }
 
+.ts-spacer-bottom-lg {
+    margin-bottom: 75px;
+}
+
+.ts-spacer-bottom-sm {
+    margin-bottom: 15px;
+}
+
 /*  floating nav elements *****************************  */
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    height: 16px;
-    bottom: 9%;
+    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     z-index: 99;
-    background-color: black;
+    background-color: transparent;
     color: white;
     border-radius: 10px;
     padding-left: 2.5px;
@@ -88,7 +111,6 @@ body {
 .ts-product-card-img {
     height: 200px;
     width:auto;
-  /*   object-fit: cover; */
 }
 
 .ts-bag-img {
@@ -97,13 +119,7 @@ body {
 }
 
 /************* PRODUCTS PAGE **************/
-
-.ts-product-card-img {
-    height: 200px;
-    width:auto;
-}
-
-.ts-proc-detail-img-list {
+.ts-prod-detail-img-list {
     width:auto;
     height: 100px;
 }
@@ -123,20 +139,28 @@ body {
 }
 
 /********* PRODUCT DETAIL PAGE ***********/
-.ts-proc-detail-img {
+.ts-prod-detail-img {
     width:auto;
-    height: 300px;
+    height: 225px;
 }
 
 .ts-taste-icons {
-    height: 50px;
-    width: 50px;
+    height: 35px;
+    width: 35px;
     background-color: rgba(255, 255, 255, .5);
     overflow: hidden;
     color: white;
-    font-size: 26px;
+    font-size: 20px;
     text-decoration: none;
 }
+
+.ts-taste-icon-text{
+    color: var(--ts-std-text-color);
+    font-size: 12px;
+    font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 5px;
+}
+
 
 .ts-taste-icons a,
 .ts-taste-icons i {
@@ -146,6 +170,27 @@ body {
 
 .ts-img-thumbnail {
     max-width: 100px;
+}
+
+.ts-prod-details-container {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.ts-prod-details-container-bg {
+    background-color: rgba(0, 0, 0, .9);
+    border-radius: 10px;
+
+}
+
+.ts-btn-white {
+    background-color: white;
+    color: black;
+    border: none;
 }
 
 /***************** walkthrough ******************/
@@ -369,22 +414,30 @@ body {
   }
 }
 
-/* fixed top navbar only on medium and up */
-@media (min-width: 992px) {
-    .fixed-top-desktop-only {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
 
+@media (min-width: 992px) {
     .header-container {
         padding-top: 164px;
     }
 }
 
-/* fixed top navbar only on medium and up */
+@media (min-width: 768px) {
+    .ts-prod-detail-img {
+        width:auto;
+        height: 300px;
+    }
+
+    .ts-taste-icons {
+        height: 50px;
+        width: 50px;
+        font-size: 26px;
+    }
+    
+    .ts-taste-icon-text{
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 991px) {
     .header-container {
         padding-top: 116px;
