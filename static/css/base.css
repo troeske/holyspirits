@@ -120,8 +120,9 @@ body {
 
 /************* PRODUCTS PAGE **************/
 .ts-prod-detail-img-list {
-    width:auto;
-    height: 100px;
+    width: 80%;
+    height: auto;
+    margin-bottom: 10px;
 }
 
 .ts-btt-button {
@@ -423,8 +424,8 @@ body {
 
 @media (min-width: 768px) {
     .ts-prod-detail-img {
-        width:auto;
-        height: 300px;
+        width:100%;
+        height: auto;
     }
 
     .ts-taste-icons {

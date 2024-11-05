@@ -16,11 +16,14 @@
             <div class="d-none d-md-block col-md-1 text-end pt-3 mx-4">
                 {% if product.product_image.all %}
                     {% for image in product.product_image.all %}
-                    <div class="row">
-                        <div class="col-12">
-                            <img src="{{ image.image.url }}" class="ts-prod-detail-img-list img-fluid" alt="{{ image.alt_text }}">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="{{ image.image.url }}" 
+                                    class="ts-prod-detail-img-list img-fluid" 
+                                    alt="{{ image.alt_text }}"
+                                    onclick="setMainImage('{{ image.image.url }}', '{{ image.alt_text }}')"> 
+                            </div>
                         </div>
-                    </div>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -28,7 +31,7 @@
                 <div class="ts-prod-details-container ts-spacer-bottom-sm">
                     <div class="image-container mx-2 text-center mb-3">
                         {% if product.product_image.all %}
-                            <img src="{{ product.product_image.first.image.url }}" class="ts-prod-detail-img" alt="{{product.product_image.first.alt_text }}">
+                            <img id="mainProductImage" src="{{ product.product_image.first.image.url }}" class="ts-prod-detail-img" alt="{{product.product_image.first.alt_text }}">
                         {% else %}
                             {% if not product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
                                 <img class="ts-prod-detail-img" src="{{ product.list_image.url }}" alt="{{ product.name }}">
@@ -127,6 +130,16 @@
 {% endblock %}
 
 {% block postloadjs %}
+    <script>
+        function setMainImage(imageUrl, altText) {
+            const mainImage = document.getElementById("mainProductImage");
+            
+            // Update the src and alt attributes with the clicked thumbnail's data
+            mainImage.src = imageUrl;
+            mainImage.alt = altText;
+        }
+        
+    </script>
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}    
 {% endblock %}
