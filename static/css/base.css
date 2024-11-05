@@ -55,10 +55,20 @@ body {
     margin-top: 50px;
 }
 
+.ts-search {
+    background-color: black;
+    color: white;
+    border: none;
+}
+
+.ts-search::placeholder {
+    color: white;  /* Set the placeholder text color to white */
+}
+
 /*  floating nav element *****************************  */
 #floating-nav-container {
     position: fixed;
-    width: 300px;
+    width: 260px;
     height: 16px;
     bottom: 9%;
     left: 50%;
@@ -66,8 +76,8 @@ body {
     text-align: center;
     z-index: 99;
     background-color: black;
-    opacity: 0.8;
-    border-radius: 5%;
+    color: white;
+    border-radius: 10px;
     padding-left: 2.5px;
     padding-bottom: 1px;
   }
