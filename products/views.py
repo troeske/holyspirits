@@ -232,6 +232,13 @@ def edit_product(request, gtin):
     product = get_object_or_404(Product, pk=gtin)
     brand = get_object_or_404(ProductBrand, pk=product.brand.id)
     
+    if product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder':
+        img_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
+        img_placeholder = True
+    else:
+       img_url = product.list_image.url
+       img_placeholder = False
+            
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -259,7 +266,9 @@ def edit_product(request, gtin):
         'size_form': size_form,
         'cask_type_form': cask_type_form,
         'product': product,
-        'on_edit_product_page': True
+        'on_edit_product_page': True,
+        'img_url': img_url,
+        'img_placeholder': img_placeholder
     }
     
     return render(request, template, context)

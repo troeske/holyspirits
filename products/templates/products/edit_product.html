@@ -79,24 +79,22 @@
                         {% endif %}
                     {% endfor %}
                 
-                    {% if form.instance.list_image %}
-                        <div class="form-group row mb-2">
-                            <label class="col-12 col-md-3 col-form-label text-md-end" for="current-image">Current Image:</label>
+                    <div class="form-group row mb-2">
+                        {% if not img_placeholder %}
+                            <label id="list-image-label" class="col-12 col-md-3 col-form-label text-md-end" for="current-image">Current Image:</label>    
                             <div class="col-12 col-md-8 pb-0 mb-0">
-                                {% if not form.instance.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
-                                    <img id="current-image" class="ts-img-thumbnail" src="{{ form.instance.list_image.url }}" alt="Product Image">  
-                                    <div class="form-group">
-                                        {{ form.remove_image|as_crispy_field }}
-                                    </div>      
-                                {% else %}
-                                    <img id="current-image" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
-                                    alt="{{ product.name }}">
-                                {% endif %}
-                                <span id="filename"></span>
+                                <img id="current-image" class="ts-img-thumbnail" src="{{ img_url }}" alt="{{ product.name }}">  
+                                <div class="form-group">
+                                    {{ form.remove_image|as_crispy_field }}
+                                </div>
                             </div>
+                        {% endif %}
+                        <div class="d-none d-md-block col-md-3"></div>
+                        <div class="col-12 col-md-8 pb-0 mb-0">
+                            <span id="filename"></span>
                         </div>
-                    {% endif %}
-                
+                    </div>
+
                     <div class="form-group row mb-3">
                         <div class="d-none d-md-block col-md-3"></div>
                         <div class="col-12 col-md-8">
