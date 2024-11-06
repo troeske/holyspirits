@@ -5,19 +5,24 @@ from django.http import JsonResponse
 from django.db.models import Q
 from .models import *
 from django.db.models.functions import Lower
-from .forms import ProductForm, ProductBrandForm, CaskTypeForm
+from .forms import ProductForm, ProductBrandForm, CaskTypeForm, BottlerForm, ProductSizeForm
 
 
 
 # Create your views here.
 
-def add_related_brand(request):
+def add_related_model(request, model_type):
     """ recommended by ChatGPT to allow adding related models in a modal via AJAX """
     
-    print("im view add")
+    print("im view add: ", model_type)
     
     if request.method == 'POST':
-        form = ProductBrandForm(request.POST, request.FILES)
+        
+        if model_type == "brand":
+            form = ProductBrandForm(request.POST, request.FILES)
+        if model_type == "bottler":
+            form = BottlerForm(request.POST, request.FILES)
+            
         if form.is_valid():
             form.save()
             return JsonResponse({'success': True})
@@ -27,13 +32,25 @@ def add_related_brand(request):
     return JsonResponse({'success': False, 'errors': form.errors})
 
 
-def edit_related_brand(request, pk):
+def edit_related_model(request, model_type, pk):
     """View to add/edit related models in a modal via AJAX."""
     
-    instance = get_object_or_404(ProductBrand, pk=pk)
+    print(model_type)
+    
+    if model_type == "brand":
+        instance = get_object_or_404(ProductBrand, pk=pk)
+    
+    elif model_type =="bottler":
+        instance = get_object_or_404(Bottler, pk=pk)
 
+    
     if request.method == 'POST':
-        form = ProductBrandForm(request.POST, request.FILES, instance=instance)
+        
+        if model_type == "brand":
+            form = ProductBrandForm(request.POST, request.FILES, instance=instance)
+        elif model_type == "bottler":
+            form = BottlerForm(request.POST, request.FILES, instance=instance)
+            
         if form.is_valid():
             # If "Remove Logo" is checked, delete the logo
             if form.cleaned_data['remove_logo']:
@@ -188,13 +205,19 @@ def edit_product(request, gtin):
             messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
-        brand_form = ProductBrandForm(instance=brand)  # Initialize form for brand
+        brand_form = ProductBrandForm(instance=brand)  
+        bottler_form = BottlerForm(instance=product.bottler) 
+        size_form = ProductSizeForm(instance=product.size)
+        cask_type_form = CaskTypeForm(instance=product.cask_type)
     
     template = 'products/edit_product.html'
     
     context = {
         'form': form,
-        'brand_form': brand_form,  # Pass the brand form to the template
+        'brand_form': brand_form,  
+        'bottler_form': bottler_form,
+        'size_form': size_form,
+        'cask_type_form': cask_type_form,
         'product': product,
         'on_edit_product_page': True
     }

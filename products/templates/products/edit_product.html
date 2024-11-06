@@ -41,6 +41,7 @@
                                 </div>
                             </div>
                     
+                            <!-- allowing edit and add new brands through a modal form relatedModelModal -->
                             {% if field.name == 'brand' %}
                                 {% if request.user.is_superuser %}
                                     <div class="row mb-3">
@@ -52,6 +53,24 @@
                                             {% if form.brand.value %}
                                                 <!-- Button to open modal for editing the selected brand -->
                                                 <button type="button" class="btn ts-edit-buttons" onclick="openModal('brand', 'edit', '{{ form.brand.value }}')">✎</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            
+                            <!-- allowing edit and add new bottler through a modal form relatedModelModal -->
+                            {% if field.name == 'bottler' %}
+                                {% if request.user.is_superuser %}
+                                    <div class="row mb-3">
+                                        <div class="d-none d-md-block col-md-3"></div>
+                                        <div class="col-12 col-md-9">
+                                            <!-- Button to open modal for adding a new brand -->
+                                            <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'add')">+</button>
+                                            
+                                            {% if form.brand.value %}
+                                                <!-- Button to open modal for editing the selected brand -->
+                                                <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'edit', '{{ form.bottler.value }}')">✎</button>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -181,7 +200,7 @@
 
             if (action === "add") {
                 modalTitle.textContent = `Add New ${modelType}`;
-                modalForm.action = `/products/add-related-${modelType}/`;
+                modalForm.action = `/products/add-related-model/${modelType}/`;
                 console.log(modalForm.action)
 
                  // Clear the form fields
@@ -197,10 +216,10 @@
             } else if (action === "edit" && instanceId) {
                 modalInstance.show();
                 modalTitle.textContent = `Edit ${modelType}`;
-                modalForm.action = `/products/edit-related-brand/${instanceId}/`;
+                modalForm.action = `/products/edit-related-model/${modelType}/${instanceId}/`;
         
                 // Fetch current data for the instance
-                fetch(`/products/edit-related-brand/${instanceId}/`, {
+                fetch(`/products/edit-related-model/${modelType}/${instanceId}/`, {
                     method: "GET",
                     headers: {
                         "X-Requested-With": "XMLHttpRequest"  // Indicate AJAX request

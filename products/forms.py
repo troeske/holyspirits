@@ -1,8 +1,7 @@
 from django import forms
-from .models import Product, ProductCategory, ProductBrand, CaskType
+from .models import * 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
-
 
 
 class ProductBrandForm(forms.ModelForm):
@@ -11,7 +10,14 @@ class ProductBrandForm(forms.ModelForm):
     class Meta:
         model = ProductBrand
         fields = '__all__'
+
+
+class BottlerForm(forms.ModelForm):
+    remove_logo = forms.BooleanField(required=False, label='Remove Logo')
     
+    class Meta:
+        model = Bottler
+        fields = '__all__'
     
 
 class CaskTypeForm(forms.ModelForm):
@@ -19,6 +25,11 @@ class CaskTypeForm(forms.ModelForm):
         model = CaskType
         fields = ['name', 'description']
 
+
+class ProductSizeForm(forms.ModelForm):
+    class Meta:
+        model = ProductSize
+        fields = ['name', 'description']
 
 
 class ProductForm(forms.ModelForm):
@@ -49,3 +60,4 @@ class ProductForm(forms.ModelForm):
         self.fields['name'].widget.attrs['style'] = 'width: 100%;'
         self.fields['description'].widget.attrs['class'] += ' form-control'
         self.fields['description'].widget.attrs['style'] = 'width: 100%;'
+        
