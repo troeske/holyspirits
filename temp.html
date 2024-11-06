@@ -1,30 +1,349 @@
-<form method="POST" action="{% url 'edit_product' product.gtin %}" class="form mb-2 text-white" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in form %}
-        {% if field.name != 'list_image' and field.name != 'remove_image' %}
-            {{ field|as_crispy_field }}
-        {% endif %}
-    {% endfor %}
-    {% if form.instance.list_image %}
-        <div class="form-group">
-            <label for="current-image">Current Image:</label>
-            <img id="current-image" src="{{ form.instance.list_image.url }}" alt="Product Image" class="img-thumbnail" style="max-width: 100px;">
-            <span id="filename"></span>
-        </div>
-        <div class="form-group">
-            {{ form.remove_image|as_crispy_field }}
-        </div>
-    {% endif %}
-    <div class="form-group mt-2">
-        <span class="btn btn-black rounded-0 btn-file">
-            Select Image <input id="id-list-image" type="file" name="list_image">
-        </span>
-    </div>
-    <div class="text-end mt-3">
-        <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
-        <button class="btn btn-black rounded-0" type="submit">Save Product</button>
-    </div>
-</form>
+{% extends "base.html" %}
+{% load static %}
 
-path('edit-related-brand/<int:pk>/', views.edit_related_brand, name='edit_related_brand'),
-path('edit-related-bottler/<int:pk>/', views.edit_related_brand, name='edit_related_brand'),
+{% block page_header %}
+    <div class="ts-header">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <hr>
+                <p class="ts-std-heading">Edit Product:</p>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row px-2">
+            <div class="col-12 col-md-8 mb-5 ts-prod-details-container-bg py-2">
+                <form method="POST" action="{% url 'edit_product' product.gtin %}" class="form mb-2 text-white" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.name != 'list_image' and field.name != 'remove_image' %}
+                            <div class="form-group row mb-1 align-items-center">
+                                <label class="col-12 col-md-3 col-form-label text-md-end my-0" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                <div class="col-12 col-md-9">
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                    
+                            <!-- allowing edit and add new brands through a modal form relatedModelModal -->
+                            {% if field.name == 'brand' %}
+                                {% if request.user.is_superuser %}
+                                    <div class="row mb-3">
+                                        <div class="d-none d-md-block col-md-3"></div>
+                                        <div class="col-12 col-md-9">
+                                            <!-- Button to open modal for adding a new brand -->
+                                            <button type="button" class="btn ts-edit-buttons" onclick="openModal('brand', 'add')">+</button>
+                                            
+                                            {% if form.brand.value %}
+                                                <!-- Button to open modal for editing the selected brand -->
+                                                <button type="button" class="btn ts-edit-buttons" onclick="openModal('brand', 'edit', '{{ form.brand.value }}')">✎</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            
+                            <!-- allowing edit and add new bottler through a modal form relatedModelModal -->
+                            {% if field.name == 'bottler' %}
+                                {% if request.user.is_superuser %}
+                                    <div class="row mb-3">
+                                        <div class="d-none d-md-block col-md-3"></div>
+                                        <div class="col-12 col-md-9">
+                                            <!-- Button to open modal for adding a new brand -->
+                                            <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'add')">+</button>
+                                            
+                                            {% if form.brand.value %}
+                                                <!-- Button to open modal for editing the selected brand -->
+                                                <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'edit', '{{ form.bottler.value }}')">✎</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                
+                    {% if form.instance.list_image %}
+                        <div class="form-group row mb-2">
+                            <label class="col-12 col-md-3 col-form-label text-md-end" for="current-image">Current Image:</label>
+                            <div class="col-12 col-md-8 pb-0 mb-0">
+                                {% if not form.instance.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                    <img id="current-image" class="ts-img-thumbnail" src="{{ form.instance.list_image.url }}" alt="Product Image">  
+                                    <div class="form-group">
+                                        {{ form.remove_image|as_crispy_field }}
+                                    </div>      
+                                {% else %}
+                                    <img id="current-image" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                    alt="{{ product.name }}">
+                                {% endif %}
+                                <span id="filename"></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                
+                    <div class="form-group row mb-3">
+                        <div class="d-none d-md-block col-md-3"></div>
+                        <div class="col-12 col-md-8">
+                            <span class="btn btn-black rounded-0 btn-file">
+                                Select Image <input id="id-list-image" type="file" name="list_image">
+                            </span>
+                        </div>
+                    </div>
+                
+                    <div class="form-group row">
+                        <div class="d-none d-md-block col-md-3"></div>
+                        <div class="col-12 col-md-8 text-start mt-3">
+                            <a class="btn btn-outline-black rounded" href="{% url 'products' %}">Cancel</a>
+                            <button class="btn ts-button-save rounded" type="submit">Save Product</button>
+                        </div>
+                    </div>
+                </form>
+            </div>            
+        </div>
+    </div>
+
+    <!-- Modal Template for Adding/Editing a Product Brand -->
+    <div class="modal fade" id="relatedModelModal" tabindex="-1" aria-labelledby="relatedModelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="relatedModelModalLabel">Add/Edit </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="relatedModelForm" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Render fields except 'logo' and 'remove_logo' with crispy_forms -->
+                        {% for field in brand_form %}
+                            {% if field.name != 'logo' and field.name != 'remove_logo' %}
+                                {{ field|as_crispy_field }}
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- Custom logo upload and preview section -->
+                        <div class="form-group mt-2">
+                            {% if brand_form.instance.logo %}
+                                <div class="form-group mb-2">
+                                    <label>Current Logo:</label>
+                                    {% if not brand_form.instance.logo.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
+                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="{{ brand_form.instance.logo.url }}" alt="Current Logo">    
+                                        <div class="form-group">
+                                            {{ brand_form.remove_logo|as_crispy_field }}
+                                        </div>    
+                                    {% else %}
+                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
+                                        alt="{{ product.name }}">
+                                    {% endif %}
+                                    <span id="logo-filename"></span>
+                                </div>
+                            {% endif %}
+                            <div class="form-group my-2">
+                                <span class="btn btn-black rounded-0 btn-file">
+                                    Select Logo <input id="id-brand-logo" type="file" name="logo">
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $('#id-list-image').change(function() {
+            var file = $('#id-list-image')[0].files[0];
+            $('#filename').text(`Image will be set to: ${file.name}`).addClass('text-danger');
+            $('#current-image').hide();
+        });
+    </script>
+    <script type="text/javascript">
+        $('#id-brand-logo').change(function() {
+            var file = $('#id-brand-logo')[0].files[0];
+            $('#logo-filename').text(`Logo will be set to: ${file.name}`).addClass('text-danger');
+            $('#modal-logo-thumbnail').hide();
+        });
+    </script>
+    
+    <script>
+        /******* suggested by chatGPT ******/
+        function openModal(modelType, action, instanceId = null) {
+            const modalTitle = document.getElementById("relatedModelModalLabel");
+            const modalForm = document.getElementById("relatedModelForm");
+        
+            // Show the modal immediately
+            const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
+            
+            console.log(action)
+
+            if (action === "add") {
+                modalTitle.textContent = `Add New ${modelType}`;
+                modalForm.action = `/products/add-related-model/${modelType}/`;
+                console.log(modalForm.action)
+
+                 // Clear the form fields
+                modalForm.reset();
+                Array.from(modalForm.elements).forEach(element => {
+                    if (element.type !== "hidden") {
+                        element.value = "";
+                    }
+                });
+
+                modalInstance.show();
+
+            } else if (action === "edit" && instanceId) {
+                modalInstance.show();
+                modalTitle.textContent = `Edit ${modelType}`;
+                modalForm.action = `/products/edit-related-model/${modelType}/${instanceId}/`;
+        
+                // Fetch current data for the instance
+                fetch(`/products/edit-related-model/${modelType}/${instanceId}/`, {
+                    method: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"  // Indicate AJAX request
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate form fields with received data
+                        Object.keys(data.instance).forEach(field => {
+                            if (field === "logo") return;  // Skip the logo field
+                
+                            const formField = modalForm.querySelector(`[name=${field}]`);
+                            if (formField) {
+                                formField.value = data.instance[field];
+                            }
+                        });
+                    } else {
+                        console.error("Failed to load data for editing.");
+                    }
+                })                
+                .catch(error => console.error("Error fetching data:", error));
+            }
+        }
+        
+    
+        // AJAX form submission
+        document.getElementById("relatedModelForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Prevent normal form submission
+            
+            const form = event.target;
+            const url = form.action;  // Use the form's action URL
+            const formData = new FormData(form);
+            
+            console.log("URL: ", url)
+
+            // Send the form data via AJAX using fetch()
+            fetch(url, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",  // Indicate an AJAX request
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")  // CSRF token for security
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and refresh the page or update UI as needed
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('relatedModelModal'));
+                    modal.hide();
+                    location.reload();  // Refresh the page (or update only the necessary part of the page)
+                } else {
+                    // Display errors if form validation failed
+                    alert("Failed to save: " + JSON.stringify(data.errors));
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+    
+    
+{% endblock %}
+
+
+
+def add_related_model(request, model_type):
+    """ recommended by ChatGPT to allow adding related models in a modal via AJAX """
+    
+    print("im view add: ", model_type)
+    
+    if request.method == 'POST':
+        
+        if model_type == "brand":
+            form = ProductBrandForm(request.POST, request.FILES)
+        if model_type == "bottler":
+            form = BottlerForm(request.POST, request.FILES)
+            
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+    else:
+        form = ProductBrandForm()
+
+    return JsonResponse({'success': False, 'errors': form.errors})
+
+
+def edit_related_model(request, model_type, pk):
+    """View to add/edit related models in a modal via AJAX."""
+    
+    print(model_type)
+    
+    if model_type == "brand":
+        instance = get_object_or_404(ProductBrand, pk=pk)
+    
+    elif model_type =="bottler":
+        instance = get_object_or_404(Bottler, pk=pk)
+
+    
+    if request.method == 'POST':
+        
+        if model_type == "brand":
+            form = ProductBrandForm(request.POST, request.FILES, instance=instance)
+        elif model_type == "bottler":
+            form = BottlerForm(request.POST, request.FILES, instance=instance)
+            
+        if form.is_valid():
+            # If "Remove Logo" is checked, delete the logo
+            if form.cleaned_data['remove_logo']:
+                instance.logo = 'placeholder'  # Set to default value
+                
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+
+    elif request.method == 'GET':
+        data = {field.name: getattr(instance, field.name) for field in instance._meta.fields}
+        
+        # Add the URL for the logo if it exists
+        if instance.logo:
+            data['logo'] = instance.logo.url
+        
+        return JsonResponse({'success': True, 'instance': data})
+    
+    return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+

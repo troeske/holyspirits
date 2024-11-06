@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.db.models import Q
 from .models import *
@@ -10,69 +11,108 @@ from .forms import ProductForm, ProductBrandForm, CaskTypeForm, BottlerForm, Pro
 
 
 # Create your views here.
-
+@login_required
 def add_related_model(request, model_type):
-    """ recommended by ChatGPT to allow adding related models in a modal via AJAX """
-    
-    print("im view add: ", model_type)
-    
-    if request.method == 'POST':
-        
+    """View to add related models via AJAX."""
+    if not request.user.is_superuser:
+        return JsonResponse({'success': False, 'error': 'Unauthorized access.'}, status=403)
+
+    # Replace request.is_ajax() with direct header check
+    if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if model_type == "brand":
+            form = ProductBrandForm()
+        elif model_type == "bottler":
+            form = BottlerForm()
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid model type'}, status=400)
+
+        action_url = reverse('add_related_model', args=[model_type])
+
+        logo_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
+
+        logo_placeholder = True
+
+        context = {'form': form,
+                   'action_url': action_url,
+                   'logo_url': logo_url,
+                   'logo_placeholder': logo_placeholder
+                   }
+
+        form_html = render_to_string('products/includes/related_model_form.html', context, request=request)
+
+        return JsonResponse({'success': True, 'form_html': form_html})
+
+    elif request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         if model_type == "brand":
             form = ProductBrandForm(request.POST, request.FILES)
-        if model_type == "bottler":
-            form = BottlerForm(request.POST, request.FILES)
-            
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
-    else:
-        form = ProductBrandForm()
-
-    return JsonResponse({'success': False, 'errors': form.errors})
-
-
-def edit_related_model(request, model_type, pk):
-    """View to add/edit related models in a modal via AJAX."""
-    
-    print(model_type)
-    
-    if model_type == "brand":
-        instance = get_object_or_404(ProductBrand, pk=pk)
-    
-    elif model_type =="bottler":
-        instance = get_object_or_404(Bottler, pk=pk)
-
-    
-    if request.method == 'POST':
-        
-        if model_type == "brand":
-            form = ProductBrandForm(request.POST, request.FILES, instance=instance)
         elif model_type == "bottler":
-            form = BottlerForm(request.POST, request.FILES, instance=instance)
-            
+            form = BottlerForm(request.POST, request.FILES)
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid model type'}, status=400)
+
         if form.is_valid():
-            # If "Remove Logo" is checked, delete the logo
-            if form.cleaned_data['remove_logo']:
-                instance.logo = 'placeholder'  # Set to default value
-                
             form.save()
             return JsonResponse({'success': True})
         else:
-            return JsonResponse({'success': False, 'errors': form.errors})
+            action_url = reverse('add_related_model', args=[model_type])
+            context = {'form': form, 'action_url': action_url}
+            form_html = render_to_string('products/includes/related_model_form.html', context, request=request)
+            return JsonResponse({'success': False, 'form_html': form_html})
 
-    elif request.method == 'GET':
-        data = {field.name: getattr(instance, field.name) for field in instance._meta.fields}
-        
-        # Add the URL for the logo if it exists
-        if instance.logo:
-            data['logo'] = instance.logo.url
-        
-        return JsonResponse({'success': True, 'instance': data})
+    else:
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
     
-    return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
+@login_required
+def edit_related_model(request, model_type, pk):
+    """View to edit related models via AJAX."""
+    if not request.user.is_superuser:
+        return JsonResponse({'success': False, 'error': 'Unauthorized access.'}, status=403)
 
+    if model_type == "brand":
+        instance = get_object_or_404(ProductBrand, pk=pk)
+        form_class = ProductBrandForm
+    elif model_type == "bottler":
+        instance = get_object_or_404(Bottler, pk=pk)
+        form_class = BottlerForm
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid model type'}, status=400)
+
+    if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        form = form_class(instance=instance)
+        action_url = reverse('edit_related_model', args=[model_type, pk])
+        
+        if instance.logo.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder':
+            logo_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
+            logo_placeholder = True
+        else:
+            logo_url = instance.logo.url
+            logo_placeholder = False
+        
+        context = {'form': form,
+                   'action_url': action_url,
+                   'logo_url': logo_url,
+                   'logo_placeholder': logo_placeholder
+                   }
+
+        form_html = render_to_string('products/includes/related_model_form.html', context, request=request)
+
+        return JsonResponse({'success': True, 'form_html': form_html})
+
+    elif request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        form = form_class(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            if form.cleaned_data.get('remove_logo'):
+                instance.logo = 'placeholder'  # Set to default value
+            form.save()
+            return JsonResponse({'success': True})
+        else:
+            action_url = reverse('edit_related_model', args=[model_type, pk])
+            context = {'form': form, 'action_url': action_url}
+            form_html = render_to_string('products/includes/related_model_form.html', context, request=request)
+            return JsonResponse({'success': False, 'form_html': form_html})
+    else:
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
 def all_products(request):
     """ A view that displays all products including sorting and search queries. """

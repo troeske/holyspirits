@@ -118,55 +118,20 @@
         </div>
     </div>
 
-    <!-- Modal Template for Adding/Editing a Product Brand -->
-    <div class="modal fade" id="relatedModelModal" tabindex="-1" aria-labelledby="relatedModelModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="relatedModelModalLabel">Add/Edit </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="relatedModelForm" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <!-- Render fields except 'logo' and 'remove_logo' with crispy_forms -->
-                        {% for field in brand_form %}
-                            {% if field.name != 'logo' and field.name != 'remove_logo' %}
-                                {{ field|as_crispy_field }}
-                            {% endif %}
-                        {% endfor %}
-
-                        <!-- Custom logo upload and preview section -->
-                        <div class="form-group mt-2">
-                            {% if brand_form.instance.logo %}
-                                <div class="form-group mb-2">
-                                    <label>Current Logo:</label>
-                                    {% if not brand_form.instance.logo.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder' %}
-                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="{{ brand_form.instance.logo.url }}" alt="Current Logo">    
-                                        <div class="form-group">
-                                            {{ brand_form.remove_logo|as_crispy_field }}
-                                        </div>    
-                                    {% else %}
-                                        <img id="modal-logo-thumbnail" class="ts-img-thumbnail" src="https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png"
-                                        alt="{{ product.name }}">
-                                    {% endif %}
-                                    <span id="logo-filename"></span>
-                                </div>
-                            {% endif %}
-                            <div class="form-group my-2">
-                                <span class="btn btn-black rounded-0 btn-file">
-                                    Select Logo <input id="id-brand-logo" type="file" name="logo">
-                                </span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
+    <!-- Modal Template for Adding/Editing a Related Model -->
+<div class="modal fade" id="relatedModelModal" tabindex="-1" aria-labelledby="relatedModelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="relatedModelModalLabel">Add/Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="relatedModelModalBody">
+                <!-- Form content will be injected here via JavaScript -->
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}
 
@@ -191,94 +156,140 @@
         /******* suggested by chatGPT ******/
         function openModal(modelType, action, instanceId = null) {
             const modalTitle = document.getElementById("relatedModelModalLabel");
-            const modalForm = document.getElementById("relatedModelForm");
-        
-            // Show the modal immediately
+            const modalBody = document.getElementById("relatedModelModalBody");
             const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
-            
-            console.log(action)
 
+            // Determine the URL based on action
+            let url;
             if (action === "add") {
-                modalTitle.textContent = `Add New ${modelType}`;
-                modalForm.action = `/products/add-related-model/${modelType}/`;
-                console.log(modalForm.action)
-
-                 // Clear the form fields
-                modalForm.reset();
-                Array.from(modalForm.elements).forEach(element => {
-                    if (element.type !== "hidden") {
-                        element.value = "";
-                    }
-                });
-
-                modalInstance.show();
-
+                modalTitle.textContent = `Add New ${capitalizeFirstLetter(modelType)}`;
+                url = `/products/add-related-model/${modelType}/`;
             } else if (action === "edit" && instanceId) {
-                modalInstance.show();
-                modalTitle.textContent = `Edit ${modelType}`;
-                modalForm.action = `/products/edit-related-model/${modelType}/${instanceId}/`;
-        
-                // Fetch current data for the instance
-                fetch(`/products/edit-related-model/${modelType}/${instanceId}/`, {
-                    method: "GET",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest"  // Indicate AJAX request
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Populate form fields with received data
-                        Object.keys(data.instance).forEach(field => {
-                            if (field === "logo") return;  // Skip the logo field
-                
-                            const formField = modalForm.querySelector(`[name=${field}]`);
-                            if (formField) {
-                                formField.value = data.instance[field];
-                            }
-                        });
-                    } else {
-                        console.error("Failed to load data for editing.");
-                    }
-                })                
-                .catch(error => console.error("Error fetching data:", error));
+                modalTitle.textContent = `Edit ${capitalizeFirstLetter(modelType)}`;
+                url = `/products/edit-related-model/${modelType}/${instanceId}/`;
+            } else {
+                console.error("Invalid action or missing instanceId");
+                return;
             }
-        }
-        
-    
-        // AJAX form submission
-        document.getElementById("relatedModelForm").addEventListener("submit", function(event) {
-            event.preventDefault();  // Prevent normal form submission
-            
-            const form = event.target;
-            const url = form.action;  // Use the form's action URL
-            const formData = new FormData(form);
-            
-            console.log("URL: ", url)
 
-            // Send the form data via AJAX using fetch()
+            // Fetch the form HTML
             fetch(url, {
-                method: "POST",
-                body: formData,
+                method: "GET",
                 headers: {
-                    "X-Requested-With": "XMLHttpRequest",  // Indicate an AJAX request
-                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")  // CSRF token for security
+                    "X-Requested-With": "XMLHttpRequest"
                 }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Close the modal and refresh the page or update UI as needed
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('relatedModelModal'));
-                    modal.hide();
-                    location.reload();  // Refresh the page (or update only the necessary part of the page)
+                    modalBody.innerHTML = data.form_html;
+                    modalInstance.show();
+
+                    // Attach submit event handler to the form
+                    const modalForm = document.getElementById("relatedModelForm");
+                    modalForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        submitModalForm(modalForm);
+                    });
+
+                    // Attach logo change handler if needed
+                    attachLogoChangeHandler();
                 } else {
-                    // Display errors if form validation failed
-                    alert("Failed to save: " + JSON.stringify(data.errors));
+                    console.error("Failed to load form:", data.error);
                 }
             })
-            .catch(error => console.error("Error:", error));
-        });
+            .catch(error => console.error("Error fetching form:", error));
+        }
+
+        function submitModalForm(form) {
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal
+                    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('relatedModelModal'));
+                    modalInstance.hide();
+
+                    // Optionally, refresh the page or update the select options dynamically
+                    location.reload();
+                } else {
+                    // Display form with errors
+                    document.getElementById('relatedModelModalBody').innerHTML = data.form_html;
+
+                    // Re-attach submit event handler
+                    const modalForm = document.getElementById("relatedModelForm");
+                    modalForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        submitModalForm(modalForm);
+                    });
+
+                    // Re-attach logo change handler if needed
+                    attachLogoChangeHandler();
+                }
+            })
+            .catch(error => console.error('Error submitting form:', error));
+        }
+
+        // Helper function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i=0; i<cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length+1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length+1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Helper function to capitalize the first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Function to handle logo file input changes for preview
+        function attachLogoChangeHandler() {
+            const logoInput = document.querySelector('input[name="logo"]');
+            if (logoInput) {
+                logoInput.addEventListener('change', function() {
+                    const file = logoInput.files[0];
+                    const logoFilename = document.getElementById('logo-filename');
+                    const logoThumbnail = document.getElementById('modal-logo-thumbnail');
+
+                    if (file) {
+                        logoFilename.textContent = `Logo will be set to: ${file.name}`;
+                        logoFilename.classList.add('text-danger');
+
+                        // Display a preview of the selected image
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            logoThumbnail.src = e.target.result;
+                            logoThumbnail.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        logoFilename.textContent = '';
+                        logoFilename.classList.remove('text-danger');
+                        // Reset the thumbnail to the current image if available
+                        if (logoThumbnail.dataset.originalSrc) {
+                            logoThumbnail.src = logoThumbnail.dataset.originalSrc;
+                        }
+                    }
+                });
+            }
+        }
     </script>
     
     
