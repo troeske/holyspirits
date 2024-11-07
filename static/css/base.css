@@ -169,7 +169,7 @@ body {
 }
 
 .ts-img-thumbnail {
-    max-width: 100px;
+    height: 75px;
 }
 
 .ts-prod-details-container {

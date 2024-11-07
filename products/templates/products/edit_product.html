@@ -98,7 +98,7 @@
                     <div class="form-group row mb-3">
                         <div class="d-none d-md-block col-md-3"></div>
                         <div class="col-12 col-md-8">
-                            <span class="btn btn-black rounded-0 btn-file">
+                            <span class="btn ts-button-save rounded btn-file">
                                 Select Thumbnail <input id="id-list-image" type="file" name="list_image">
                             </span>
                         </div>
@@ -113,25 +113,41 @@
                     <div class="form-group row mb-2">
                         <label class="col-12 col-md-3 col-form-label text-md-end">Existing Images:</label>
                         <div class="col-12 col-md-9">
-                            {% for form in formset %}
-                                {% if form.instance.pk %}
-                                    <!-- Include hidden fields -->
-                                    {{ form.id }}
-                                    <div class="visually-hidden">{{ form.DELETE }}</div>
-
-                                    <div class="image-wrapper mb-2">
-                                        {% if form.instance.image %}
-                                            <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="ts-img-thumbnail">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Alt Text</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for form in formset %}
+                                        {% if form.instance.pk %}
+                                            <!-- Include hidden fields -->
+                                            <div class="visually-hidden">{{ form.id }}</div>
+                                            <div class="visually-hidden">{{ form.DELETE }}</div>
+                                            <tr>
+                                                <td class="text-center">
+                                                    {% if form.instance.image %}
+                                                        <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="ts-img-thumbnail">
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        {{ form.alt_text }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check">
+                                                        {{ form.DELETE }}
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         {% endif %}
-                                        <div class="form-check">
-                                            {{ form.DELETE }} <label for="{{ form.DELETE.id_for_label }}">Delete</label>
-                                        </div>
-                                        <div class="form-group">
-                                            {{ form.alt_text.label_tag }} {{ form.alt_text }}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     
@@ -142,10 +158,10 @@
                             {% for form in formset %}
                                 {% if not form.instance.pk %}
                                     <!-- Include hidden fields -->
-                                    {{ form.id }}
+                                    <div class="visually-hidden">{{ form.id }}</div>
                                     <div class="form-group">
-                                        {{ form.image.label_tag }} {{ form.image }}
-                                        {{ form.alt_text.label_tag }} {{ form.alt_text }}
+                                        <p>{{ form.image }}</p>
+                                        <p>{{ form.alt_text.label_tag }} {{ form.alt_text }}</p>
                                     </div>
                                 {% endif %}
                             {% endfor %}
