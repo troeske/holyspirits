@@ -1,8 +1,115 @@
-/***************** customized  ******************/
+/********** custom properties *********/
+:root {
+    --ts-std-text-font: "Roboto";
+    --ts-std-heading-font: "Montserrat";
+    --ts-std-text-size: 14px;
+    --ts-std-h1-size: 20px;
+    --ts-std-text-color: #ffffff;
+    --ts-std-h2-size: 16px;
+    --ts-std-text-bg-color: "rgba(255, 255, 255, .2)";
+}
+
+/************** GENERAL **************/
+html {
+    height: 100%;
+}
+
+body {
+    background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730796220/What-is-a-dunnage-warehouse-and-what-role-does-it-play-in-making-scotch-whisky_tsyfvn.webp') no-repeat center center fixed;
+    background-size: cover;
+    height: calc(100vh - 164px); /* minus header */
+    color: #555;
+    font-family: 'Lato';
+}
+
+.ts-footer {
+    font-family: var(--ts-std-text-font), sans-serif;
+    font-size: 14px;
+    background-color: black;
+    padding-top: 10px;
+    padding-bottom: 0;
+    color: white;
+}
+
+.ts-std-heading {
+    color: var(--ts-std-text-color);
+    font-size:  var(--ts-std-h1-size);
+    font-weight: bold;
+    font-family: var(--ts-std-heading-font), sans-serif;
+    margin-bottom: 10px;
+}
+
+.ts-std-text {
+    color: var(--ts-std-text-color);
+    font-size: var(--ts-std-text-size);
+    font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 10px;
+}
+
+.ts-text-font {
+    font-family: var(--ts-std-text-font), sans-serif;
+}
+
+.ts-header-font {
+    font-family: var(--ts-std-heading-font), sans-serif;
+}
+
+.ts-header {
+    margin-top: 50px;
+}
+
+.ts-spacer-bottom-lg {
+    margin-bottom: 75px;
+}
+
+.ts-spacer-bottom-sm {
+    margin-bottom: 15px;
+}
+
+/*  floating nav elements *****************************  */
+#floating-nav-container {
+    position: fixed;
+    width: 260px;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 99;
+    background-color: transparent;
+    color: white;
+    border-radius: 10px;
+    padding-left: 2.5px;
+    padding-bottom: 1px;
+  }
+  
+  .ts-search {
+    background-color:#7A2D0F;
+    color: white;
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.ts-search-button {
+    background-color: #7A2D0F;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none;
+
+}
+
+.ts-search::placeholder {
+    color: white;  
+}
+  
+/************* HOME **************/
+
 .ts-product-card-img {
     height: 200px;
     width:auto;
-  /*   object-fit: cover; */
 }
 
 .ts-bag-img {
@@ -10,35 +117,119 @@
     width:auto;
 }
 
-.ts-product-card-img {
-    height: 200px;
-    width:auto;
-  /*   object-fit: cover; */
+/************* PRODUCTS PAGE **************/
+.ts-prod-detail-img-list {
+    width: 80%;
+    height: auto;
+    margin-bottom: 10px;
 }
 
-.ts-proc-detail-img-list {
-    width:auto;
-    height: 100px;
+.ts-btt-button {
+    height: 42px;
+    width: 42px;
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    z-index: 99;
+    background-color: rgba(255, 255, 255, .2);
 }
 
-.ts-proc-detail-img {
-    width:auto;
-    height: 500px;
+.ts-btt-link {
+    cursor: pointer;
 }
 
+/********* PRODUCT DETAIL PAGE ***********/
+.ts-prod-detail-img {
+    width:40%;
+    height: auto;
+}
+
+.ts-taste-icons {
+    height: 35px;
+    width: 35px;
+    background-color: rgba(255, 255, 255, .5);
+    overflow: hidden;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.ts-taste-icons-black {
+    height: 35px;
+    width: 35px;
+    background-color: black;
+    overflow: hidden;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.ts-taste-icon-text{
+    color: var(--ts-std-text-color);
+    font-size: 12px;
+    font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 5px;
+}
+
+.ts-taste-icon-black-text{
+    color: black;
+    font-size: 12px;
+    font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 5px;
+}
+
+.ts-taste-icons a,
+.ts-taste-icons i {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.ts-taste-icons-black i {
+    color: white !important;
+}
+
+.ts-img-thumbnail {
+    height: 75px;
+}
+
+.ts-prod-details-container {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.ts-prod-details-container-bg {
+    background-color: rgba(0, 0, 0, .9);
+    border-radius: 10px;
+
+}
+
+.ts-btn-white {
+    background-color: white;
+    color: black;
+    border: none;
+}
+
+
+.ts-edit-buttons {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    border-color: white;
+    width: 34px;
+    height: 34px;
+}
+
+.ts-button-save {
+    border-color: white;
+    background-color: black;
+    color: white;
+}
 /***************** walkthrough ******************/
-html {
-    height: 100%;
-}
-
-body {
-    background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730381098/whiskey-background_enuhyc.jpg') no-repeat center center fixed;
-    background-size: cover;
-    height: calc(100vh - 164px); /* minus header */
-    color: #555;
-    font-family: 'Lato';
-}
-
 /* from Bulma */
 .icon {
     align-items: center;
@@ -102,17 +293,6 @@ body {
     border: 1px solid black !important;
 }
 
-.btt-button {
-    height: 42px;
-    width: 42px;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-}
-
-.btt-link {
-    cursor: pointer;
-}
 
 /* ------------------------------- bootstrap toasts */
 
@@ -266,26 +446,34 @@ body {
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
   .container {
-    max-width: 80%;
+    max-width: 95%;
   }
 }
 
-/* fixed top navbar only on medium and up */
-@media (min-width: 992px) {
-    .fixed-top-desktop-only {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
 
+@media (min-width: 992px) {
     .header-container {
         padding-top: 164px;
     }
 }
 
-/* fixed top navbar only on medium and up */
+@media (min-width: 768px) {
+    .ts-prod-detail-img {
+        width:55%;
+        height: auto;
+    }
+
+    .ts-taste-icons {
+        height: 50px;
+        width: 50px;
+        font-size: 26px;
+    }
+    
+    .ts-taste-icon-text{
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 991px) {
     .header-container {
         padding-top: 116px;

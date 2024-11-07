@@ -332,6 +332,7 @@ def add_taste_categories(request, gtin):
                         'id': association.id,
                         'name': category.name,
                         'fa_icon': category.fa_icon,
+                        'taste_category_id': category.id,  # Ensure the correct ID is returned
                         'form_index': ProductTasteCategory.objects.filter(product=product).count() - 1
                     })
             data = {
