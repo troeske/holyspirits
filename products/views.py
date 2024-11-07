@@ -226,6 +226,8 @@ def add_product(request):
 def edit_product(request, gtin):
     """Edit a product in the store"""
     
+    print('Edit product view: ' + str(gtin), request.method)
+    
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
@@ -241,7 +243,7 @@ def edit_product(request, gtin):
         img_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
         img_placeholder = True
     
-    # Create an inline formset for ProductImage
+    # Create an inline formset for ProductImage, suggested by ChatGPT
     ProductImageFormSet = inlineformset_factory(
         Product,
         ProductImage,
@@ -250,17 +252,32 @@ def edit_product(request, gtin):
         can_delete=True
     )
     
+    # using the same logic as for product images for the new Taste Category formset
+    ProductTasteCategoryFormSet = inlineformset_factory(
+        Product,
+        ProductTasteCategory,
+        form=ProductTasteCategoryForm,
+        extra=0,
+        can_delete=True
+    )
+            
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
-        
-        if form.is_valid() and formset.is_valid():
+        taste_formset = ProductTasteCategoryFormSet(request.POST or None, instance=product, prefix='tastecategory_set')
+   
+        print(form.is_valid())
+        print(formset.is_valid())
+        print(taste_formset.is_valid())
+        print(taste_formset.errors)
+
+        if form.is_valid() and formset.is_valid() and taste_formset.is_valid():
             if form.cleaned_data.get('remove_image'):
-                product.list_image = None  # Remove the main image
-            form.save()
+                product.list_image = None
             
-            # Save the formset (handles adding and deleting)
+            form.save()          
             formset.save()
+            taste_formset.save()
             
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_details', args=[product.gtin]))
@@ -269,12 +286,18 @@ def edit_product(request, gtin):
     else:
         form = ProductForm(instance=product)
         formset = ProductImageFormSet(instance=product)
+        taste_formset = ProductTasteCategoryFormSet(instance=product, prefix='tastecategory_set')
+    
+    # For adding new Taste Categories
+    taste_category_form = TasteCategorySelectionForm()
     
     template = 'products/edit_product.html'
     
     context = {
         'form': form,
         'formset': formset,
+        'taste_formset': taste_formset,
+        'taste_category_form': taste_category_form,
         'product': product,
         'on_edit_product_page': True,
         'img_url': img_url,
@@ -282,6 +305,44 @@ def edit_product(request, gtin):
     }
     
     return render(request, template, context)
+
+
+@login_required
+def add_taste_categories(request, gtin):
+    """ 
+    Add one or more taste categories to a product via AJAX
+    Suggested by ChatGPT
+    
+    """
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        product = get_object_or_404(Product, pk=gtin)
+        form = TasteCategorySelectionForm(request.POST)
+
+        if form.is_valid():
+            taste_categories = form.cleaned_data['taste_categories']
+            new_categories = []
+            for category in taste_categories:
+                # Check if the association already exists
+                association, created = ProductTasteCategory.objects.get_or_create(
+                    product=product,
+                    taste_category=category
+                )
+                if created:
+                    new_categories.append({
+                        'id': association.id,
+                        'name': category.name,
+                        'fa_icon': category.fa_icon,
+                        'form_index': ProductTasteCategory.objects.filter(product=product).count() - 1
+                    })
+            data = {
+                'success': True,
+                'new_taste_categories': new_categories
+            }
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid form data'}, status=400)
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
 
 
 @login_required

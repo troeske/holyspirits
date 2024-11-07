@@ -154,6 +154,16 @@ body {
     text-decoration: none;
 }
 
+.ts-taste-icons-black {
+    height: 35px;
+    width: 35px;
+    background-color: black;
+    overflow: hidden;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
 .ts-taste-icon-text{
     color: var(--ts-std-text-color);
     font-size: 12px;
@@ -161,11 +171,21 @@ body {
     margin-bottom: 5px;
 }
 
+.ts-taste-icon-black-text{
+    color: black;
+    font-size: 12px;
+    font-family: var(--ts-std-text-font), sans-serif;
+    margin-bottom: 5px;
+}
 
 .ts-taste-icons a,
 .ts-taste-icons i {
     color: white !important;
     text-decoration: none !important;
+}
+
+.ts-taste-icons-black i {
+    color: white !important;
 }
 
 .ts-img-thumbnail {

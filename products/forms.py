@@ -70,3 +70,20 @@ class ProductImageForm(forms.ModelForm):
     class Meta:
         model = ProductImage
         exclude = ['product']
+
+
+class ProductTasteCategoryForm(forms.ModelForm):
+    class Meta:
+        model = ProductTasteCategory
+        fields = ['taste_category'] 
+        widgets = {
+            'taste_category': forms.HiddenInput(),  # Hide the input field
+        }
+
+
+class TasteCategorySelectionForm(forms.Form):
+    taste_categories = forms.ModelMultipleChoiceField(
+        queryset=TasteCategory.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
