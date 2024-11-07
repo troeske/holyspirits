@@ -1,7 +1,7 @@
 from django import forms
 from .models import * 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field
+from cloudinary.forms import CloudinaryFileField
 
 
 class ProductBrandForm(forms.ModelForm):
@@ -33,7 +33,7 @@ class ProductSizeForm(forms.ModelForm):
 
 
 class ProductForm(forms.ModelForm):
-    remove_image = forms.BooleanField(required=False, label='Remove Image')
+    remove_image = forms.BooleanField(required=False, label='Remove Thumbnail')
     
     class Meta:
         model = Product
@@ -60,4 +60,13 @@ class ProductForm(forms.ModelForm):
         self.fields['name'].widget.attrs['style'] = 'width: 100%;'
         self.fields['description'].widget.attrs['class'] += ' form-control'
         self.fields['description'].widget.attrs['style'] = 'width: 100%;'
-        
+
+
+class ProductImageForm(forms.ModelForm):
+    image = CloudinaryFileField(
+        required=False  
+    )
+    
+    class Meta:
+        model = ProductImage
+        exclude = ['product']

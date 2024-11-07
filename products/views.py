@@ -6,7 +6,8 @@ from django.http import JsonResponse
 from django.db.models import Q
 from .models import *
 from django.db.models.functions import Lower
-from .forms import ProductForm, ProductBrandForm, CaskTypeForm, BottlerForm, ProductSizeForm
+from django.forms import inlineformset_factory
+from .forms import * 
 
 
 
@@ -223,48 +224,57 @@ def add_product(request):
 
 @login_required
 def edit_product(request, gtin):
-    """ Edit a product in the store """
+    """Edit a product in the store"""
     
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
     
     product = get_object_or_404(Product, pk=gtin)
-    brand = get_object_or_404(ProductBrand, pk=product.brand.id)
     
-    if product.list_image.url == 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder':
+    # Determine if the product has a placeholder image
+    placeholder_url = 'http://res.cloudinary.com/dqd3t6mmb/image/upload/placeholder'
+    if product.list_image and product.list_image.url != placeholder_url:
+        img_url = product.list_image.url
+        img_placeholder = False
+    else:
         img_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
         img_placeholder = True
-    else:
-       img_url = product.list_image.url
-       img_placeholder = False
-            
+    
+    # Create an inline formset for ProductImage
+    ProductImageFormSet = inlineformset_factory(
+        Product,
+        ProductImage,
+        form=ProductImageForm,
+        extra=1,  # Provide an extra form to add new images
+        can_delete=True
+    )
+    
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            if form.cleaned_data['remove_image']:
-                product.list_image = 'placeholder'  # Set to default value
-                
+        formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+        
+        if form.is_valid() and formset.is_valid():
+            if form.cleaned_data.get('remove_image'):
+                product.list_image = None  # Remove the main image
             form.save()
+            
+            # Save the formset (handles adding and deleting)
+            formset.save()
+            
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_details', args=[product.gtin]))
         else:
             messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
-        brand_form = ProductBrandForm(instance=brand)  
-        bottler_form = BottlerForm(instance=product.bottler) 
-        size_form = ProductSizeForm(instance=product.size)
-        cask_type_form = CaskTypeForm(instance=product.cask_type)
+        formset = ProductImageFormSet(instance=product)
     
     template = 'products/edit_product.html'
     
     context = {
         'form': form,
-        'brand_form': brand_form,  
-        'bottler_form': bottler_form,
-        'size_form': size_form,
-        'cask_type_form': cask_type_form,
+        'formset': formset,
         'product': product,
         'on_edit_product_page': True,
         'img_url': img_url,
