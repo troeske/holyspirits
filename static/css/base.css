@@ -229,6 +229,17 @@ body {
     background-color: black;
     color: white;
 }
+
+.ts-button-save span {
+    border-color: white;
+    background-color: black;
+    color: white;
+}
+
+.ts-filename {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
 /***************** walkthrough ******************/
 /* from Bulma */
 .icon {

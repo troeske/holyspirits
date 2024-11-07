@@ -1,7 +1,7 @@
 
 $('#id-list-image').change(function() {
     var file = $('#id-list-image')[0].files[0];
-    $('#filename').text(`Image will be set to: ${file.name}`).addClass('text-danger');
+    $('#filename').text(`Thumbnail will be set to: ${file.name}`).addClass('text-danger');
     $('#current-image').hide();
 });
 

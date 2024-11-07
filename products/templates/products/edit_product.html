@@ -68,7 +68,7 @@
                                             <!-- Button to open modal for adding a new brand -->
                                             <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'add')">+</button>
                                             
-                                            {% if form.brand.value %}
+                                            {% if form.bottler.value %}
                                                 <!-- Button to open modal for editing the selected brand -->
                                                 <button type="button" class="btn ts-edit-buttons" onclick="openModal('bottler', 'edit', '{{ form.bottler.value }}')">✎</button>
                                             {% endif %}

@@ -199,7 +199,7 @@ def add_product(request):
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
-                                
+                  
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -212,10 +212,14 @@ def add_product(request):
     else:
         form = ProductForm()
     
+    # For adding new Taste Categories
+    taste_category_form = TasteCategorySelectionForm()
+    
     template = 'products/add_product.html'
     
     context = {
         'form': form,
+        'taste_category_form': taste_category_form,
         'on_add_product_page': True
     }
     
@@ -225,9 +229,7 @@ def add_product(request):
 @login_required
 def edit_product(request, gtin):
     """Edit a product in the store"""
-    
-    print('Edit product view: ' + str(gtin), request.method)
-    
+
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
