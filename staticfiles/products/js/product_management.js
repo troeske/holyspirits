@@ -1,7 +1,7 @@
 
 $('#id-list-image').change(function() {
     var file = $('#id-list-image')[0].files[0];
-    $('#filename').text(`Image will be set to: ${file.name}`).addClass('text-danger');
+    $('#filename').text(`Thumbnail will be set to: ${file.name}`).addClass('text-danger');
     $('#current-image').hide();
 });
 
@@ -10,6 +10,21 @@ $('#id-brand-logo').change(function() {
     var file = $('#id-brand-logo')[0].files[0];
     $('#logo-filename').text(`Logo will be set to: ${file.name}`).addClass('text-danger');
     $('#modal-logo-thumbnail').hide();
+});
+
+$(document).ready(function() {
+    var formIdx = $('#id_images-TOTAL_FORMS').val();
+    $('#add-image-form').click(function() {
+        // Append the new form to the formset - function suggested by ChatGPT
+        var newFormHtml = $('#empty-form').html().replace(/__prefix__/g, formIdx);
+        $('#formset-images').append(newFormHtml);
+        
+        // Increment the total forms count
+        $('#id_images-TOTAL_FORMS').val(++formIdx);
+        
+        // Trigger the file input click event
+        $('#formset-images').find('input[type="file"]').last().click();
+    });
 });
 
 /******* suggested by chatGPT ******/

@@ -229,6 +229,34 @@ body {
     background-color: black;
     color: white;
 }
+
+.ts-button-save span {
+    border-color: white;
+    background-color: black;
+    color: white;
+}
+
+.ts-filename {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+
+.ts-col-image {
+    width: 20%; 
+}
+
+.ts-col-alt-text {
+    width: 65%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.ts-col-delete {
+    width: 15%; 
+}
+
 /***************** walkthrough ******************/
 /* from Bulma */
 .icon {
@@ -471,6 +499,16 @@ body {
     
     .ts-taste-icon-text{
         font-size: 14px;
+    }
+
+    .ts-col-image {
+        width: 25%;
+    }
+    .ts-col-alt-text {
+        width: 60%;
+    }
+    .ts-col-delete {
+        width: 25%;
     }
 }
 
