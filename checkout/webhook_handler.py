@@ -48,6 +48,11 @@ class StripeWH_Handler:
         """
         Handle the payment_intent_succeeded webhook from Stripe
         """
+        
+        return HttpResponse(
+                content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
+                status=500)   
+        
         try:
             intent = event.data.object
             pid = intent.id
