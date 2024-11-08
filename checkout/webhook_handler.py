@@ -51,7 +51,7 @@ class StripeWH_Handler:
         
         return HttpResponse(
                 content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
-                status=500)   
+                status=200)   
         
         try:
             intent = event.data.object
