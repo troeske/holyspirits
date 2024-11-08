@@ -48,6 +48,9 @@ class StripeWH_Handler:
         """
         Handle the payment_intent_succeeded webhook from Stripe
         """
+        return HttpResponse(
+            content=f'HolySpirits has received an payment_intend_succeeded webhook: {event["type"]}',
+            status=200)
         
         intent = event.data.object
         pid = intent.id
@@ -149,7 +152,7 @@ class StripeWH_Handler:
                 if order:
                     order.delete()
                 return HttpResponse(
-                    content=f'Webhook received: {event["type"]} | ERROR: {e}',
+                    content=f'Holyspirits has received a webhook: {event["type"]} | ERROR: {e}',
                     status=500)    
         
         self._send_confirmation_email(order)
