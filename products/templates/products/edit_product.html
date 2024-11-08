@@ -113,41 +113,43 @@
                     <div class="form-group row mb-2">
                         <label class="col-12 col-md-3 col-form-label text-md-end">Existing Images:</label>
                         <div class="col-12 col-md-9">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Alt Text</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for form in formset %}
-                                        {% if form.instance.pk %}
-                                            <!-- Include hidden fields -->
-                                            <div class="visually-hidden">{{ form.id }}</div>
-                                            <div class="visually-hidden">{{ form.DELETE }}</div>
-                                            <tr>
-                                                <td class="text-center">
-                                                    {% if form.instance.image %}
-                                                        <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="ts-img-thumbnail">
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        {{ form.alt_text }}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-check">
-                                                        {{ form.DELETE }}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="ts-col-image">Image</th>
+                                            <th class="ts-col-alt-text">Alt Text</th>
+                                            <th class="ts-col-delete">Del</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for form in formset %}
+                                            {% if form.instance.pk %}
+                                                <!-- Include hidden fields -->
+                                                <div class="visually-hidden">{{ form.id }}</div>
+                                                <div class="visually-hidden">{{ form.DELETE }}</div>
+                                                <tr>
+                                                    <td class="ts-col-image text-center">
+                                                        {% if form.instance.image %}
+                                                            <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="img-fluid ts-img-thumbnail">
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <div class="ts-col-alt-text text-start form-group">
+                                                            {{ form.alt_text }}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="ts-col-delete text-start form-check">
+                                                            {{ form.DELETE }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     

@@ -15,8 +15,15 @@ $('#id-brand-logo').change(function() {
 $(document).ready(function() {
     var formIdx = $('#id_images-TOTAL_FORMS').val();
     $('#add-image-form').click(function() {
-        $('#formset-images').append($('#empty-form').html().replace(/__prefix__/g, formIdx));
+        // Append the new form to the formset - function suggested by ChatGPT
+        var newFormHtml = $('#empty-form').html().replace(/__prefix__/g, formIdx);
+        $('#formset-images').append(newFormHtml);
+        
+        // Increment the total forms count
         $('#id_images-TOTAL_FORMS').val(++formIdx);
+        
+        // Trigger the file input click event
+        $('#formset-images').find('input[type="file"]').last().click();
     });
 });
 
