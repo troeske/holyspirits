@@ -257,6 +257,43 @@ body {
     width: 15%; 
 }
 
+/******************** BAG **********************/
+.ts-bag-grid-header {
+    display: grid;
+    grid-template-columns: 220px 5px 75px;
+    grid-gap: 5px;
+    font-weight: bold;
+}
+
+.ts-bag-grid {
+    display: grid;
+    grid-template-columns: 75px 150px 75px;
+    grid-gap: 5px;
+}
+
+.ts-bag-grid-item {
+    text-align:left;
+    padding: 5px;
+}
+
+.ts-bag-product-img img {
+    height: auto;
+    width: 60px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ts-bag-product-sub-total {
+    width: 75px;
+} 
+
+.ts-bag-grid-p {
+    width: 100px;
+}
+
+
+
 /***************** walkthrough ******************/
 /* from Bulma */
 .icon {
@@ -397,8 +434,8 @@ body {
 }
 
 .allauth-form-inner-content p {
-    margin-top: 1.5rem; /* mt-4 */
-    color: white; /* text-secondary */
+    margin-top: 1.5rem; 
+    color: white; 
 }
 
 .allauth-form-inner-content input {
@@ -406,13 +443,6 @@ body {
     border-radius: 0;
 }
 
-
-/* needs to be thought through as in some allauth forms like email.html it is needed
-.allauth-form-inner-content label:not([for='id_remember']) {
-    display: none;
-}
- */
- 
 .allauth-form-inner-content input::placeholder {
     color: #aab7c4;
 }
@@ -448,7 +478,7 @@ body {
 }
 
 .allauth-form-inner-content a {
-	color: #17a2b8; /* text-info */
+	color: #17a2b8;
 }
 
 /******************** EDIT Product Form *********************/
@@ -469,7 +499,7 @@ body {
 }
 
 
-/* -------------------------------- Media Queries */
+/**************** Media Queries *********************/
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
@@ -478,10 +508,38 @@ body {
   }
 }
 
-
 @media (min-width: 992px) {
     .header-container {
         padding-top: 164px;
+    }
+
+    /****** BAG ********/
+    .ts-bag-grid-header {
+        display: grid;
+        grid-template-columns: 
+            1fr 
+            82px 
+            150px 
+            75px;
+        grid-gap: 5px;
+        font-weight: bold;
+    }
+    
+    .ts-bag-grid {
+        display: grid;
+        grid-template-columns: 
+            125px
+            1fr
+            75px
+            10px
+            200px
+            75px;
+        grid-gap: 5px;
+    }
+
+    .ts-bag-product-img img {
+        height: auto;
+        width: 80px !important;
     }
 }
 
@@ -490,17 +548,14 @@ body {
         width:55%;
         height: auto;
     }
-
     .ts-taste-icons {
         height: 50px;
         width: 50px;
         font-size: 26px;
     }
-    
     .ts-taste-icon-text{
         font-size: 14px;
     }
-
     .ts-col-image {
         width: 25%;
     }
@@ -509,10 +564,39 @@ body {
     }
     .ts-col-delete {
         width: 25%;
+    } 
+
+    /****** BAG ********/
+    .ts-bag-grid-header {
+        display: grid;
+        grid-template-columns:
+            330px
+            82px
+            150px
+            75px;
+        grid-gap: 5px;
+        font-weight: bold;
+    }
+    
+    .ts-bag-grid {
+        display: grid;
+        grid-template-columns:
+            75px
+            250px
+            75px
+            10px
+            150px
+            75px;
+        grid-gap: 5px;
+    }
+
+    .ts-bag-product-img img {
+        height: auto;
+        width: 80px !important;
     }
 }
 
-@media (max-width: 991px) {
+/* @media (max-width: 991px) {
     .header-container {
         padding-top: 116px;
     }
@@ -520,4 +604,4 @@ body {
     .body {
         height: calc(100vh - 116px);
     }
-}
+} */
