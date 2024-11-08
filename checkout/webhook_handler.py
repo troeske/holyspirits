@@ -28,7 +28,7 @@ class StripeWH_Handler:
             {'order': order,
              'contact_email': settings.DEFAULT_FROM_EMAIL})
         
-        mail_sent = send_mail(
+        send_mail(
             subject, 
             message,
             settings.DEFAULT_FROM_EMAIL, 
@@ -48,45 +48,46 @@ class StripeWH_Handler:
         """
         Handle the payment_intent_succeeded webhook from Stripe
         """
-        return HttpResponse(
-            content=f'HolySpirits has received an payment_intend_succeeded webhook: {event["type"]}',
-            status=200)
-        
-        intent = event.data.object
-        pid = intent.id
-        bag = intent.metadata.bag
-        save_info = intent.metadata.save_info
-        
-        # Get the Charge object
-        stripe_charge = stripe.Charge.retrieve(
-            intent.latest_charge
-        )
+        try:
+            intent = event.data.object
+            pid = intent.id
+            bag = intent.metadata.bag
+            save_info = intent.metadata.save_info
+            
+            # Get the Charge object
+            stripe_charge = stripe.Charge.retrieve(
+                intent.latest_charge
+            )
 
-        billing_details = stripe_charge.billing_details # updated
-        shipping_details = intent.shipping
-        grand_total = round(stripe_charge.amount / 100, 2) # updated
-        
-        # Clean data in the shipping details
-        for field, value in shipping_details.address.items():
-            if value == "":
-                shipping_details.address[field] = None
+            billing_details = stripe_charge.billing_details # updated
+            shipping_details = intent.shipping
+            grand_total = round(stripe_charge.amount / 100, 2) # updated
+            
+            # Clean data in the shipping details
+            for field, value in shipping_details.address.items():
+                if value == "":
+                    shipping_details.address[field] = None
 
-        # Update profile information if save_info was checked
-        profile = None
-        username = intent.metadata.username
-        if username != 'AnonymousUser':
-            profile = UserProfile.objects.get(user__username=username)
-            if save_info:
-                profile.default_phone_number = shipping_details.phone
-                profile.default_street_address1 = shipping_details.address.line1
-                profile.default_street_address2 = shipping_details.address.line2
-                profile.default_town_or_city = shipping_details.address.city
-                profile.default_county = shipping_details.address.state
-                profile.default_postcode = shipping_details.address.postal_code
-                profile.default_country = shipping_details.address.country
-                profile.save()
-                
-                
+            # Update profile information if save_info was checked
+            profile = None
+            username = intent.metadata.username
+            if username != 'AnonymousUser':
+                profile = UserProfile.objects.get(user__username=username)
+                if save_info:
+                    profile.default_phone_number = shipping_details.phone
+                    profile.default_street_address1 = shipping_details.address.line1
+                    profile.default_street_address2 = shipping_details.address.line2
+                    profile.default_town_or_city = shipping_details.address.city
+                    profile.default_county = shipping_details.address.state
+                    profile.default_postcode = shipping_details.address.postal_code
+                    profile.default_country = shipping_details.address.country
+                    profile.save()
+                    
+        except Exception as e:
+            return HttpResponse(
+                content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
+                status=500)       
+
         order_exists = False
         attempt = 1
         while attempt <= 5:
@@ -113,8 +114,14 @@ class StripeWH_Handler:
                 time.sleep(1)               
                 
         if order_exists:
-            self._send_confirmation_email(order)
+            try:
+                self._send_confirmation_email(order)
             
+            except Exception as e:
+                return HttpResponse(
+                    content=f'Error sending confirmation email (order exists): {event["type"]} | ERROR: {e}',
+                    status=500)    
+                
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
                 status=200)
@@ -155,7 +162,13 @@ class StripeWH_Handler:
                     content=f'Holyspirits has received a webhook: {event["type"]} | ERROR: {e}',
                     status=500)    
         
-        self._send_confirmation_email(order)
+        try:
+            self._send_confirmation_email(order)
+            
+        except Exception as e:
+            return HttpResponse(
+                content=f'Error sending confirmation email (order does not exist): {event["type"]} | ERROR: {e}',
+                status=500)    
         
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
