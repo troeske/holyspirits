@@ -13,15 +13,13 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-6">
-                <hr>
+            <div class="col-12 col-md-10">
                 <p class="ts-std-heading">Add New Product:</p>
-                <hr>
             </div>
         </div>
 
         <div class="row px-2">
-            <div class="col-12 col-md-8 mb-5 ts-prod-details-container-bg py-2">
+            <div class="col-12 col-md-10 mb-5 ts-prod-details-container-bg py-2">
                 <form method="POST" action="{% url 'add_product' %}" class="form mb-2 text-white" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in form %}

@@ -11,14 +11,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mb-2">
-        <div class="row bg-white">
-            <div class="col mt-4">
+    <div class="overlay"></div>
+    <div class="container-fluid my-2">
+        <div class="row pt-0 bg-white mx-1 justify-content-center">
+            <div class="col mt-2">
                 <h2 class="logo-font py-3 mb-0">Shopping Bag</h2>
             </div>
         </div>
 
-        <div class="row bg-white">
+        <div class="row pt-2 bg-white mx-1 justify-content-center">
             <div class="col-12">
                 {% if bag_items %}
                 <div class="container-fluid">
