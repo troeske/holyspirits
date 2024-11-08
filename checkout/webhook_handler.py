@@ -47,11 +47,8 @@ class StripeWH_Handler:
     def handle_payment_intent_succeeded(self, event):
         """
         Handle the payment_intent_succeeded webhook from Stripe
-        """
-        
-        return HttpResponse(
-                content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
-                status=200)   
+        """ 
+        print("hello payment intent succeeded")
         
         try:
             intent = event.data.object
@@ -97,7 +94,7 @@ class StripeWH_Handler:
         attempt = 1
         while attempt <= 5:
             try:
-                order = Order.object.get(
+                order = Order.objects.get(
                     full_name__iexact=shipping_details.name,
                     email__iexact=billing_details.email,
                     phone_number__iexact=shipping_details.phone,
