@@ -12,6 +12,14 @@ $('#id-brand-logo').change(function() {
     $('#modal-logo-thumbnail').hide();
 });
 
+$(document).ready(function() {
+    var formIdx = $('#id_images-TOTAL_FORMS').val();
+    $('#add-image-form').click(function() {
+        $('#formset-images').append($('#empty-form').html().replace(/__prefix__/g, formIdx));
+        $('#id_images-TOTAL_FORMS').val(++formIdx);
+    });
+});
+
 /******* suggested by chatGPT ******/
 function openModal(modelType, action, instanceId = null) {
     const modalTitle = document.getElementById("relatedModelModalLabel");

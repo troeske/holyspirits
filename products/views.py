@@ -194,35 +194,51 @@ def product_details(request, gtin):
 
 @login_required
 def add_product(request):
-    """ Add a product to the store """
-    
+    """Add a product to the store."""
+
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-                  
+        return redirect('home')
+
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
+        image_formset = ProductImageFormSet(request.POST, request.FILES, queryset=ProductImage.objects.none(), prefix='images')
+        taste_category_form = TasteCategorySelectionForm(request.POST)
+
+        if form.is_valid() and image_formset.is_valid() and taste_category_form.is_valid():
             product = form.save()
+
+            # Save images
+            image_instances = image_formset.save(commit=False)
+            for image_instance in image_instances:
+                image_instance.product = product
+                image_instance.save()
+            for obj in image_formset.deleted_objects:
+                obj.delete()
+
+            # Save taste categories
+            taste_categories = taste_category_form.cleaned_data['taste_categories']
+            for category in taste_categories:
+                ProductTasteCategory.objects.create(product=product, taste_category=category)
+
             messages.success(request, 'Successfully added product!')
-            return redirect(reverse('product_details', args=[product.gtin]))
+            return redirect('product_details', gtin=product.gtin)
         else:
             messages.error(request, 'Failed to add product. Please ensure the form is valid.')
-
     else:
         form = ProductForm()
-    
-    # For adding new Taste Categories
-    taste_category_form = TasteCategorySelectionForm()
-    
+        image_formset = ProductImageFormSet(queryset=ProductImage.objects.none(), prefix='images')
+        taste_category_form = TasteCategorySelectionForm()
+
     template = 'products/add_product.html'
-    
+
     context = {
         'form': form,
+        'image_formset': image_formset,
         'taste_category_form': taste_category_form,
-        'on_add_product_page': True
+        'on_add_product_page': True,
     }
-    
+
     return render(request, template, context)
 
 

@@ -99,39 +99,31 @@
 
                     <hr>
                     
-                    <!-- Management form for the inline formset -->
-                    {{ formset.management_form }}
-                    
-                    <!-- Add New Images -->
-                    <div class="form-group row mb-3">
-                        <label class="col-12 col-md-3 col-form-label text-md-end">Add New Images:</label>
+                    <div class="form-group row mb-2">
+                        <label class="col-12 col-md-3 col-form-label text-md-end">Add Product Images:</label>
                         <div class="col-12 col-md-9">
-                            {% for form in formset %}
-                                {% if not form.instance.pk %}
-                                    <!-- Include hidden fields -->
-                                    <div class="visually-hidden">{{ form.id }}</div>
-                                    <div class="form-group">
-                                        <p>{{ form.image }}</p>
-                                        <p>{{ form.alt_text.label_tag }} {{ form.alt_text }}</p>
+                            {{ image_formset.management_form }}
+                            <div id="formset-images">
+                                {% for form in image_formset %}
+                                    <div class="formset-row">
+                                        {{ form.as_p }}
                                     </div>
-                                {% endif %}
-                            {% endfor %}
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <button class="btn ts-button-save rounded" id="add-image-form" type="button">
+                                    Add Another Image
+                                </button>
+                            </div>
                         </div>
                     </div>
-
                     <hr>
 
-                    <!-- Taste Categories Formset Management Form -->
-                    {{ taste_formset.management_form }}
-
-                    <!-- Add New Taste Categories -->
-                    <div class="form-group row mb-3">
+                    <div class="form-group row mb-2">
                         <label class="col-12 col-md-3 col-form-label text-md-end">Add Taste Categories:</label>
                         <div class="col-12 col-md-9">
-                            <!-- Remove the nested form tag -->
-                            <div id="add-taste-category-form">
-                                {{ taste_category_form.taste_categories }}
-                            </div>
+                            {{ taste_category_form.taste_categories.as_widget }}
                         </div>
                     </div>
 
@@ -147,6 +139,12 @@
                 </form>
             </div>            
         </div>
+    </div>
+    
+    <!-- Template for an empty image form -->
+    <div id="empty-form" style="display: none;">
+        {{ image_formset.empty_form.as_p|safe }}
+        <hr>
     </div>
 
     <!-- Modal Template for Adding/Editing a Related Model -->

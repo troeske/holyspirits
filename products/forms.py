@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import inlineformset_factory
 from .models import * 
 from crispy_forms.helper import FormHelper
 from cloudinary.forms import CloudinaryFileField
@@ -66,10 +67,10 @@ class ProductImageForm(forms.ModelForm):
     image = CloudinaryFileField(
         required=False  
     )
-    
+
     class Meta:
         model = ProductImage
-        exclude = ['product']
+        fields = ['image', 'alt_text']
 
 
 class ProductTasteCategoryForm(forms.ModelForm):
@@ -87,3 +88,19 @@ class TasteCategorySelectionForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+
+ProductImageFormSet = inlineformset_factory(
+    Product,
+    ProductImage,
+    form=ProductImageForm,
+    extra=1,  # You can adjust 'extra' to control how many empty forms to display
+    can_delete=False
+)
+
+ProductTasteCategoryFormSet = inlineformset_factory(
+    Product,
+    ProductTasteCategory,
+    form=ProductTasteCategoryForm,
+    extra=1,
+    can_delete=True
+)
