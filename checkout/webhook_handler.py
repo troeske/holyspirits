@@ -10,15 +10,16 @@ import json
 import stripe
 import time
 
+
 class StripeWH_Handler:
     """ Handles Stripe webhooks """
-    
+
     def __init__(self, request):
         self.request = request
-        
+
     def _send_confirmation_email(self, order):
         """ Send the user a confirmation email """
-        
+
         customer_email = order.email
         subject =render_to_string(
             'checkout/confirmation_emails/confirmation_email_subject.txt',
@@ -27,14 +28,15 @@ class StripeWH_Handler:
             'checkout/confirmation_emails/confirmation_email_body.txt',
             {'order': order,
              'contact_email': settings.DEFAULT_FROM_EMAIL})
-        
+
         send_mail(
             subject, 
             message,
             settings.DEFAULT_FROM_EMAIL, 
             [customer_email]
         )
-    
+
+
     def handle_event(self, event):
         """
         Handle a generic/unknown/unexpected webhook event
@@ -48,14 +50,13 @@ class StripeWH_Handler:
         """
         Handle the payment_intent_succeeded webhook from Stripe
         """ 
-        print("hello payment intent succeeded")
-        
+
         try:
             intent = event.data.object
             pid = intent.id
             bag = intent.metadata.bag
             save_info = intent.metadata.save_info
-            
+
             # Get the Charge object
             stripe_charge = stripe.Charge.retrieve(
                 intent.latest_charge
@@ -64,7 +65,7 @@ class StripeWH_Handler:
             billing_details = stripe_charge.billing_details # updated
             shipping_details = intent.shipping
             grand_total = round(stripe_charge.amount / 100, 2) # updated
-            
+
             # Clean data in the shipping details
             for field, value in shipping_details.address.items():
                 if value == "":
@@ -84,13 +85,14 @@ class StripeWH_Handler:
                     profile.default_postcode = shipping_details.address.postal_code
                     profile.default_country = shipping_details.address.country
                     profile.save()
-                    
+
         except Exception as e:
             return HttpResponse(
                 content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
                 status=500)       
 
         order_exists = False
+
         attempt = 1
         while attempt <= 5:
             try:
@@ -110,20 +112,14 @@ class StripeWH_Handler:
                 )
                 order_exists = True
                 break       
-            
+
             except Order.DoesNotExist:
                 attempt += 1
                 time.sleep(1)               
-                
+
         if order_exists:
-            try:
-                self._send_confirmation_email(order)
-            
-            except Exception as e:
-                return HttpResponse(
-                    content=f'Error sending confirmation email (order exists): {event["type"]} | ERROR: {e}',
-                    status=500)    
-                
+            self._send_confirmation_email(order)
+
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
                 status=200)
@@ -146,8 +142,8 @@ class StripeWH_Handler:
                     original_bag=bag,
                     stripe_pid=pid,
                 )
-                
-                for gtin, item_data in json.load(bag).items():
+
+                for gtin, item_data in json.loads(bag).items():
                     product = Product.objects.get(pk=gtin)
                     if isinstance(item_data, int):
                         order_line_item = OrderLineItem(
@@ -156,22 +152,17 @@ class StripeWH_Handler:
                             quantity=item_data,
                         )
                         order_line_item.save()
-            
+
             except Exception as e:
                 if order:
                     order.delete()
+
                 return HttpResponse(
                     content=f'Holyspirits has received a webhook: {event["type"]} | ERROR: {e}',
                     status=500)    
-        
-        try:
-            self._send_confirmation_email(order)
-            
-        except Exception as e:
-            return HttpResponse(
-                content=f'Error sending confirmation email (order does not exist): {event["type"]} | ERROR: {e}',
-                status=500)    
-        
+
+        self._send_confirmation_email(order) 
+
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
             status=200)
