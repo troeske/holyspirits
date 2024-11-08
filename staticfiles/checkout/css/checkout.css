@@ -2,7 +2,8 @@
 .stripe-style-input {
   box-sizing: border-box;
   height: 40px;
-  padding: 10px 12px;
+  padding: 2px;
+  font-size: 14px;
   border: 1px solid transparent;
   border-radius: 0px;
   background-color: white;
@@ -30,8 +31,7 @@
     right: .5rem;
 }
 
-#payment-form .form-control,
-#card-element {
+#payment-form .form-control {
     color: #000;
     border: 1px solid #000;
 }

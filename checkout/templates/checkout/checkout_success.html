@@ -8,7 +8,7 @@
 
 
 {% block page_header %}
-    <div class="container header-container">
+    <div class="ts-header">
         <div class="row">
             <div class="col"></div>
         </div>
@@ -16,19 +16,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row bg-white">
-            <div class="col">
-                <hr>
-                <h2 class="logo-font mb-4 text-danger">Thank You</h2>
-                <hr>
+    <div class="container-fluid">
+        <div class="row pt-2 bg-white mx-1 justify-content-center">
+            <div class="col mt-4">
+                <h2 class="logo-font pt-3 pb-2 mb-0 text-danger">Thank You</h2>
                 <p>Your order information is below. A confirmation email will be send to <strong>{{ order.email }}</strong></p>
             </div>
         </div>
 
-        <div class="row bg-white">
-            <div class="col-12 col-lg-7">
-                <div class="order-confirmation-wrapper p-2 border">
+        <div class="row py-2 bg-white mx-1 justify-content-center">
+            <div class="col-12 col-lg-7 px-1">
+                <div class="order-confirmation-wrapper p-2 border rounded">
                     <div class="row">
                         <div class="col">
                             <small class="text-muted">Order Info:</small>
@@ -191,7 +189,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12 col-lg-7 text-right">
                 {% if from_profile %}
                     <a href="{% url 'profile' %}" class="btn btn-black rounded-0 my-2">
@@ -201,7 +199,7 @@
                         <span class="text-uppercase">Back to Profile</span>
                     </a>
                 {% else %}
-                    <a href="{% url 'products' %}?category=new_arrivals,deals,clearance" class="btn btn-black rounded-0 my-2">
+                    <a href="{% url 'products' %}?category=new_arrivals,deals,clearance" class="btn btn-black rounded my-2">
                         <span class="icon mr-2">
                             <i class="fas fa-gifts"></i>
                         </span>
