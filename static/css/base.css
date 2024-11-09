@@ -253,14 +253,16 @@ main {
 }
 
 .ts-col-alt-text {
-    width: 65%;
+    width: 65% !important;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
 }
 
 .ts-col-delete {
-    width: 15%; 
+    width: 15%;
+    text-align: start;
+    justify-content: start; 
 }
 
 /******************** BAG **********************/

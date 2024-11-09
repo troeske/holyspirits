@@ -112,21 +112,6 @@ function submitModalForm(form) {
     .catch(error => console.error('Error submitting form:', error));
 }
 
-// Helper function to get CSRF token from cookies
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i=0; i<cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length+1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length+1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string) {
@@ -165,7 +150,24 @@ function attachLogoChangeHandler() {
     }
 }
 
-// Handle the Add Taste Categories button click suggested by ChatGPT
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Handle the Add Taste Categories button click
 document.getElementById('add-taste-categories-button').addEventListener('click', function() {
     const formContainer = document.getElementById('add-taste-category-form');
     const formData = new FormData();
@@ -175,13 +177,20 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
 
     // Get selected taste categories
     const checkboxes = formContainer.querySelectorAll('input[name="taste_categories"]:checked');
+    const selectedCategories = [];
     checkboxes.forEach((checkbox) => {
+        selectedCategories.push(checkbox.value);
         formData.append('taste_categories', checkbox.value);
     });
 
+    if (selectedCategories.length === 0) {
+        alert('Please select at least one taste category to add.');
+        return;
+    }
+
     // Get the URL from the data attribute
     const url = this.getAttribute('data-url');
-    console.log(url);  // Debugging: Check the URL in the console
+    console.log('AJAX URL:', url);  // Debugging: Check the URL in the console
 
     fetch(url, {
         method: 'POST',
@@ -199,9 +208,11 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
             checkboxes.forEach((checkbox) => {
                 checkbox.checked = false;
             });
+            alert('Taste categories added successfully.');
         } else {
             // Display errors
             console.error('Error:', data.error);
+            alert('Error adding taste categories: ' + data.error);
         }
     })
     .catch(error => console.error('Error:', error));
@@ -209,6 +220,9 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
 
 function updateTasteCategoriesTable(newCategories) {
     const tableBody = document.querySelector('#taste-categories-table tbody');
+    const totalForms = document.getElementById('id_tastecategory_set-TOTAL_FORMS');
+    let formIndex = parseInt(totalForms.value);
+
     newCategories.forEach(category => {
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
@@ -219,21 +233,22 @@ function updateTasteCategoriesTable(newCategories) {
                     </div>
                     <span class="ts-taste-icon-black-text ms-2">${category.name}</span>
                 </div>
+                <!-- Hidden fields -->
+                <input type="hidden" name="tastecategory_set-${formIndex}-taste_category" value="${category.taste_category_id}" id="id_tastecategory_set-${formIndex}-taste_category">
             </td>
             <td>
                 <div class="form-check">
-                    <input type="checkbox" name="tastecategory_set-${category.form_index}-DELETE" id="id_tastecategory_set-${category.form_index}-DELETE">
-                    <input type="hidden" name="tastecategory_set-${category.form_index}-id" value="${category.id}" id="id_tastecategory_set-${category.form_index}-id">
-                    <input type="hidden" name="tastecategory_set-${category.form_index}-taste_category" value="${category.taste_category_id}" id="id_tastecategory_set-${category.form_index}-taste_category">
+                    <input type="checkbox" name="tastecategory_set-${formIndex}-DELETE" id="id_tastecategory_set-${formIndex}-DELETE">
                 </div>
             </td>
         `;
         tableBody.appendChild(newRow);
-        incrementTotalForms();
+        formIndex++;
     });
+    incrementTotalForms(newCategories.length);
 }
 
-function incrementTotalForms() {
+function incrementTotalForms(number = 1) {
     const totalForms = document.getElementById('id_tastecategory_set-TOTAL_FORMS');
-    totalForms.value = parseInt(totalForms.value) + 1;
+    totalForms.value = parseInt(totalForms.value) + number;
 }

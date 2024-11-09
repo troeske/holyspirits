@@ -102,27 +102,6 @@ class ProductImage(models.Model):
         return self.product.name
 
 
-class ProductReview(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    review = models.TextField()
-
-    def __str__(self):
-        return self.product.name
-
-
-class ProductTastingNote(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    origin = models.TextField(null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
-    nose = models.TextField(null=True, blank=True)
-    palate = models.TextField(null=True, blank=True)
-    finish = models.TextField(null=True, blank=True)
-    overall = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.product.name} | {self.origin}"
-
-
 class TasteCategory(models.Model):
     name = models.CharField(max_length=250, default='')
     description = models.TextField()
@@ -144,6 +123,7 @@ class ProductTasteCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Taste Categories'
+        unique_together = ('product', 'taste_category')
         
     def __str__(self):
         return f"{self.product.name} | {self.taste_category.name}"

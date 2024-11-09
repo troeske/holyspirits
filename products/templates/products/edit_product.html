@@ -126,7 +126,7 @@
                                                 <!-- Include hidden fields -->
                                                 <div class="visually-hidden">{{ form.id }}</div>
                                                 <div class="visually-hidden">{{ form.DELETE }}</div>
-                                                <tr>
+                                                <tr class="text-start">
                                                     <td class="ts-col-image text-center">
                                                         {% if form.instance.image %}
                                                             <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="img-fluid ts-img-thumbnail">
@@ -170,13 +170,11 @@
 
                     <hr>
 
-                    <!-- Taste Categories Formset Management Form -->
-                    {{ taste_formset.management_form }}
-
-                    <!-- Show saved Taste Categories -->
+                    <!-- Taste Categories Formset -->
                     <div class="form-group row mb-2">
                         <label class="col-12 col-md-3 col-form-label text-md-end">Taste Categories:</label>
                         <div class="col-12 col-md-9">
+                            {{ taste_formset.management_form }}
                             <table class="table table-bordered" id="taste-categories-table">
                                 <thead>
                                     <tr>
@@ -186,28 +184,24 @@
                                 </thead>
                                 <tbody>
                                     {% for form in taste_formset %}
-                                        <!-- Include hidden fields -->
-                                        <div class="visually-hidden">
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle ts-taste-icons-black text-center d-flex align-items-center justify-content-center">
+                                                    {{ form.instance.taste_category.fa_icon|safe }}
+                                                </div>
+                                                <span class="ts-taste-icon-black-text ms-2">{{ form.instance.taste_category.name }}</span>
+                                            </div>
+                                            <!-- Hidden fields -->
                                             {{ form.id }}
-                                            {{ form.product }}
-                                            {{ form.taste_category }}
-                                        </div>
-                                        <tr>
-                                            <td class="text-center">
-                                                {% csrf_token %}
-                                                <div class="d-flex align-items-center">
-                                                    <div class="rounded-circle ts-taste-icons-black text-center d-flex align-items-center justify-content-center">
-                                                        {{ form.instance.taste_category.fa_icon|safe }}
-                                                    </div>
-                                                    <span class="ts-taste-icon-black-text ms-2">{{ form.instance.taste_category.name }}</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    {{ form.DELETE }}
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            {{ form.taste_category.as_hidden }}
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                {{ form.DELETE }}
+                                            </div>
+                                        </td>
+                                    </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -218,7 +212,6 @@
                     <div class="form-group row mb-3">
                         <label class="col-12 col-md-3 col-form-label text-md-end">Add Taste Categories:</label>
                         <div class="col-12 col-md-9">
-                            <!-- Remove the nested form tag -->
                             <div id="add-taste-category-form">
                                 {{ taste_category_form.taste_categories }}
                                 <button type="button" class="btn btn-primary mt-2" id="add-taste-categories-button" data-url="{% url 'add_taste_categories' product.gtin %}">Add Selected Categories</button>

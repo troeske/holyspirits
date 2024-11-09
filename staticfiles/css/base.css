@@ -2,6 +2,7 @@
 :root {
     --ts-std-text-font: "Roboto";
     --ts-std-heading-font: "Montserrat";
+    --ts-logo-font: "DM Serif Display";
     --ts-std-text-size: 14px;
     --ts-std-h1-size: 20px;
     --ts-std-text-color: #ffffff;
@@ -17,9 +18,14 @@ html {
 body {
     background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730796220/What-is-a-dunnage-warehouse-and-what-role-does-it-play-in-making-scotch-whisky_tsyfvn.webp') no-repeat center center fixed;
     background-size: cover;
-    height: calc(100vh - 164px); /* minus header */
+    height: calc(100vh - 130px); /* minus header */
     color: #555;
     font-family: 'Lato';
+    height: 100%;
+}
+
+main {
+    margin-top: 112px; /* Adjust based on the height of your navbar on mobile */
 }
 
 .ts-footer {
@@ -55,7 +61,7 @@ body {
 }
 
 .ts-header {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .ts-spacer-bottom-lg {
@@ -305,7 +311,8 @@ body {
 }
 
 .logo-font {
-    text-transform: uppercase;
+    font-family: var(--ts-logo-font);
+    font-size: 20px;
 }
 
 .main-logo-link {
@@ -363,7 +370,7 @@ body {
 
 .message-container {
     position: fixed;
-    top: 72px;
+    top: 112px;
     right: 15px;
     z-index: 99999999999;
 }
@@ -385,7 +392,7 @@ body {
     border-bottom: 10px solid black;
     position: absolute;
     top: -10px;
-    right: 36px;
+    right: 50px;
 }
 
 /* Convenience classes - colors copied from Bootstrap */
@@ -500,50 +507,20 @@ body {
 
 
 /**************** Media Queries *********************/
-
-/* Slightly larger container on xl screens */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 95%;
-  }
-}
-
-@media (min-width: 992px) {
-    .header-container {
-        padding-top: 164px;
-    }
-
-    /****** BAG ********/
-    .ts-bag-grid-header {
-        display: grid;
-        grid-template-columns: 
-            1fr 
-            82px 
-            150px 
-            75px;
-        grid-gap: 5px;
-        font-weight: bold;
-    }
-    
-    .ts-bag-grid {
-        display: grid;
-        grid-template-columns: 
-            125px
-            1fr
-            75px
-            10px
-            200px
-            75px;
-        grid-gap: 5px;
-    }
-
-    .ts-bag-product-img img {
-        height: auto;
-        width: 80px !important;
-    }
-}
-
 @media (min-width: 768px) {
+    main {
+        margin-top: 56px; /* Adjust based on the height of your navbar on mobile */
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .message-container {
+        top: 60px;
+        right: 55px;
+    }
+
     .ts-prod-detail-img {
         width:55%;
         height: auto;
@@ -596,12 +573,74 @@ body {
     }
 }
 
-@media (max-width: 991px) {
-    .header-container {
-        padding-top: 116px;
+/* Slightly larger container on xl screens */
+@media (min-width: 992px) {
+    main {
+        margin-top: 64px;
     }
 
-    .body {
-        height: calc(100vh - 116px);
+    .header-container {
+        padding-top: 164px;
+    }
+
+    .message-container {
+        top: 70px;
+        right: 70px;
+    }
+
+    /****** BAG ********/
+    .ts-bag-grid-header {
+        display: grid;
+        grid-template-columns: 
+            1fr 
+            82px 
+            150px 
+            75px;
+        grid-gap: 5px;
+        font-weight: bold;
+    }
+    
+    .ts-bag-grid {
+        display: grid;
+        grid-template-columns: 
+            125px
+            1fr
+            75px
+            10px
+            200px
+            75px;
+        grid-gap: 5px;
+    }
+
+    .ts-bag-product-img img {
+        height: auto;
+        width: 80px !important;
     }
 }
+
+@media (min-width: 1200px) {
+    .container {
+      max-width: 95%;
+    }
+  }
+
+
+/* @media (max-width: 991px) {
+    .header-container {
+        padding-top: 112px;
+    }
+
+    body {
+        height: calc(100vh - 112px);
+    }
+}
+
+@media (max-width: 767.9px) {
+    main {
+        margin-top: 112px; 
+    }
+
+    body {
+        height: 100%;
+    }
+} */
