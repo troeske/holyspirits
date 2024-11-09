@@ -11,6 +11,10 @@
 }
 
 /************** GENERAL **************/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
 }
@@ -18,14 +22,13 @@ html {
 body {
     background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730796220/What-is-a-dunnage-warehouse-and-what-role-does-it-play-in-making-scotch-whisky_tsyfvn.webp') no-repeat center center fixed;
     background-size: cover;
-    height: calc(100vh - 130px); /* minus header */
+    min-height: 100%;
     color: #555;
     font-family: 'Lato';
-    height: 100%;
 }
 
 main {
-    margin-top: 112px; /* Adjust based on the height of your navbar on mobile */
+    margin-top: 112px; 
 }
 
 .ts-footer {
@@ -76,7 +79,7 @@ main {
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    bottom: 55px;
+    bottom: 95px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -515,10 +518,6 @@ main {
         margin-top: 56px; /* Adjust based on the height of your navbar on mobile */
     }
 
-    body {
-        height: 100%;
-    }
-
     .message-container {
         top: 60px;
         right: 55px;
@@ -634,23 +633,3 @@ main {
     width: 30%;
     }
 }
-
-/* @media (max-width: 991px) {
-    .header-container {
-        padding-top: 112px;
-    }
-
-    body {
-        height: calc(100vh - 112px);
-    }
-}
-
-@media (max-width: 767.9px) {
-    main {
-        margin-top: 112px; 
-    }
-
-    body {
-        height: 100%;
-    }
-} */
