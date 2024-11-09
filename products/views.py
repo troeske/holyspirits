@@ -260,24 +260,8 @@ def edit_product(request, gtin):
         img_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
         img_placeholder = True
 
-    # Create an inline formset for ProductImage
-    ProductImageFormSet = inlineformset_factory(
-        Product,
-        ProductImage,
-        form=ProductImageForm,
-        extra=1,  # Provide an extra form to add new images
-        can_delete=True
-    )
-
-    # Create a custom inline formset for ProductTasteCategory with the custom formset class
-    ProductTasteCategoryFormSet = inlineformset_factory(
-        Product,
-        ProductTasteCategory,
-        form=ProductTasteCategoryForm,
-        formset=IgnoreDuplicatesProductTasteCategoryFormSet,
-        extra=0,
-        can_delete=True
-    )
+    # Remove the inlineformset_factory definition here
+    # The formsets are now imported from forms.py
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)

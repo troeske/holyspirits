@@ -166,3 +166,23 @@ class IgnoreDuplicatesProductTasteCategoryFormSet(BaseInlineFormSet):
                 if instance.pk:
                     instances.append(instance)
         return instances
+
+
+# Define the ProductImageFormSet here
+ProductImageFormSet = inlineformset_factory(
+    Product,
+    ProductImage,
+    form=ProductImageForm,
+    extra=1,  # You can adjust 'extra' as needed
+    can_delete=True
+)
+
+# Create a custom inline formset for ProductTasteCategory with the custom formset class
+ProductTasteCategoryFormSet = inlineformset_factory(
+        Product,
+        ProductTasteCategory,
+        form=ProductTasteCategoryForm,
+        formset=IgnoreDuplicatesProductTasteCategoryFormSet,
+        extra=0,
+        can_delete=True
+    )

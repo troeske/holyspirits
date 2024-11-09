@@ -253,7 +253,7 @@ main {
 }
 
 .ts-col-alt-text {
-    width: 65% !important;
+    width: 65%;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
@@ -268,14 +268,14 @@ main {
 /******************** BAG **********************/
 .ts-bag-grid-header {
     display: grid;
-    grid-template-columns: 220px 5px 75px;
+    grid-template-columns: 190px 5px 75px;
     grid-gap: 5px;
     font-weight: bold;
 }
 
 .ts-bag-grid {
     display: grid;
-    grid-template-columns: 75px 150px 75px;
+    grid-template-columns: 65px 135px 75px;
     grid-gap: 5px;
 }
 
@@ -375,6 +375,7 @@ main {
     top: 112px;
     right: 15px;
     z-index: 99999999999;
+    width: 90%;
 }
 
 .custom-toast {
@@ -521,6 +522,7 @@ main {
     .message-container {
         top: 60px;
         right: 55px;
+        width: 40%;
     }
 
     .ts-prod-detail-img {
@@ -588,6 +590,7 @@ main {
     .message-container {
         top: 70px;
         right: 70px;
+        width: 35%;
     }
 
     /****** BAG ********/
@@ -624,8 +627,13 @@ main {
     .container {
       max-width: 95%;
     }
-  }
 
+    .message-container {
+    top: 70px;
+    right: 115px;
+    width: 30%;
+    }
+}
 
 /* @media (max-width: 991px) {
     .header-container {
