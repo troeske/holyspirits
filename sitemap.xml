@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/accounts/signup/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/accounts/login/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/bag/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?category=rye,bourbon,single_malt,irish_whiskey</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?category=rye</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?category=bourbon</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?category=single_malt</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?category=irish_whiskey</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?sort=name&amp;direction=asc</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?sort=price&amp;direction=asc</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?sort=rating&amp;direction=desc</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?sort=productcategory&amp;direction=asc</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?sort=region&amp;direction=asc</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/accounts/password/reset/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?productcategory=bourbon</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?productcategory=irish_whiskey</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?productcategory=rye</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/?productcategory=single_malt</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/0082000794486%E2%80%8B/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/0008200071620/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/98765421/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/039383007466/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://holyspirits-0b35d544f553.herokuapp.com/products/039383007503/</loc>
+  <lastmod>2024-11-10T15:37:41+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>

@@ -7,63 +7,62 @@ This is a web site / app to showcase the portfolio and resume of developers, UX/
 
 ...
 
-## Requirements/Personas and EPICS
-.. r <b>personas</b>:
-
-    (1) ..
-    (2) ...
-
-In order to best showcase their experience and portfolio, consultants have the following needs:
-
-1. ..:
-    1. **Home**: ...
-    2. **About**: ..:
-        - I..
-        - ..
-        - ..
-
-...
-    4. **Project Details**: .:
-        - ..
-        - ..
-        -
-
-2. ..:
-    4. **..**:...
-
-3. ..:
-    1. **..**: . 
-    2. **...**: ..
-
-## SEO and Marketing
-### Keywords
-
-
 ## User Experience
 
-### Target Audience:
-
-1. **Companies/employers** ...
-2. **Developers, UX/UI designers or consultants** ..
-
-
 ### User Stories:
-The epics above are broken down in to user stories here: [Github User Stories](https://github.com/users/troeske/projects/7/views/2?visibleFields=%5B%22Title%22%2C%22Assignees%22%2C%22Status%22%2C%22Labels%22%5D/)
+The basis for the implementation of the HolSpirits online whiskey store was the Boutique Ado project and it's user stories:
 
+| User Story ID                | As a/an     | I want to be able to ...                                            | So that I can...                                                                                                 |
+| ---------------------------- | ----------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| VIEWING & NAVIGATION         |             |                                                                     |                                                                                                                  |
+| 1                            | Shopper     | View a list of products                                             | Select something to purchase                                                                                     |
+| 2                            | Shopper     | View a specific category of products                                | Quickly find products I'm interested in without having to search through all products.                           |
+| 3                            | Shopper     | View individual product details                                     | Identify the price, description, product rating, product image and available sizes.                              |
+| 4                            | Shopper     | Quickly identify deals, clearance items and special offers          | Take advantage of special savings on products I'd like to purchase.                                              |
+| 5                            | Shopper     | Easily view the total of my purchases at any time                   | Avoid spending too much.                                                                                         |
+| REGISTRATION & USER ACCOUNTS |             |                                                                     |                                                                                                                  |
+| 6                            | Site User   | Easily register for an account                                      | Have a personal account and be able to view my profile                                                           |
+| 7                            | Site User   | Easily log in or out                                                | Access my personal account information                                                                           |
+| 8                            | Site User   | Easily recover my password in case I forget it                      | Recover access to my account                                                                                     |
+| 9                            | Site User   | Receive an email confirmation after registering                     | Verify that my account registration was successful                                                               |
+| 10                           | Site User   | Have a personalised user profile                                    | View my personal order history and order confirmations, and save my payment information                          |
+| SORTING & SEARCHING          |             |                                                                     |                                                                                                                  |
+| 11                           | Shopper     | Sort the list of available products                                 | Easily identify the best rated, best priced and categorically sort products                                      |
+| 12                           | Shopper     | Sort a specific category of product                                 | Find the best-priced or best-rated product in a specific category, or sort the products in that category by name |
+| 13                           | Shopper     | Sort multiple categories of products simultaneously                 | Find the best-priced or best-rated products across broad categories, such as clothing or homeware                |
+| 14                           | Shopper     | Search for a product by name or description                         | Find a specific product I'd like to purchase                                                                     |
+| 15                           | Shopper     | Easily see what I've searched for and the number of results         | Quickly decide whether the product I want is available                                                           |
+| PURCHASING & CHECKOUT        |             |                                                                     |                                                                                                                  |
+| 16                           | Shopper     | Easily select the size and quantity of a product when purchasing it | Ensure I don't accidentally select the wrong product, quantity or size                                           |
+| 17                           | Shopper     | View items in my bag to be purchased                                | Identify the total cost of my purchase and all items I will receive                                              |
+| 18                           | Shopper     | Adjust the quantity of individual items in my bag                   | Easily make changes to my purchase before checkout                                                               |
+| 19                           | Shopper     | Easily enter my payment information                                 | Check out quickly and with no hassles                                                                            |
+| 20                           | Shopper     | Feel my personal and payment information is safe and secure         | Confidently provide the needed information to make a purchase                                                    |
+| 21                           | Shopper     | View an order confirmation after checkout                           | Verify that I haven't made any mistakes                                                                          |
+| 22                           | Shopper     | Receive an email confirmation after checking out                    | Keep the confirmation of what I've purchased for my records                                                      |
+| ADMIN & STORE MANAGEMENT     |             |                                                                     |                                                                                                                  |
+| 23                           | Store Owner | Add a product                                                       | Add new items to my store                                                                                        |
+| 24                           | Store Owner | Edit/update a product                                               | Change product prices, descriptions, images and other product criteria                                           |
+| 25                           | Store Owner | Delete a product                                                    | Remove items that are no longer for sale                                                                         |
+
+To finalize the HolySpirits Shop I added to following user stories including acceptance criteria and breakdown into tasks: [Github User Stories](https://github.com/users/troeske/projects/10/views/1?visibleFields=%5B%22Title%22%2C%22Assignees%22%2C%22Status%22%2C%22Labels%22%5D)
 
 ### Future Use-Cases
 
-    (1) ...
-    (2) ..   
+    (1) Blog Section to provide curated articles and videos  
+    (2) Comment/Tasting notes Section for shoppers on whiskeys in our store
 
 ## Design
 ### Site Structure
-... app is structured into the following apps:
 
-1. **Home**. This shows the general information of the consultant incl. work history, roles, interests etc. split into two main views: Home and About
-2. **P..**. T...
-3. **C...ontact**. ..
-4. **Sign-up**. Client/user sign-up (allauth).
+HolySpirits is structured into the following apps:
+
+1. **Home**. This the landing page of the shop.main views: Home and About
+2. **Products..**. Searchable and sortable overview of all products in the store.
+3. **Profile**. During the checkout process the user can decide to create an account in the store to simplify future purchases and to have access to purchase history.
+4. **Checkout**. All functionality to actually buy a product on the site including integration into Stripe (their test sandbox).
+5. **Bag**. All functionality to manage the shopping bag of the user.
+4. **Account**. Shopper/user sign-up/sign-in (allauth).
 
 
 ### Wireframes
@@ -91,18 +90,18 @@ __Tablet and Desktop:__
 <br>
 
 ### Imagery used
-Simple iconography for intuitive and clean UI.
+Simple iconography for intuitive and clean UI. The images used are chosen with darker, warm colors in line with a good glass of whiskey.
 
 ### Color Scheme
-configurable: currently shades of gray
+The golden glow of a good whiskey; dark with white text.
         
 ### Typography
-For the showcase, al normal text is based on the sans-serif free Google font Inter while headings are based on the free font Rychardwalker
+All text is based on the sans-serif free Google font Inter while headings are based on the free font DM Serif Display
 
 ## Current Features:
 
-### ...
-... 
+### Product overview
+Product overview that can be sorted by name, price, region, brand, category (Rye Whiskey, Bourdon, Single Malt and Irish Whiskey)  
 
 <br>
 <img src="."  width="300" height="auto" alt="collaboration request">
