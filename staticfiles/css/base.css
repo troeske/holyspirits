@@ -11,6 +11,10 @@
 }
 
 /************** GENERAL **************/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
 }
@@ -18,21 +22,20 @@ html {
 body {
     background: url('https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730796220/What-is-a-dunnage-warehouse-and-what-role-does-it-play-in-making-scotch-whisky_tsyfvn.webp') no-repeat center center fixed;
     background-size: cover;
-    height: calc(100vh - 130px); /* minus header */
+    min-height: 100%;
     color: #555;
     font-family: 'Lato';
-    height: 100%;
 }
 
 main {
-    margin-top: 112px; /* Adjust based on the height of your navbar on mobile */
+    margin-top: 112px; 
 }
 
 .ts-footer {
     font-family: var(--ts-std-text-font), sans-serif;
     font-size: 14px;
     background-color: black;
-    padding-top: 10px;
+    padding-top: 0;
     padding-bottom: 0;
     color: white;
 }
@@ -76,7 +79,7 @@ main {
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    bottom: 55px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -110,7 +113,30 @@ main {
 .ts-search::placeholder {
     color: white;  
 }
-  
+
+/************** Mailchimp form **************/
+#mc_embed_signup {
+    background: black; 
+    clear: left;
+    font: 12px;
+    max-width: 90%;  
+}
+.mailchimp-logo {
+    display: inline-block;
+    background-color: white;
+    border-radius: 4px;
+    margin: 0px auto;
+}
+
+.refferal_badge {
+    width: 120px;
+    height: 30px;
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
 /************* HOME **************/
 
 .ts-product-card-img {
@@ -260,20 +286,22 @@ main {
 }
 
 .ts-col-delete {
-    width: 15%; 
+    width: 15%;
+    text-align: start;
+    justify-content: start; 
 }
 
 /******************** BAG **********************/
 .ts-bag-grid-header {
     display: grid;
-    grid-template-columns: 220px 5px 75px;
+    grid-template-columns: 190px 5px 75px;
     grid-gap: 5px;
     font-weight: bold;
 }
 
 .ts-bag-grid {
     display: grid;
-    grid-template-columns: 75px 150px 75px;
+    grid-template-columns: 65px 135px 75px;
     grid-gap: 5px;
 }
 
@@ -373,6 +401,7 @@ main {
     top: 112px;
     right: 15px;
     z-index: 99999999999;
+    width: 90%;
 }
 
 .custom-toast {
@@ -512,13 +541,10 @@ main {
         margin-top: 56px; /* Adjust based on the height of your navbar on mobile */
     }
 
-    body {
-        height: 100%;
-    }
-
     .message-container {
         top: 60px;
         right: 55px;
+        width: 40%;
     }
 
     .ts-prod-detail-img {
@@ -586,6 +612,7 @@ main {
     .message-container {
         top: 70px;
         right: 70px;
+        width: 35%;
     }
 
     /****** BAG ********/
@@ -622,25 +649,10 @@ main {
     .container {
       max-width: 95%;
     }
-  }
 
-
-/* @media (max-width: 991px) {
-    .header-container {
-        padding-top: 112px;
-    }
-
-    body {
-        height: calc(100vh - 112px);
+    .message-container {
+    top: 70px;
+    right: 115px;
+    width: 30%;
     }
 }
-
-@media (max-width: 767.9px) {
-    main {
-        margin-top: 112px; 
-    }
-
-    body {
-        height: 100%;
-    }
-} */

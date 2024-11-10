@@ -79,7 +79,7 @@ main {
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    bottom: 200px;
+    bottom: 220px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -160,7 +160,7 @@ main {
     height: 42px;
     width: 42px;
     position: fixed;
-    bottom: 50px;
+    bottom: 150px;
     right: 10px;
     z-index: 99;
     background-color: rgba(255, 255, 255, .2);
@@ -538,7 +538,7 @@ main {
 /**************** Media Queries *********************/
 @media (min-width: 768px) {
     main {
-        margin-top: 56px; /* Adjust based on the height of your navbar on mobile */
+        margin-top: 56px; 
     }
 
     .message-container {
@@ -546,6 +546,12 @@ main {
         right: 55px;
         width: 40%;
     }
+
+    #floating-nav-container {
+        width: 260px;
+        bottom: 140px;
+   }
+
 
     .ts-prod-detail-img {
         width:55%;

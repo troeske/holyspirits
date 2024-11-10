@@ -23,6 +23,7 @@
     {% endblock %}
 
     {% block extra_css %}
+        <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
     {% endblock %}
 
     {% block corejs %}
@@ -148,7 +149,6 @@
                 <div class="col-12 my-0 py-0">
                     <!-- Mailchimp Signup Form -->
                     <div id="mc_embed_shell">
-                        <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
                         <div id="mc_embed_signup" class="my-0 py-0">
                             <form action="https://herokuapp.us13.list-manage.com/subscribe/post?u=860a417c3e0d4894b3914e481&amp;id=ccd7d9d9e0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate d-flex" target="_blank">
                                 <div class="row w-100 align-items-center mx-0 px-0">
@@ -189,16 +189,14 @@
                                 </div>
                             </form>
                         </div>
-                        <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
-                        <script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';fnames[6]='COMPANY';ftypes[6]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
                     </div>
                 </div>
             </div>
             <div class="row mx-0 px-0">
                 <div class="col-12">
                     <div class="footer-container py-2 ts-footer d-flex justify-content-between">
-                        <p class="mb-0 ps-3">Imprint</p>
-                        <a href="https://www.facebook.com" rel="noopener" target="_blank"><i class="fab fa-facebook-square"></i> Follow us on Facebook!</a>
+                        <a href="https://www.termsfeed.com/live/fbb8b965-cff2-4223-9bb0-6fbcd160628f" rel="noopener" target="_blank" class="mb-0 ps-3">Privacy Statement</a>
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-square"></i> Follow us on Facebook!</a>
                         <p class="mb-0 pe-3"><i class="fa-regular fa-copyright"></i> 2024</p>
                     </div>
                 </div>
@@ -209,7 +207,7 @@
     {% block postloadjs %}
         {{ block.super }}
         <script src="https://kit.fontawesome.com/41140e06a6.js" crossorigin="anonymous"></script>
-
+        
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function() {
                 const toastElList = [].slice.call(document.querySelectorAll('.toast'));
@@ -218,6 +216,11 @@
                 });
             });
         </script>
+
+        <!-- Mailchimp scripts -->
+        <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+        <script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';fnames[6]='COMPANY';ftypes[6]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+        
     {% endblock %}
 </body>
 </html>

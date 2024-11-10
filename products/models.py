@@ -22,7 +22,7 @@ class ProductCategory(models.Model):
 
 
 class ProductType(models.Model):
-    name = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100, default='Whiskey')
     description = models.TextField(null=True, blank=True)
     hero_image = CloudinaryField('image', default='placeholder')
 
@@ -31,7 +31,7 @@ class ProductType(models.Model):
 
 
 class ProductBrand(models.Model):
-    name = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     link_text = models.CharField(max_length=100, default='Visit Website')
@@ -43,25 +43,25 @@ class ProductBrand(models.Model):
 
 
 class ProductSize(models.Model):
-    name = models.CharField(max_length=50, default='70cl')
+    name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
 
 class CaskType(models.Model):
-    name = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100, default='Wooden Cask')
     description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
 
 class Bottler(models.Model):
-    name = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=100, default='Original Brand')
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     link_text = models.CharField(max_length=100, default='Visit Website', null=True, blank=True)
-    alt_text = models.CharField(max_length=100, default='logo')
+    alt_text = models.CharField(max_length=100, default='logo', null=True, blank=True)
     logo = CloudinaryField('image', default='placeholder')
     
     def __str__(self):
@@ -74,7 +74,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     product_category = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_category')
-    type = models.ForeignKey(ProductType, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_type')
+    type = models.ForeignKey(ProductType, default="Whiskey", null=True, blank=True, on_delete=models.SET_NULL, related_name='product_type')
     region = models.CharField(max_length=250, default='', blank=True)
     brand = models.ForeignKey(ProductBrand, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_brand')
     bottler = models.ForeignKey(Bottler, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_bottler')
@@ -103,11 +103,11 @@ class ProductImage(models.Model):
 
 
 class TasteCategory(models.Model):
-    name = models.CharField(max_length=250, default='')
-    description = models.TextField()
+    name = models.CharField(max_length=250)
+    description = models.TextField(null=True, blank=True)
     icon = CloudinaryField('image', default='placeholder')
-    fa_icon = models.CharField(max_length=50, default='')
-    alt_text = models.CharField(max_length=100, default='icon')
+    fa_icon = models.CharField(max_length=50, null=True, blank=True)
+    alt_text = models.CharField(max_length=100, null=True, blank=True, default='icon')
     
     class Meta:
         verbose_name_plural = 'Taste Categories'
