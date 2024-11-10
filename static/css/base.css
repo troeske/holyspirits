@@ -35,7 +35,7 @@ main {
     font-family: var(--ts-std-text-font), sans-serif;
     font-size: 14px;
     background-color: black;
-    padding-top: 10px;
+    padding-top: 0;
     padding-bottom: 0;
     color: white;
 }
@@ -79,7 +79,7 @@ main {
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    bottom: 165px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -118,7 +118,8 @@ main {
 #mc_embed_signup {
     background: black; 
     clear: left;
-    font: 14px;  
+    font: 12px;
+    max-width: 90%;  
 }
 .mailchimp-logo {
     display: inline-block;
@@ -131,10 +132,11 @@ main {
     width: 120px;
     height: 30px;
     display: flex;
-    padding: 2px 0px;
+    padding: 0;
     justify-content: center;
     align-items: center;
 }
+
 /************* HOME **************/
 
 .ts-product-card-img {
