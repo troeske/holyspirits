@@ -51,8 +51,16 @@ def add_related_model(request, model_type):
             return JsonResponse({'success': False, 'error': 'Invalid model type'}, status=400)
 
         if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
+            instance = form.save()
+            
+            return JsonResponse({
+                'success': True,
+                'model_type': model_type,
+                'instance': {
+                    'id': instance.id,
+                    'name': str(instance),
+                }
+            })
         else:
             action_url = reverse('add_related_model', args=[model_type])
             context = {'form': form, 'action_url': action_url}
@@ -105,7 +113,14 @@ def edit_related_model(request, model_type, pk):
             if form.cleaned_data.get('remove_logo'):
                 instance.logo = 'placeholder'  # Set to default value
             form.save()
-            return JsonResponse({'success': True})
+            return JsonResponse({
+                'success': True,
+                'model_type': model_type,
+                'instance': {
+                    'id': instance.id,
+                    'name': str(instance),
+                }
+            })
         else:
             action_url = reverse('edit_related_model', args=[model_type, pk])
             context = {'form': form, 'action_url': action_url}

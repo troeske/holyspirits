@@ -1,4 +1,6 @@
-<form id="relatedModelForm" method="POST" enctype="multipart/form-data" action="{{ action_url }}">
+{% load crispy_forms_tags %}
+
+<form id="relatedModelForm" autocomplete="off" method="POST" enctype="multipart/form-data" action="{{ action_url }}">
     {% csrf_token %}
 
     <!-- Render fields except 'logo' and 'remove_logo' with crispy_forms -->

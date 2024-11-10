@@ -26,7 +26,11 @@
                         {% if field.name != 'list_image' and field.name != 'remove_image' %}
                             <div class="form-group row mb-1 align-items-center">
                                 <label class="col-12 col-md-3 col-form-label text-md-end my-0" for="{{ field.id_for_label }}">
-                                    {{ field.label }}
+                                    {% if field.label == "Price" %}
+                                        {{ field.label }} ({{currency}}):
+                                    {% else %} 
+                                        {{ field.label }}
+                                    {% endif %}
                                 </label>
                                 <div class="col-12 col-md-9">
                                     {{ field }}

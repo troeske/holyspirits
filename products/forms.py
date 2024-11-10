@@ -40,6 +40,10 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        widgets = {
+            'brand': forms.Select(attrs={'id': 'brand_select', 'class': 'form-control'}),
+            'bottler': forms.Select(attrs={'id': 'bottler_select', 'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

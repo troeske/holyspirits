@@ -33,6 +33,9 @@ function openModal(modelType, action, instanceId = null) {
     const modalBody = document.getElementById("relatedModelModalBody");
     const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
 
+    // Clear previous content and event listeners
+    modalBody.innerHTML = '';
+    
     // Determine the URL based on action
     let url;
     if (action === "add") {
@@ -92,8 +95,10 @@ function submitModalForm(form) {
             const modalInstance = bootstrap.Modal.getInstance(document.getElementById('relatedModelModal'));
             modalInstance.hide();
 
-            // Optionally, refresh the page or update the select options dynamically
-            location.reload();
+            // Update the select options dynamically proposed by ChatGPT
+            updateSelectOptions(data.model_type, data.instance);
+            selectNewOption(data.model_type, data.instance.id);
+
         } else {
             // Display form with errors
             document.getElementById('relatedModelModalBody').innerHTML = data.form_html;
@@ -116,6 +121,28 @@ function submitModalForm(form) {
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function updateSelectOptions(modelType, instance) {
+    const selectElement = document.getElementById(`${modelType}_select`);
+    if (selectElement) {
+        const existingOption = selectElement.querySelector(`option[value='${instance.id}']`);
+        if (existingOption) {
+            existingOption.textContent = instance.name;
+        } else {
+            const newOption = document.createElement('option');
+            newOption.value = instance.id;
+            newOption.textContent = instance.name;
+            selectElement.appendChild(newOption);
+        }
+    }
+}
+
+function selectNewOption(modelType, instanceId) {
+    const selectElement = document.getElementById(`${modelType}_select`);
+    if (selectElement) {
+        selectElement.value = instanceId;
+    }
 }
 
 // Function to handle logo file input changes for preview
