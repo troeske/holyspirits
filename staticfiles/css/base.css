@@ -79,7 +79,7 @@ main {
 #floating-nav-container {
     position: fixed;
     width: 260px;
-    bottom: 220px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -536,6 +536,13 @@ main {
 
 
 /**************** Media Queries *********************/
+@media (min-width: 576px) {
+    #floating-nav-container {
+        width: 260px;
+        bottom: 35px;
+   }
+}
+
 @media (min-width: 768px) {
     main {
         margin-top: 56px; 
@@ -546,12 +553,6 @@ main {
         right: 55px;
         width: 40%;
     }
-
-    #floating-nav-container {
-        width: 260px;
-        bottom: 140px;
-   }
-
 
     .ts-prod-detail-img {
         width:55%;
