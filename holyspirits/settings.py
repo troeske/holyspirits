@@ -31,7 +31,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 CURRENCY = os.environ.get("CURRENCY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
+
+print(f"DEBUG: {DEBUG}")
 
 ALLOWED_HOSTS = ['holyspirits-0b35d544f553.herokuapp.com', 'localhost', '127.0.0.1']
 
