@@ -1,1 +1,1 @@
-Ol' Janx Spirits Order Confirmation, Nr.: {{ order.order_number }}
+holySpirits Order Confirmation, Nr.: {{ order.order_number }}

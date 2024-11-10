@@ -21,7 +21,7 @@ class StripeWH_Handler:
         """ Send the user a confirmation email """
 
         customer_email = order.email
-        subject =render_to_string(
+        subject = render_to_string(
             'checkout/confirmation_emails/confirmation_email_subject.txt',
             {'order': order})
         message = render_to_string(
@@ -30,12 +30,11 @@ class StripeWH_Handler:
              'contact_email': settings.DEFAULT_FROM_EMAIL})
 
         send_mail(
-            subject, 
+            subject,
             message,
-            settings.DEFAULT_FROM_EMAIL, 
+            settings.DEFAULT_FROM_EMAIL,
             [customer_email]
         )
-
 
     def handle_event(self, event):
         """
@@ -44,7 +43,6 @@ class StripeWH_Handler:
         return HttpResponse(
             content=f'HolySpirits has received an unhandled webhook: {event["type"]}',
             status=200)
-
 
     def handle_payment_intent_succeeded(self, event):
         """
@@ -88,7 +86,7 @@ class StripeWH_Handler:
 
         except Exception as e:
             return HttpResponse(
-                content=f'Internal error while proccessing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
+                content=f'Internal error while processing payment_intend_suceeded: {event["type"]} | ERROR: {e}',
                 status=500)       
 
         order_exists = False
@@ -123,7 +121,7 @@ class StripeWH_Handler:
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | SUCCESS: Verified order already in database',
                 status=200)
-    
+
         else:
             order = None
             try:
@@ -166,7 +164,6 @@ class StripeWH_Handler:
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
             status=200)
-
 
     def handle_payment_intent_payment_failed(self, event):
         """
