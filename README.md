@@ -1,15 +1,19 @@
-# THE LIVING RESUME
-This is a web site / app to showcase the portfolio and resume of developers, UX/UI designers or even consultants in general: [MY LIVING RESUME](https://.herokuapp.com/) . 
+# holySPIRITS
+This is a eCommerce store for Whiskey lovers looking for the best selection of Whiskey: [HOLYSPIRITS - WHISKEY ONLINE STORE](https://holyspirits-0b35d544f553.herokuapp.com/). 
 <br>
 <br>
-<img src=""  width="650" height="auto" alt="Portfolio home">
-<img src=""  width="300" height="auto" alt="Portfolio home">
+<img src="media\images\holyspirits.png"  width="650" height="auto" alt="Portfolio home">
 
-...
+Main motivation to build this shop is an existing physical store around the corner that truly has the best selection of whiskey in Munich. It is a loyal following but beyond a smaller circle it is not well known and currently has no web shop (https://m-wein.de/shop/) and no real web presence (https://m-wein.de). We intend to propose to the shop owner to implement his complete online presence and build a strong community focussed online experience including online shopping, community engagement through blog, comments, tastings, club etc. The current MVP is therefore a mere starting point for this endeavour. Before we present it to the owner we will heavily build on the functionality. 
 
+## SEO and Marketing
+
+For detailed SEO and marketing considerations, please see [SEO_Marketing.md](SEO_Marketing.md).
+
+The SEO and marketing consideration 
 ## User Experience
 
-### User Stories:
+### Base User Stories:
 The basis for the implementation of the HolSpirits online whiskey store was the Boutique Ado project and it's user stories:
 
 | User Story ID                | As a/an     | I want to be able to ...                                            | So that I can...                                                                                                 |
@@ -45,6 +49,8 @@ The basis for the implementation of the HolSpirits online whiskey store was the 
 | 24                           | Store Owner | Edit/update a product                                               | Change product prices, descriptions, images and other product criteria                                           |
 | 25                           | Store Owner | Delete a product                                                    | Remove items that are no longer for sale                                                                         |
 
+
+### Additional HOLYSPIRITS User Stories:
 To finalize the HolySpirits Shop I added to following user stories including acceptance criteria and breakdown into tasks: [Github User Stories](https://github.com/users/troeske/projects/10/views/1?visibleFields=%5B%22Title%22%2C%22Assignees%22%2C%22Status%22%2C%22Labels%22%5D)
 
 ### Future Use-Cases
@@ -66,27 +72,29 @@ HolySpirits is structured into the following apps:
 
 
 ### Wireframes
-__Mobile First approach:__
 
-<img src=""  width="300" height="auto" alt="home page mobile">
-<img src=""  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wf-home.png"  width="300" height="auto" alt="home page mobile">
+<img src="media\images\wf_produzcts-1.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wf_product_details.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wf_add_to_bag_toast.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wf_shoppping_bag.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wf_edit_product.png"  width="300" height="auto" alt="about page mobile">
 
 <br>
-
-__Tablet and Desktop:__
-
-<img src=""  width="300" height="auto" alt="home page desktop">
-<img src=""  width="300" height="auto" alt="about page desktop">
-
 
 ## Database Entity Relationship Diagram ##
 
-[ERD (Lucidchart)](https://lucid.app/lucidchart/a84194fd-bb5b-4516-8860-a5ce5b77cad4/edit?beaconFlowId=5B48F8E11F7B68FE&invitationId=inv_49416297-33a5-4be2-9a57-03776dd9937d&page=0_0#)
+[ERD (Lucidchart)](https://lucid.app/lucidchart/621d8258-bae0-4252-8a9b-39d511a2ea32/edit?viewport_loc=-1659%2C-381%2C2775%2C1461%2C0_0&invitationId=inv_102e034b-cbe5-4a2d-b2f2-c1bb822e8147)
 
-<img src=""  width="1000" height="auto" alt="home page desktop">
-<img src=""  width="1000" height="auto" alt="home page desktop">
+<img src="media\images\complete_model_overview.png"  width="1000" height="auto" alt="home page desktop">
+
 <br>
-<img src=""  width="500" height="auto" alt="home page desktop">
+<img src="media\images\product_model.png"  width="500" height="auto" alt="home page desktop">
+<img src="media\images\product_images_model.png"  width="500" height="auto" alt="home page desktop">
+<img src="media\images\product_related_models_1.png"  width="500" height="auto" alt="home page desktop">
+<img src="media\images\product_related_models_2.png"  width="500" height="auto" alt="home page desktop">
+<img src="media\images\order_model_1.png"  width="1000" height="auto" alt="home page desktop">
+<img src="media\images\order_model_2.png"  width="1000" height="auto" alt="home page desktop">
 <br>
 
 ### Imagery used
@@ -100,56 +108,118 @@ All text is based on the sans-serif free Google font Inter while headings are ba
 
 ## Current Features:
 
+### Home
+<br>
+<img src="media\images\home.png"  width="500" height="auto" alt="Portfolio home">
+
+__Main Nav__
+The main nav on top of the page allows for easy access to the shopping bag, my account and product sorting and filtering: 
+<br>
+<img src="media\images\main_nav.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+<img src="media\images\main_nav_sorting.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+<img src="media\images\main_nav_filtering.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+<img src="media\images\my_account.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+
+__Floating Search Bar__
+The floating search bar allows the shopper to search for products anywhere on the site
+<br>
+<img src="media\images\footer.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+__Footer__
+The footer contains the newsletter signup with mailchimp as well as the link to facebook and our privacy statement
+<br>
+<img src="media\images\footer.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
 ### Product overview
 Product overview that can be sorted by name, price, region, brand, category (Rye Whiskey, Bourdon, Single Malt and Irish Whiskey)  
 
 <br>
-<img src="."  width="300" height="auto" alt="collaboration request">
+<img src="media\images\products_1.png"  width="300" height="auto" alt="collaboration request">
 <br>
 
-....
+### Product Details
+<br>
+<img src="media\images\product_details_1.png"  width="500" height="auto" alt="About First Viewport">
 
 <br>
-<img src="."  width="300" height="auto" alt="collaboration request">
-<br>
-
-### Home
-<br>
-<img src="."  width="500" height="auto" alt="Portfolio home">
-
-### About
-<br>
-<img src="."  width="500" height="auto" alt="About First Viewport">
+<img src="media\images\product_details_2.png"  width="500" height="auto" alt="About Second Viewport">
 
 <br>
-<img src="."  width="500" height="auto" alt="About Second Viewport">
+<img src="media\images\product_details_taste_categories.png"  width="500" height="auto" alt="About Second Viewport">
 
 
+### Shopping Bag
+<br>
+<img src="media\images\add_to_bag_toast.png"  width="500" height="auto" alt="About First Viewport">
+
+<br>
+<img src="media\images\shopping_bag_1.png"  width="500" height="auto" alt="About Second Viewport">
+
+
+### Checkout
+<br>
+<img src="media\images\checkout_1.png"  width="500" height="auto" alt="About First Viewport">
+
+<br>
+<img src="media\images\checkout_creditcard_field.png"  width="500" height="auto" alt="About Second Viewport">
+
+
+### Edit Product
+<br>
+<img src="media\images\edit_product.png"  width="500" height="auto" alt="About First Viewport">
+<br>
+
+__Edit and Add product images__
+<br>
+<img src="media\images\edit_product_images.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+__Edit and Add taste categories__
+<br>
+<img src="media\images\edit_taste_categories.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+__Edit Brand__
+<br>
+<img src="media\images\edit_brand.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+__Add Bottler__
+<br>
+<img src="media\images\edit_brand.png"  width="500" height="auto" alt="About Second Viewport">
+<br>
+
+### Profile
+<br>
+<img src="media\images\add_to_bag_toast.png"  width="500" height="auto" alt="About First Viewport">
+
+<br>
+<img src="media\images\shopping_bag_1.png"  width="500" height="auto" alt="About Second Viewport">
+
+### Privacy Statement
+<br>
+<img src="media\images\privacy_policy.png"  width="500" height="auto" alt="About First Viewport">
+
+<br>
+<img src="media\images\footer.png"  width="500" height="auto" alt="About Second Viewport">
 
 ### Sign-up/Sign-in/Sign-out
 
 <br>
-<img src=""  width="300" height="auto" alt="sign-up">
+<img src="media\images\sign_in.png"  width="300" height="auto" alt="sign-in">
 
 <br>
-<img src="ng"  width="300" height="auto" alt="sign in">
-
-
-### Status of  the current login state
+<img src="media\images\register_1.png"  width="300" height="auto" alt="sign-up">
 
 <br>
-<img src=""  width="300" height="auto" alt="sign-out">
-
-### Access to .. after login
-
-...
-
-### ..
-
-T..r.
-
-<br>
-<img src="."  width="300" height="auto" alt="registration approval">
+<img src="media\images\register_2.png"  width="300" height="auto" alt="sign-up">
 
 
 ## Manual/End-to-End Testing
@@ -251,18 +321,34 @@ All Javascript functions are tested via manual test listed above
     
 
 ## Code Validation
-### CI Python Lint PEP8 Validator https://pep8ci.herokuapp.com/
+### Python PEP8 Validation
 __Results:__
-All python files were checked by the CI Python Linter and no errors remain.
+Towards the end of the project I discovered flake8 and Black Formatter extensions in Visual Studio Code and started to use them to help with PEP8 formatting of python code. I removed most of the spaces but did not correct to long lines messages for this MVP.
 <br>
 
 ### W3 HTML Validator https://validator.w3.org/nu/#textarea
 __Results:__
 All html pages were checked by the w3 html validator, and no errors remain.
 <br>
-<img src=""  width="300" height="auto" alt="W3 HTML Validator Results">
+index.html:
 <br>
-<img src=""  width="300" height="auto" alt="W3 HTML Validator Results">
+<img src="media\images\home_html_checker_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+<br>
+products.html:
+<br>
+<img src="media\images\product_details_html_checker_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+<br>
+product_details.html:
+<br>
+<img src="media\images\products_html_checker_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+<br>
+bag.html:
+<br>
+<img src="media\images\shopping_bag_html_checker_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+<br>
+checkout.html:
+<br>
+<img src="media\images\checkout_html_checker_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
 <br>
 
 
@@ -270,31 +356,49 @@ All html pages were checked by the w3 html validator, and no errors remain.
 __Results:__
 All CSS files were checked by the w3c CSS validator and no errors remain. Remaining warnings are due to the use of CSS variables.
 <br>
-<img src=""  width="300" height="auto" alt="W3 CSS Validator Results">
+base.css:
+<br>
+<img src="media\images\base_css_css_validator_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+<br>
+checkout.css:
+<br>
+<img src="media\images\checkout_css_css_validator_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
 <br>
 
 ### jshint Validator https://jshint.com/
 __Results:__
 The js file project_details was checked by the jshint validator, and no errors remain.
 <br>
-<img src="">
+stripe_elements.js:
 <br>
+<img src="media\images\stripe_elements_js_jshint_results.png"  width="300" height="auto" alt="W3 CSS Validator Results">
+<br>
+product_management.js:
+<br>
+<img src="media\images\product_management_js_jshint_results.png"  width="300" height="auto" alt="W3 HTML Validator Results">
+
 
 ## Deployment
 The app is deployed via Heroku.
 
-Deployment method: Github, Repository: troeske/Portfolio-Web-App 
+Deployment method: Github, Repository: troeske/holyspirits:  [HOLYSPIRITS - GITHUB Repository](https://github.com/troeske/holyspirits)
 
-To LIVING RESUME needs the following _Config Var_:
+To HolySPIRITS web app needs the following _Config Var_:
 
 - CLOUDINARY_URL. link to the cloudinary storage for all media files.
-- CURRENT_CONSULTANT. the consultant_id of the consultant this deployment showcases.
 - DATABASE_URL. Link to the external postgreSQL database for all other content.
 - SECRET_KEY. Project secret key.
-- SMTP_PASSWORD- password for the email account used to send email confirmations to clients and consultants
+- SMTP_PASSWORD. Password for the email account used to send email confirmations to clients and consultants
+- DEBUG. Switch to debug mode as config var to automate process and safeguard against accidental deployment in DEBUG mode.
+- STRIPE_SECRET_KEY. The Stripe account's secret key extracted from their developer dashboard.
+- STRIPE_PUBLIC_KEY. The Stripe account's  public key extracted from their developer dashboard.
+- STRIPE_WH_SECRET. The Stripe account's secret webhook key extracted from their developer dashboard.
+- CURRENCY. Currency symbol for the shop. In our deployment €
+- DEFAULT_FROM_EMAIL. Default setting for the email account name used.
 
+The app uses a postgreSQL provided by Code Institute created through this link: https://dbs.ci-dbs.net/
 
-The live link can be found here: [HOLYSPIRITS](https://.herokuapp.com/) 
+The live site is here: [HOLYSPIRITS - WHISKEY ONLINE STORE](https://holyspirits-0b35d544f553.herokuapp.com/) 
 
 ## Credits
 ### Tutorials
@@ -323,6 +427,8 @@ https://validator.w3.org/nu/#textarea
 https://jigsaw.w3.org/css-validator/validator
 
 https://jshint.com/
+
+flake8 and Black Formatter Visual Studio Code extension to help with PEP8 formatting of python code.
 
 I used https://tabletomarkdown.com/convert-spreadsheet-to-markdown/ to convert my Google Sheets manual testing matrix into a to table for this readme.
 

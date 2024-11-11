@@ -25,7 +25,11 @@
 7. Whiskey Shop
 8. Whiskey Delivery
 
-    
+<img src="media\images\wordtracker_1.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wordtracker_2.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wordtracker_3.png"  width="300" height="auto" alt="about page mobile">
+<img src="media\images\wordtracker_4.png"  width="300" height="auto" alt="about page mobile">
+
 ## Research of similar businesses
 1. https://www.thewhiskyexchange.com/
 2. https://www.malts.com/de-at
@@ -72,10 +76,13 @@ Based on our user research (online articles, competitor analysis - see above - e
 
 Main goal for our social media marketing is to get people to come to our site and signup for our newsletter and buy their whiskey on our store.
 
+Our facebook page:
+<img src="media\images\facebook.png"  width="300" height="auto" alt="about page mobile">
+
 ### Email marketing
 based on the signup feature of our site 
 
-<img src=""  width="300" height="auto" alt="Portfolio home">
+<img src="media\images\footer.png"  width="300" height="auto" alt="Portfolio home">
 
 and incentives to signup with us (e.g. discounts on the first purchase, first access to new, rare releases etc.) we will create a database of shoppers and use this for a newsletter and other email based promotions. 
 

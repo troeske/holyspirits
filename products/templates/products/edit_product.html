@@ -127,14 +127,16 @@
                                     <tbody>
                                         {% for form in formset %}
                                             {% if form.instance.pk %}
-                                                <!-- Include hidden fields -->
-                                                <div class="visually-hidden">{{ form.id }}</div>
-                                                <div class="visually-hidden">{{ form.DELETE }}</div>
                                                 <tr class="text-start">
                                                     <td class="ts-col-image text-center">
                                                         {% if form.instance.image %}
                                                             <img src="{{ form.instance.image.url }}" alt="{{ form.instance.alt_text }}" class="img-fluid ts-img-thumbnail">
                                                         {% endif %}
+                                                        <!-- Hidden fields inside td -->
+                                                        <span class="visually-hidden">
+                                                            {{ form.id }}
+                                                            {{ form.DELETE }}
+                                                        </span>
                                                     </td>
                                                     <td>
                                                         <div class="ts-col-alt-text text-start form-group">
