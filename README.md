@@ -162,7 +162,7 @@ All Javascript functions are tested via manual test listed above
 
 ### Open/Known Issues
 
-    (1) ...
+    (1) Price of 0 is allowed when saving a product. When this product is added to a shopping bag and the user tries to perform a checkout, a server error is triggered without a graceful exit leads ...
     (2) 
     
 
