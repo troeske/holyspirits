@@ -7,36 +7,65 @@ from django.forms.models import BaseInlineFormSet
 
 
 class ProductBrandForm(forms.ModelForm):
+    """
+    Form to handle edit and add a Brand
+    """
     remove_logo = forms.BooleanField(required=False, label='Remove Logo')
-    
+
     class Meta:
         model = ProductBrand
         fields = '__all__'
 
 
 class BottlerForm(forms.ModelForm):
+    """
+    Form to handle edit and add a Bottler
+    """
     remove_logo = forms.BooleanField(required=False, label='Remove Logo')
-    
+
     class Meta:
         model = Bottler
         fields = '__all__'
-    
+
 
 class CaskTypeForm(forms.ModelForm):
+    """
+    Form for future handling edit and add a CaskType
+    """
     class Meta:
         model = CaskType
         fields = ['name', 'description']
 
 
 class ProductSizeForm(forms.ModelForm):
+    """
+    Form for future handling edit and add a Size
+    """
     class Meta:
         model = ProductSize
         fields = ['name', 'description']
 
 
 class ProductForm(forms.ModelForm):
+    """
+    ProductForm is a Django ModelForm for the Product model. It includes a custom
+    BooleanField 'remove_image' to handle the removal of product thumbnails.
+    Attributes:
+        remove_image (forms.BooleanField): A field to indicate whether the product
+            thumbnail should be removed.
+    Meta:
+        model (Product): The model that this form is associated with.
+        fields (str): Specifies that all fields from the Product model should be
+            included in the form.
+        widgets (dict): Custom widgets for the 'brand' and 'bottler' fields to
+            apply specific HTML attributes.
+    Methods:
+        __init__(self, *args, **kwargs): Initializes the form, sets choices for
+            'product_category' field, creates a form helper, and adds styling
+            classes to all fields.
+    """
     remove_image = forms.BooleanField(required=False, label='Remove Thumbnail')
-    
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -47,20 +76,20 @@ class ProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         categories = ProductCategory.objects.all()
         friendly_names = [(c.id, c.get_friendly_name()) for c in categories]
 
         self.fields['product_category'].choices = friendly_names
-        
+
         # Create form helper
         self.helper = FormHelper()
         self.helper.form_tag = False
-        
+
         # Add styling class to all fields
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded'
-        
+
         # Specifically adjust 'name' field
         self.fields['name'].widget.attrs['class'] += ' form-control'
         self.fields['name'].widget.attrs['style'] = 'width: 100%;'
@@ -69,8 +98,11 @@ class ProductForm(forms.ModelForm):
 
 
 class ProductImageForm(forms.ModelForm):
+    """
+    Form to handle edit and add a Product Images
+    """
     image = CloudinaryFileField(
-        required=False  
+        required=False
     )
 
     class Meta:
@@ -79,6 +111,9 @@ class ProductImageForm(forms.ModelForm):
 
 
 class TasteCategorySelectionForm(forms.Form):
+    """
+    Form to handle adding of Taste Categories
+    """
     taste_categories = forms.ModelMultipleChoiceField(
         queryset=TasteCategory.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -87,9 +122,12 @@ class TasteCategorySelectionForm(forms.Form):
 
 
 class ProductTasteCategoryForm(forms.ModelForm):
+    """
+    Form to handle display and delete of ProductTasteCategory instances.
+    """
     class Meta:
         model = ProductTasteCategory
-        fields = ['taste_category']  # Only include taste_category
+        fields = ['taste_category'] 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -101,10 +139,22 @@ class ProductTasteCategoryForm(forms.ModelForm):
         Override the default validate_unique to prevent unique constraint
         validation errors during form validation.
         """
-        pass  # Skip the default unique validation
+        pass  
 
 
 class IgnoreDuplicatesProductTasteCategoryFormSet(BaseInlineFormSet):
+    """
+    A custom formset basic structure suggested by ChatGPT, that ensures no duplicate
+    taste categories are added to a product.
+    This formset performs the following tasks:
+    - Cleans the formset to check for duplicate taste categories.
+    - Saves the formset while handling deletions first to avoid uniqueness constraint violations.
+    - Deletes instances marked for deletion and returns a list of remaining instances.
+    Methods:
+    - clean(): Validates the formset to ensure no duplicate taste categories are present.
+    - save(commit=True): Saves the formset, processing deletions before saves to maintain uniqueness.
+    - delete_existing(): Deletes instances marked for deletion and returns a list of remaining instances.
+    """
     def clean(self):
         super().clean()
         if any(self.errors):

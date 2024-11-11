@@ -11,7 +11,7 @@ from bag.contexts import bag_contents
 from profiles.models import UserProfile
 from profiles.forms import UserProfileForm
 
-import stripe 
+import stripe
 import json
 
 # Create your views here.
@@ -19,8 +19,8 @@ import json
 @require_POST
 def cache_checkout_data(request):
     """ A view to cache the checkout data and add the payment intent to the cache """
-    
-    try:      
+
+    try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
@@ -32,11 +32,37 @@ def cache_checkout_data(request):
         return HttpResponse(status=200)
 
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
+        messages.error(request,
+                       'Sorry, your payment cannot be processed right now. Please try again later.')
         return HttpResponse(content=e, status=400)
 
 
 def checkout(request):
+    """
+    Handle the checkout process for the user.
+    This view handles both GET and POST requests. For GET requests, it prepares
+    the checkout form and Stripe payment intent. For POST requests, it processes
+    the order form, creates an order, and handles payment via Stripe.
+    Args:
+        request (HttpRequest): The HTTP request object.
+    Returns:
+        HttpResponse: The HTTP response object.
+    GET:
+        - Retrieves the shopping bag from the session.
+        - If the bag is empty, redirects to the products page with an error message.
+        - Calculates the total amount and creates a Stripe payment intent.
+        - If the user is authenticated, pre-fills the order form with their profile information.
+        - Renders the checkout page with the order form and Stripe client secret.
+    POST:
+        - Retrieves the shopping bag from the session.
+        - Collects form data from the request.
+        - Validates the order form.
+        - If the form is valid, creates an order and order line items.
+        - Saves the order and redirects to the checkout success page.
+        - If the form is invalid, displays an error message.
+    Raises:
+        Product.DoesNotExist: If a product in the bag is not found in the database.
+    """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -54,17 +80,17 @@ def checkout(request):
             'street_address1': request.POST['street_address1'],
             'street_address2': request.POST['street_address2'],
             'county': request.POST['county'],
-        } 
+        }
 
         order_form = OrderForm(form_data)
-        
+
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
             pid = request.POST.get('client_secret').split('_secret')[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
-    
+
             order.save()
 
             for gtin, item_data in bag.items():
@@ -93,7 +119,7 @@ def checkout(request):
             messages.error(request, 'There was an error with your form. \
                 Please double check your information.')
 
-    else:    
+    else:
         bag = request.session.get('bag', {})
         if not bag:
             messages.error(request, "There's nothing in your bag at the moment")
@@ -146,7 +172,16 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts
+    Handle successful checkouts.
+    This view handles the logic after a successful checkout. It retrieves the order
+    using the provided order number, attaches the user's profile to the order if the
+    user is authenticated, and optionally saves the user's information for future use.
+    It also displays a success message and clears the shopping bag from the session.
+    Args:
+        request (HttpRequest): The HTTP request object.
+        order_number (str): The unique order number for the completed order.
+    Returns:
+        HttpResponse: The rendered checkout success page.
     """
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
@@ -171,7 +206,7 @@ def checkout_success(request, order_number):
             user_profile_form = UserProfileForm(profile_data, instance=profile)
             if user_profile_form.is_valid():
                 user_profile_form.save()
-    
+
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')

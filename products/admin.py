@@ -3,6 +3,7 @@ from .models import *
 
 # Register your models here.
 
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'gtin',
@@ -14,7 +15,8 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     ordering = ('name',)
-    
+
+
 admin.site.register(ProductCategory)
 admin.site.register(ProductType)
 admin.site.register(ProductBrand)

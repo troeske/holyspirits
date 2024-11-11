@@ -27,13 +27,13 @@ $(document).ready(function() {
     });
 });
 
-/******* suggested by chatGPT ******/
+// suggested by chatGPT
 function openModal(modelType, action, instanceId = null) {
     const modalTitle = document.getElementById("relatedModelModalLabel");
     const modalBody = document.getElementById("relatedModelModalBody");
     const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
 
-    // Clear previous content and event listeners
+    // Clear previous content
     modalBody.innerHTML = '';
     
     // Determine the URL based on action
@@ -116,7 +116,6 @@ function submitModalForm(form) {
     })
     .catch(error => console.error('Error submitting form:', error));
 }
-
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string) {
@@ -241,7 +240,7 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
     .catch(error => console.error('Error:', error));
 });
 
-/* suggested by ChatGPT */
+// suggested by ChatGPT
 function updateTasteCategoriesTable(newCategories) {
     const tableBody = document.querySelector('#taste-categories-table tbody');
     const totalForms = document.getElementById('id_tastecategory_set-TOTAL_FORMS');

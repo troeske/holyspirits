@@ -7,17 +7,19 @@ from django.db.models import Q
 from .models import *
 from django.db.models.functions import Lower
 from django.forms import inlineformset_factory
-from .forms import * 
+from .forms import *
 
 
 # Create your views here.
 @login_required
 def add_related_model(request, model_type):
-    """View to add related models via AJAX."""
+    """
+    View to add related models e.g. Brand or Bottler via AJAX.
+    suggested by ChatGPT.
+    """
     if not request.user.is_superuser:
         return JsonResponse({'success': False, 'error': 'Unauthorized access.'}, status=403)
 
-    # Replace request.is_ajax() with direct header check
     if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         if model_type == "brand":
             form = ProductBrandForm()
@@ -73,7 +75,10 @@ def add_related_model(request, model_type):
 
 @login_required
 def edit_related_model(request, model_type, pk):
-    """View to edit related models via AJAX."""
+    """
+    View to edit related models via AJAX.
+    suggested by ChatGPT.
+    """
     if not request.user.is_superuser:
         return JsonResponse({'success': False, 'error': 'Unauthorized access.'}, status=403)
 
@@ -131,9 +136,10 @@ def edit_related_model(request, model_type, pk):
 
 
 def all_products(request):
-    """ A view that displays all products including sorting
-    and search queries. """
-
+    """ 
+    A view that displays all products including sorting
+    and search queries.
+    """
     products = Product.objects.all()
 
     query = None
@@ -196,7 +202,9 @@ def all_products(request):
 
 
 def product_details(request, gtin):
-    """ A view that displays a single product's details. """
+    """
+    A view that displays a single product's details.
+    """
 
     product = get_object_or_404(Product, pk=gtin)
     product_taste_categories = ProductTasteCategory.objects.filter(product=product)
@@ -211,7 +219,9 @@ def product_details(request, gtin):
 
 @login_required
 def add_product(request):
-    """Add a product to the store."""
+    """
+    Add a product to the store.
+    """
 
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
@@ -261,7 +271,9 @@ def add_product(request):
 
 @login_required
 def edit_product(request, gtin):
-    """Edit a product in the store"""
+    """
+    Edit a product in the store
+    """
 
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')
@@ -277,9 +289,6 @@ def edit_product(request, gtin):
     else:
         img_url = 'https://res.cloudinary.com/dqd3t6mmb/image/upload/v1730352034/noimage_ytgewe.png'
         img_placeholder = True
-
-    # Remove the inlineformset_factory definition here
-    # The formsets are now imported from forms.py
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
@@ -297,18 +306,13 @@ def edit_product(request, gtin):
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_details', args=[product.gtin]))
         else:
-            # Output the errors for debugging
-            print("Form Errors:", form.errors)
-            print("Formset Errors:", formset.errors)
-            print("Taste Formset Errors:", taste_formset.errors)
-            print("Taste Formset Non-Form Errors:", taste_formset.non_form_errors())
             messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=product)
         formset = ProductImageFormSet(instance=product)
         taste_formset = ProductTasteCategoryFormSet(instance=product, prefix='tastecategory_set')
 
-    # For adding new Taste Categories via AJAX
+    # For adding new Taste Categories via AJAX suggested bc ChatGPT
     taste_category_form = TasteCategorySelectionForm()
 
     template = 'products/edit_product.html'
@@ -323,13 +327,13 @@ def edit_product(request, gtin):
         'img_url': img_url,
         'img_placeholder': img_placeholder
     }
-    
+
     return render(request, template, context)
 
 
 @login_required
 def add_taste_categories(request, gtin):
-    """ 
+    """
     Add one or more taste categories to a product via AJAX
     """
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -340,7 +344,7 @@ def add_taste_categories(request, gtin):
             taste_categories = form.cleaned_data['taste_categories']
             new_categories = []
             for category in taste_categories:
-                # Use get_or_create to prevent duplicates
+                # Use get_or_create to prevent duplicates suggested by ChatGPT
                 association, created = ProductTasteCategory.objects.get_or_create(
                     product=product,
                     taste_category=category
@@ -365,7 +369,9 @@ def add_taste_categories(request, gtin):
 
 @login_required
 def delete_product(request, gtin):
-    """ Delete a product in the store """
+    """
+    Delete a product in the store
+    """
 
     if not request.user.is_superuser:
         messages.error(request, 'Sorry, only store owners can do that.')

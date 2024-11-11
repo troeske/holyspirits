@@ -1,8 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
-from datetime import date
 
-# Create your models here.
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=250)
@@ -13,7 +11,7 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name_plural = 'Product Categories'
         ordering = ["name"]
-        
+
     def __str__(self):
         return self.name
 
@@ -49,12 +47,14 @@ class ProductSize(models.Model):
     def __str__(self):
         return self.name
 
+
 class CaskType(models.Model):
     name = models.CharField(max_length=100, default='Wooden Cask')
     description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
+
 
 class Bottler(models.Model):
     name = models.CharField(max_length=100, default='Original Brand')
@@ -63,9 +63,9 @@ class Bottler(models.Model):
     link_text = models.CharField(max_length=100, default='Visit Website', null=True, blank=True)
     alt_text = models.CharField(max_length=100, default='logo', null=True, blank=True)
     logo = CloudinaryField('image', default='placeholder')
-    
+
     def __str__(self):
-        return self.name    
+        return self.name
 
 
 class Product(models.Model):
@@ -85,7 +85,7 @@ class Product(models.Model):
     size = models.ForeignKey(ProductSize, null=True, blank=True, on_delete=models.SET_NULL, related_name='product_size')
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     list_image = CloudinaryField('image', default='placeholder')
-    
+
     class Meta:
         ordering = ["name", "type", "product_category"]
 
@@ -108,7 +108,7 @@ class TasteCategory(models.Model):
     icon = CloudinaryField('image', default='placeholder')
     fa_icon = models.CharField(max_length=50, null=True, blank=True)
     alt_text = models.CharField(max_length=100, null=True, blank=True, default='icon')
-    
+
     class Meta:
         verbose_name_plural = 'Taste Categories'
         ordering = ["name"]
@@ -124,7 +124,6 @@ class ProductTasteCategory(models.Model):
     class Meta:
         verbose_name_plural = 'Product Taste Categories'
         unique_together = ('product', 'taste_category')
-        
+
     def __str__(self):
         return f"{self.product.name} | {self.taste_category.name}"
-
