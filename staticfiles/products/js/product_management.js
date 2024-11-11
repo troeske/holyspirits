@@ -27,13 +27,13 @@ $(document).ready(function() {
     });
 });
 
-/******* suggested by chatGPT ******/
+// suggested by chatGPT
 function openModal(modelType, action, instanceId = null) {
     const modalTitle = document.getElementById("relatedModelModalLabel");
     const modalBody = document.getElementById("relatedModelModalBody");
     const modalInstance = new bootstrap.Modal(document.getElementById('relatedModelModal'));
 
-    // Clear previous content and event listeners
+    // Clear previous content
     modalBody.innerHTML = '';
     
     // Determine the URL based on action
@@ -117,7 +117,6 @@ function submitModalForm(form) {
     .catch(error => console.error('Error submitting form:', error));
 }
 
-
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -194,7 +193,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// Handle the Add Taste Categories button click
+// Handle the Add Taste Categories button click - suggested by ChatGPT
 document.getElementById('add-taste-categories-button').addEventListener('click', function() {
     const formContainer = document.getElementById('add-taste-category-form');
     const formData = new FormData();
@@ -211,13 +210,11 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
     });
 
     if (selectedCategories.length === 0) {
-        alert('Please select at least one taste category to add.');
         return;
     }
 
     // Get the URL from the data attribute
     const url = this.getAttribute('data-url');
-    console.log('AJAX URL:', url);  // Debugging: Check the URL in the console
 
     fetch(url, {
         method: 'POST',
@@ -235,16 +232,15 @@ document.getElementById('add-taste-categories-button').addEventListener('click',
             checkboxes.forEach((checkbox) => {
                 checkbox.checked = false;
             });
-            alert('Taste categories added successfully.');
         } else {
             // Display errors
             console.error('Error:', data.error);
-            alert('Error adding taste categories: ' + data.error);
         }
     })
     .catch(error => console.error('Error:', error));
 });
 
+// suggested by ChatGPT
 function updateTasteCategoriesTable(newCategories) {
     const tableBody = document.querySelector('#taste-categories-table tbody');
     const totalForms = document.getElementById('id_tastecategory_set-TOTAL_FORMS');
